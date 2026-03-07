@@ -1,67 +1,91 @@
 export default function Systems() {
   return (
     <div>
-      <h1>Systems</h1>
-      <p>
-        Live and emerging systems developed across AI applications, strategy
-        intelligence, and production-grade orchestration.
-      </p>
 
-      <section style={{ marginTop: "40px" }}>
-        <h2>QRLPhoenix</h2>
-        <p>
-          QRLPhoenix is an iOS strategy intelligence system designed to find,
-          organize, and analyze publicly available and newly created trading
-          strategies using AI-assisted workflows.
+      <section style={{ marginBottom: "60px" }}>
+        <h1 style={{ fontSize: "42px", marginBottom: "10px" }}>Systems</h1>
+
+        <p style={{ fontSize: "20px", maxWidth: "800px", opacity: 0.9 }}>
+          IndustriallyStrong connects concept development with real systems.
+          These projects represent deployed or actively developed platforms
+          spanning AI decision systems, research infrastructure, and applied
+          intelligence tools.
         </p>
-        <p>
-          The platform is supported by a Railway-hosted backend and is currently
-          in controlled tester access.
-        </p>
-        <ul>
-          <li>Domain: fintech / strategy intelligence</li>
-          <li>Client: SwiftUI iOS application</li>
-          <li>Backend: Railway</li>
-          <li>Status: internal / invited testers</li>
-        </ul>
       </section>
 
-      <section style={{ marginTop: "40px" }}>
-        <h2>GutSense</h2>
-        <p>
-          GutSense is a dietary intelligence system built to evaluate foods for
-          FODMAP sensitivity and allergen concerns through a multi-agent AI
-          architecture.
-        </p>
-        <p>
-          The system synthesizes outputs from Claude, Gemini, and Apple
-          Foundation Models to produce a consolidated evaluation surface for the
-          user.
-        </p>
-        <ul>
-          <li>Domain: food intelligence / health decision support</li>
-          <li>Client: SwiftUI iOS application</li>
-          <li>Backend: Railway</li>
-          <li>Status: internal testers</li>
-        </ul>
-      </section>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: "28px"
+        }}
+      >
 
-      <section style={{ marginTop: "40px" }}>
-        <h2>Public-facing app surface</h2>
-        <p>
-          A lightweight public landing surface also exists for the QRLPhoenix
-          App Clip and release path.
-        </p>
-        <p>
-          <a
-            href="https://newthing-production.up.railway.app"
-            target="_blank"
-            rel="noreferrer"
-          >
-            View QRLPhoenix App Clip landing page
-          </a>
-        </p>
-      </section>
+        <div style={{
+          border: "1px solid #1e293b",
+          borderRadius: "12px",
+          padding: "26px"
+        }}>
+          <h2>QRLPhoenix</h2>
+
+          <p style={{ opacity: 0.85 }}>
+            iOS strategy intelligence platform combining AI agents with
+            quantitative research techniques to discover and analyze
+            public trading strategies.
+          </p>
+
+          <ul style={{ opacity: 0.8 }}>
+            <li>Multi-agent analysis (Claude + others)</li>
+            <li>Strategy discovery and evaluation</li>
+            <li>MHT-FAISS research integration</li>
+          </ul>
+
+        </div>
+
+        <div style={{
+          border: "1px solid #1e293b",
+          borderRadius: "12px",
+          padding: "26px"
+        }}>
+          <h2>GutSense</h2>
+
+          <p style={{ opacity: 0.85 }}>
+            Multi-agent dietary intelligence system designed to help users
+            evaluate foods for FODMAP sensitivity, allergens, and personal
+            dietary constraints.
+          </p>
+
+          <ul style={{ opacity: 0.8 }}>
+            <li>Claude + Gemini synthesis</li>
+            <li>Apple on-device intelligence</li>
+            <li>Food risk evaluation agents</li>
+          </ul>
+
+        </div>
+
+        <div style={{
+          border: "1px solid #1e293b",
+          borderRadius: "12px",
+          padding: "26px"
+        }}>
+          <h2>MHT-FAISS Engine</h2>
+
+          <p style={{ opacity: 0.85 }}>
+            Real-time research engine exploring large hypothesis spaces for
+            financial strategies using multi-hypothesis tracking combined
+            with FAISS-based vector search.
+          </p>
+
+          <ul style={{ opacity: 0.8 }}>
+            <li>High-dimensional state exploration</li>
+            <li>Research and visualization surface</li>
+            <li>Strategy analysis backend for QRLPhoenix</li>
+          </ul>
+
+        </div>
+
+      </div>
+
     </div>
-  );
+  )
 }
