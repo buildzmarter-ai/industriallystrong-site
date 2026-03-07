@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
 import PageShell from "../components/PageShell";
+import CardLink from "../components/CardLink";
+import PrimaryButton from "../components/PrimaryButton";
 
 export default function Home() {
   return (
@@ -48,36 +49,12 @@ export default function Home() {
         </p>
 
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-          <Link
-            to="/systems"
-            style={{
-              padding: "12px 18px",
-              border: "1px solid #334155",
-              borderRadius: "10px",
-              textDecoration: "none",
-              color: "white",
-              background: "#111827",
-            }}
-          >
-            View systems
-          </Link>
-
-          <Link
-            to="/research"
-            style={{
-              padding: "12px 18px",
-              border: "1px solid #334155",
-              borderRadius: "10px",
-              textDecoration: "none",
-              color: "white",
-            }}
-          >
+          <PrimaryButton to="/systems">View systems</PrimaryButton>
+          <PrimaryButton to="/research" secondary>
             Explore research
-          </Link>
+          </PrimaryButton>
         </div>
       </section>
-
-      {/* SYSTEM CARDS */}
 
       <section style={{ marginTop: "72px" }}>
         <h2 style={{ marginBottom: "28px" }}>Core Systems</h2>
@@ -89,61 +66,25 @@ export default function Home() {
             gap: "22px",
           }}
         >
-          <Link
-            to="/systems/qrlphoenix"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div
-              style={{
-                padding: "22px",
-                border: "1px solid #1e293b",
-                borderRadius: "12px",
-              }}
-            >
-              <h3>QRLPhoenix</h3>
-              <p style={{ opacity: 0.8 }}>
-                AI-assisted iOS strategy discovery and evaluation platform.
-              </p>
-            </div>
-          </Link>
+          <CardLink to="/systems/qrlphoenix" title="QRLPhoenix">
+            <p style={{ margin: 0 }}>
+              AI-assisted iOS strategy discovery and evaluation platform.
+            </p>
+          </CardLink>
 
-          <Link
-            to="/systems/gutsense"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div
-              style={{
-                padding: "22px",
-                border: "1px solid #1e293b",
-                borderRadius: "12px",
-              }}
-            >
-              <h3>GutSense</h3>
-              <p style={{ opacity: 0.8 }}>
-                Multi-agent dietary intelligence using Claude, Gemini, and
-                Apple Foundation Models.
-              </p>
-            </div>
-          </Link>
+          <CardLink to="/systems/gutsense" title="GutSense">
+            <p style={{ margin: 0 }}>
+              Multi-agent dietary intelligence using Claude, Gemini, and Apple
+              Foundation Models.
+            </p>
+          </CardLink>
 
-          <Link
-            to="/research"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div
-              style={{
-                padding: "22px",
-                border: "1px solid #1e293b",
-                borderRadius: "12px",
-              }}
-            >
-              <h3>MHT-FAISS Engine</h3>
-              <p style={{ opacity: 0.8 }}>
-                Research infrastructure for exploring large candidate strategy
-                populations.
-              </p>
-            </div>
-          </Link>
+          <CardLink to="/research" title="MHT-FAISS Engine">
+            <p style={{ margin: 0 }}>
+              Research infrastructure for exploring large candidate strategy
+              populations.
+            </p>
+          </CardLink>
         </div>
       </section>
     </PageShell>
