@@ -58,11 +58,18 @@ export default function Home() {
 
       <section className="architecture-flow">
         <div className="architecture-flow__intro">
-          <h2 className="section-title" style={{ textAlign: "left", marginBottom: "14px" }}>
+          <h2
+            className="section-title"
+            style={{ textAlign: "left", marginBottom: "14px" }}
+          >
             Platform Flow
           </h2>
-          <p className="section-subtitle" style={{ textAlign: "left", marginBottom: "0" }}>
-            Applications, agent analysis, and research infrastructure operate as one connected stack.
+          <p
+            className="section-subtitle"
+            style={{ textAlign: "left", marginBottom: "0" }}
+          >
+            Applications, agent analysis, and research infrastructure operate as
+            one connected stack.
           </p>
         </div>
 
@@ -71,8 +78,8 @@ export default function Home() {
             <div className="flow-card__label">Applications</div>
             <h3>QRLPhoenix + GutSense</h3>
             <p>
-              User-facing systems for strategy intelligence and dietary
-              decision support.
+              User-facing systems for strategy intelligence and dietary decision
+              support.
             </p>
           </div>
 
@@ -106,56 +113,6 @@ export default function Home() {
             <p>
               Research results become explorable through live deployment under
               your own domain.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section style={{ marginTop: "72px" }}>
-        <h2 style={{ marginBottom: "28px" }}>Live Systems</h2>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "22px",
-          }}
-        >
-          <a
-            href="https://demomhtfaiss.industriallystrong.com"
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="structure-card">
-              <h3>MHT-FAISS Demo</h3>
-              <p style={{ margin: 0 }}>
-                Interactive research surface exploring strategy candidate populations
-                using vector search and hypothesis tracking.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="/decks/mht.html"
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="structure-card">
-              <h3>MHT Capability Deck</h3>
-              <p style={{ margin: 0 }}>
-                Full explanation of asynchronous signal tracking, ANN filtering,
-                and the architecture behind the system.
-              </p>
-            </div>
-          </a>
-
-          <div className="structure-card">
-            <h3>QRLPhoenix</h3>
-            <p style={{ margin: 0 }}>
-              AI-assisted strategy discovery platform integrating agent evaluation
-              with the MHT research engine.
             </p>
           </div>
         </div>
@@ -207,6 +164,55 @@ export default function Home() {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section style={{ marginTop: "72px" }}>
+        <h2 style={{ marginBottom: "28px" }}>Live Systems</h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "22px",
+          }}
+        >
+          <a
+            href="https://demomhtfaiss.industriallystrong.com"
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="structure-card">
+              <h3>MHT-FAISS Demo</h3>
+              <p style={{ margin: 0 }}>
+                Interactive research surface exploring strategy candidate
+                populations using vector search and hypothesis tracking.
+              </p>
+            </div>
+          </a>
+
+          <a
+            href="/decks/mht.html"
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="structure-card">
+              <h3>MHT Capability Deck</h3>
+              <p style={{ margin: 0 }}>
+                Full explanation of asynchronous signal tracking, ANN filtering,
+                and the architecture behind the system.
+              </p>
+            </div>
+          </a>
+
+          <CardLink to="/systems/qrlphoenix" title="QRLPhoenix">
+            <p style={{ margin: 0 }}>
+              AI-assisted strategy discovery and evaluation platform connected
+              to the research engine and agent analysis workflows.
+            </p>
+          </CardLink>
         </div>
       </section>
 
