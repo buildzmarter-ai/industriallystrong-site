@@ -5,107 +5,192 @@ import PrimaryButton from "../components/PrimaryButton";
 export default function Home() {
   return (
     <PageShell>
-      <div>
-        {/* HERO */}
-        <section
+      <section
+        style={{
+          padding: "96px 0 72px 0",
+          borderBottom: "1px solid #1e293b",
+        }}
+      >
+        <div
           style={{
-            padding: "96px 0 72px 0",
-            borderBottom: "1px solid #1e293b",
+            fontSize: "14px",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            opacity: 0.7,
+            marginBottom: "18px",
           }}
         >
-          <div
-            style={{
-              fontSize: "14px",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              opacity: 0.7,
-              marginBottom: "18px",
-            }}
-          >
-            IndustriallyStrong
+          IndustriallyStrong
+        </div>
+
+        <h1
+          style={{
+            fontSize: "56px",
+            lineHeight: 1.05,
+            margin: "0 0 20px 0",
+            maxWidth: "980px",
+          }}
+        >
+          Building AI systems, research engines, and deployable technical platforms.
+        </h1>
+
+        <p
+          style={{
+            fontSize: "22px",
+            lineHeight: 1.6,
+            maxWidth: "900px",
+            opacity: 0.9,
+            marginBottom: "28px",
+          }}
+        >
+          IndustriallyStrong connects program concepts, deployed systems, and
+          research architecture across fintech, multi-agent AI, and advanced
+          technical infrastructure.
+        </p>
+
+        <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+          <PrimaryButton to="/systems">View systems</PrimaryButton>
+          <PrimaryButton to="/research" secondary>
+            Explore research
+          </PrimaryButton>
+        </div>
+      </section>
+
+      <section className="architecture-flow">
+        <div className="architecture-flow__intro">
+          <h2 className="section-title" style={{ textAlign: "left", marginBottom: "14px" }}>
+            Platform Flow
+          </h2>
+          <p className="section-subtitle" style={{ textAlign: "left", marginBottom: "0" }}>
+            Applications, agent analysis, and research infrastructure operate as one connected stack.
+          </p>
+        </div>
+
+        <div className="architecture-flow__grid">
+          <div className="flow-card">
+            <div className="flow-card__label">Applications</div>
+            <h3>QRLPhoenix + GutSense</h3>
+            <p>
+              User-facing systems for strategy intelligence and dietary
+              decision support.
+            </p>
           </div>
 
-          <h1
-            style={{
-              fontSize: "56px",
-              lineHeight: 1.05,
-              margin: "0 0 20px 0",
-              maxWidth: "980px",
-            }}
-          >
-            Building AI systems, research engines, and technical platforms.
-          </h1>
+          <div className="flow-arrow">→</div>
 
-          <p
-            style={{
-              fontSize: "22px",
-              lineHeight: 1.6,
-              maxWidth: "900px",
-              opacity: 0.9,
-              marginBottom: "32px",
-            }}
-          >
-            IndustriallyStrong connects program concepts, deployed systems,
-            and research architecture across fintech, multi-agent AI,
-            and advanced technical infrastructure.
+          <div className="flow-card">
+            <div className="flow-card__label">Agent Layer</div>
+            <h3>AI Analysis + Synthesis</h3>
+            <p>
+              Agents classify, enrich, compare, and synthesize candidate
+              strategies and decision signals.
+            </p>
+          </div>
+
+          <div className="flow-arrow">→</div>
+
+          <div className="flow-card">
+            <div className="flow-card__label">Research Engine</div>
+            <h3>MHT-FAISS Core</h3>
+            <p>
+              High-dimensional search, ranking, and multiple-hypothesis
+              tracking across large candidate populations.
+            </p>
+          </div>
+
+          <div className="flow-arrow">→</div>
+
+          <div className="flow-card">
+            <div className="flow-card__label">Live Surface</div>
+            <h3>Interactive Demo</h3>
+            <p>
+              Research results become explorable through live deployment under
+              your own domain.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="program-structure">
+        <div className="container">
+          <h2 className="section-title">Program Structure</h2>
+          <p className="section-subtitle">
+            From foundational research to deployed systems and live demonstrations.
           </p>
 
-          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-            <PrimaryButton href="/systems">
-              View systems
-            </PrimaryButton>
+          <div className="structure-grid">
+            <div className="structure-card">
+              <h3>Research</h3>
+              <p>
+                Foundational work on high-dimensional signal processing,
+                hypothesis tracking, and associative retrieval methods.
+              </p>
+              <a href="/research" className="structure-link">
+                View Research →
+              </a>
+            </div>
 
-            <PrimaryButton href="/research">
-              Explore research
-            </PrimaryButton>
-          </div>
-        </section>
+            <div className="structure-card">
+              <h3>Systems</h3>
+              <p>
+                Production architectures that operationalize research results,
+                including QRLPhoenix and FAISS-based inference pipelines.
+              </p>
+              <a href="/systems" className="structure-link">
+                View Systems →
+              </a>
+            </div>
 
-        {/* PROGRAM STRUCTURE */}
-        <section className="program-structure">
-          <div className="container">
-            <h2 className="section-title">Program Structure</h2>
-            <p className="section-subtitle">
-              From foundational research to deployed systems and live demonstrations.
-            </p>
-
-            <div className="structure-grid">
-              <div className="structure-card">
-                <h3>Research</h3>
-                <p>
-                  Fundamental work on high-dimensional signal processing,
-                  hypothesis tracking, and associative retrieval methods.
-                </p>
-                <a href="/research" className="structure-link">
-                  View Research →
-                </a>
-              </div>
-
-              <div className="structure-card">
-                <h3>Systems</h3>
-                <p>
-                  Production architectures that operationalize research results,
-                  including QRLPhoenix and FAISS-based inference pipelines.
-                </p>
-                <a href="/systems" className="structure-link">
-                  View Systems →
-                </a>
-              </div>
-
-              <div className="structure-card">
-                <h3>Live Demonstrations</h3>
-                <p>
-                  Interactive deployments illustrating system behavior
-                  and architectural performance in real environments.
-                </p>
-                <a href="https://demomhtfaiss.industriallystrong.com" className="structure-link">
-                  Launch Demo →
-                </a>
-              </div>
+            <div className="structure-card">
+              <h3>Live Demonstrations</h3>
+              <p>
+                Interactive deployments illustrating system behavior and
+                architectural performance in real environments.
+              </p>
+              <a
+                href="https://demomhtfaiss.industriallystrong.com"
+                className="structure-link"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Launch Demo →
+              </a>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* LIVE SYSTEMS */}
-        <section style={{ padding: "72px 0" }}>
-          <h2 style={{ fontSize: "34px", marginBottom: "24px" }}>
+      <section style={{ marginTop: "72px" }}>
+        <h2 style={{ marginBottom: "28px" }}>Core Systems</h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "22px",
+          }}
+        >
+          <CardLink to="/systems/qrlphoenix" title="QRLPhoenix">
+            <p style={{ margin: 0 }}>
+              AI-assisted iOS strategy discovery and evaluation platform.
+            </p>
+          </CardLink>
+
+          <CardLink to="/systems/gutsense" title="GutSense">
+            <p style={{ margin: 0 }}>
+              Multi-agent dietary intelligence using Claude, Gemini, and Apple
+              Foundation Models.
+            </p>
+          </CardLink>
+
+          <CardLink to="/research" title="MHT-FAISS Engine">
+            <p style={{ margin: 0 }}>
+              Research infrastructure for exploring large candidate strategy
+              populations.
+            </p>
+          </CardLink>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
