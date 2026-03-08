@@ -62,6 +62,10 @@ export default function SiteHeader() {
             Home
           </Link>
 
+          <Link to="/architecture" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+            Architecture
+          </Link>
+
           <Link to="/concepts" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
             Concepts
           </Link>
