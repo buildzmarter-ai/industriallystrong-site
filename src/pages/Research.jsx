@@ -31,7 +31,7 @@ export default function Research() {
 
         <div style={{ marginTop: "28px" }}>
           <a
-            href="https://web-production-06a1.up.railway.app"
+            href="https://demomhtfaiss.industriallystrong.com"
             target="_blank"
             rel="noreferrer"
             style={{
