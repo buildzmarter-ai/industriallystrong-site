@@ -111,6 +111,56 @@ export default function Home() {
         </div>
       </section>
 
+      <section style={{ marginTop: "72px" }}>
+        <h2 style={{ marginBottom: "28px" }}>Live Systems</h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "22px",
+          }}
+        >
+          <a
+            href="https://demomhtfaiss.industriallystrong.com"
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="structure-card">
+              <h3>MHT-FAISS Demo</h3>
+              <p style={{ margin: 0 }}>
+                Interactive research surface exploring strategy candidate populations
+                using vector search and hypothesis tracking.
+              </p>
+            </div>
+          </a>
+
+          <a
+            href="/decks/mht.html"
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="structure-card">
+              <h3>MHT Capability Deck</h3>
+              <p style={{ margin: 0 }}>
+                Full explanation of asynchronous signal tracking, ANN filtering,
+                and the architecture behind the system.
+              </p>
+            </div>
+          </a>
+
+          <div className="structure-card">
+            <h3>QRLPhoenix</h3>
+            <p style={{ margin: 0 }}>
+              AI-assisted strategy discovery platform integrating agent evaluation
+              with the MHT research engine.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="program-structure">
         <div className="container">
           <h2 className="section-title">Program Structure</h2>
