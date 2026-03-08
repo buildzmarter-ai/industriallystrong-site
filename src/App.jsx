@@ -12,6 +12,7 @@ import GutSense from "./pages/GutSense";
 import Contact from "./pages/Contact";
 import Architecture from "./pages/Architecture";
 import Decks from "./pages/Decks";
+import Programs from "./pages/Programs";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/architecture" element={<Architecture />} />
         <Route path="/decks" element={<Decks />} />
+        <Route path="/programs" element={<Programs />} />
       </Routes>
 
       <SiteFooter />
