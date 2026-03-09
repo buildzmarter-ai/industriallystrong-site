@@ -18,7 +18,7 @@
 .mht-deck {
   position: relative;
   overflow: clip;
-  padding: clamp(4.5rem, 7vw, 7rem) 0;
+  padding: clamp(3rem, 5vw, 4rem) 0;
   color: var(--mht-text);
 }
 
@@ -63,8 +63,6 @@
   max-width: 12ch;
   margin: 1rem 0 0;
   font-size: clamp(2.4rem, 6vw, 5.25rem);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
 }
 
 .mht-deck__title span {
@@ -115,6 +113,7 @@
   bottom: 3rem;
   width: 2px;
   opacity: 0.7;
+  display: none;
 }
 
 .mht-rail__line {
@@ -144,14 +143,14 @@
 
 .mht-slides {
   display: grid;
-  gap: 1.2rem;
+  gap: 0.9rem;
 }
 
 .mht-slide {
   position: relative;
   border: 1px solid var(--mht-border);
   border-radius: 1.6rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
   box-shadow: var(--mht-shadow);
   backdrop-filter: blur(16px);
   overflow: hidden;
