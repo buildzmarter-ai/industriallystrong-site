@@ -1,5 +1,7 @@
 import PageShell from "../components/PageShell";
 import PrimaryButton from "../components/PrimaryButton";
+import MHTDeck from "../components/MHTDeck";
+import "../assets/mhtDeck.css";
 
 export default function Architecture() {
   return (
@@ -88,6 +90,10 @@ export default function Architecture() {
             </a>
           </div>
         </div>
+      </section>
+
+      <section style={{ marginTop: "72px", marginBottom: "72px" }}>
+        <MHTDeck />
       </section>
 
       <section style={{ marginTop: "64px" }}>
