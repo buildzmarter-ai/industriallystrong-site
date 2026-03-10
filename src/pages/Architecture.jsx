@@ -1,269 +1,324 @@
 import PageShell from "../components/PageShell";
 import "../assets/lithographyStory.css";
 
+function Section({ eyebrow, title, children, className = "" }) {
+  return (
+    <section className={`litho-section ${className}`}>
+      <div className="litho-section-inner">
+        {eyebrow ? <div className="litho-eyebrow">{eyebrow}</div> : null}
+        {title ? <h2>{title}</h2> : null}
+        {children}
+      </div>
+    </section>
+  );
+}
+
 export default function Architecture() {
   return (
     <PageShell>
-      <div className="litho-story">
+      <main className="litho-page">
         <section className="litho-hero">
-          <div className="litho-eyebrow">IndustriallyStrong Research</div>
-          <h1>Programmable Lithography Architectures</h1>
-          <p className="litho-hero-copy">
-            Exploring a semiconductor-manufacturable lithography direction built
-            from tiled exposure modules rather than a single monolithic exposure
-            engine.
+          <div className="litho-hero-inner">
+            <div className="litho-eyebrow">IndustriallyStrong Research</div>
+            <h1>
+              What if lithography scaled
+              <br />
+              like semiconductors?
+            </h1>
+            <p className="litho-hero-copy">
+              A conceptual architecture for programmable lithography built from
+              tiled semiconductor exposure modules rather than a single
+              monolithic exposure engine.
+            </p>
+          </div>
+        </section>
+
+        <Section
+          eyebrow="The trajectory"
+          title="For decades, lithography has scaled by building larger machines."
+          className="narrative"
+        >
+          <div className="trajectory-strip">
+            <div className="trajectory-card">
+              <span>Optical steppers</span>
+            </div>
+            <div className="trajectory-arrow">→</div>
+            <div className="trajectory-card">
+              <span>DUV scanners</span>
+            </div>
+            <div className="trajectory-arrow">→</div>
+            <div className="trajectory-card emphasis">
+              <span>EUV mega-systems</span>
+            </div>
+          </div>
+
+          <p className="lede">
+            More optical complexity. More source complexity. More machine
+            complexity.
           </p>
-        </section>
+        </Section>
 
-        <section className="litho-panel">
-          <div className="litho-panel-inner">
-            <div className="litho-kicker">The question</div>
-            <h2>What if lithography scaled like semiconductors?</h2>
-            <p>
-              For decades, lithography has scaled through larger optics, more
-              complex sources, and increasingly sophisticated machines.
-            </p>
-            <p>
-              This concept explores a different architectural path: exposure
-              systems composed of many programmable modules operating in
-              parallel.
-            </p>
-          </div>
-        </section>
+        <Section
+          eyebrow="The question"
+          title="What if the exposure system itself became a semiconductor architecture?"
+          className="question"
+        >
+          <div className="question-grid">
+            <div className="question-left">
+              <div className="machine-silhouette">
+                <div className="machine-core" />
+                <div className="machine-optic optic-a" />
+                <div className="machine-optic optic-b" />
+                <div className="machine-stage" />
+              </div>
+              <div className="question-label">Monolithic exposure engine</div>
+            </div>
 
-        <section className="litho-panel">
-          <div className="litho-panel-inner">
-            <div className="litho-kicker">Concept</div>
-            <h2>Tiled exposure architecture</h2>
-            <p className="litho-section-copy">
-              A distributed exposure surface formed from multiple writer heads,
-              each responsible for a local field.
-            </p>
+            <div className="question-divider">→</div>
 
-            <div className="tile-architecture">
-              <div className="tile-grid">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div className="writer-head" key={i}>
-                    <div className="writer-head-title">Writer Head</div>
-                    <div className="writer-head-stack">
-                      <span>Optics</span>
-                      <span>MEMS</span>
-                      <span>Array</span>
-                      <span>ASIC</span>
-                    </div>
-                  </div>
+            <div className="question-right">
+              <div className="module-cluster">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <span key={i} />
                 ))}
               </div>
+              <div className="question-label">
+                Distributed semiconductor modules
+              </div>
+            </div>
+          </div>
+        </Section>
 
-              <div className="beam-row">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div className="beam-group" key={i}>
-                    <span />
-                    <span />
-                    <span />
+        <Section
+          eyebrow="Architecture"
+          title="A tiled exposure surface built from programmable writer heads."
+          className="architecture"
+        >
+          <p className="section-copy">
+            Each writer head controls a local field. Larger patterning regions
+            are formed through tiling, stitching, and substrate motion.
+          </p>
+
+          <div className="writer-architecture">
+            <div className="writer-grid">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div className="writer-tile" key={i}>
+                  <div className="writer-title">Writer Head</div>
+                  <div className="writer-layers">
+                    <span>Optics</span>
+                    <span>MEMS</span>
+                    <span>Array</span>
+                    <span>Control</span>
                   </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="beam-grid">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div className="beam-group" key={i}>
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              ))}
+            </div>
+
+            <div className="wafer-band">
+              <div className="wafer-pattern">
+                {Array.from({ length: 18 }).map((_, i) => (
+                  <span key={i} />
                 ))}
               </div>
+              <div className="wafer-label">Photoresist wafer</div>
+            </div>
 
-              <div className="wafer-stage">
-                <div className="wafer-stage-label">Photoresist wafer</div>
+            <div className="micro-caption">
+              Many programmable exposure elements operating in parallel.
+            </div>
+          </div>
+        </Section>
+
+        <Section
+          eyebrow="Writer head"
+          title="The building block should look like semiconductor hardware."
+          className="cross-section-panel"
+        >
+          <p className="section-copy">
+            The concept becomes more credible when the writer head is framed as
+            a layered semiconductor module rather than as an abstract light
+            source.
+          </p>
+
+          <div className="cross-section-card">
+            <div className="cross-layer optics">Optical conditioning layer</div>
+            <div className="cross-layer mems">MEMS steering layer</div>
+            <div className="cross-layer emitters">Emitter / modulation array</div>
+            <div className="cross-layer asic">
+              Driver electronics + timing control
+            </div>
+            <div className="cross-layer thermal">Thermal / power substrate</div>
+
+            <div className="cross-beams">
+              <span />
+              <span />
+              <span />
+            </div>
+
+            <div className="cross-wafer">Wafer exposure plane</div>
+          </div>
+        </Section>
+
+        <Section
+          eyebrow="Feasibility"
+          title="The first question is simple: can enough energy reach the wafer?"
+          className="feasibility"
+        >
+          <p className="section-copy">
+            A first-order engineering estimate suggests that photon budget may
+            be workable. The harder problem may shift to synchronization,
+            calibration, stitching, and control.
+          </p>
+
+          <div className="energy-stage-row">
+            <div className="energy-stage wall">
+              <div className="energy-top">Wall plug</div>
+              <div className="energy-big">100 W</div>
+            </div>
+            <div className="energy-arrow">↓</div>
+            <div className="energy-stage optical">
+              <div className="energy-top">Optical generation</div>
+              <div className="energy-big">~30 W</div>
+            </div>
+            <div className="energy-arrow">↓</div>
+            <div className="energy-stage conditioning">
+              <div className="energy-top">Conditioned beam</div>
+              <div className="energy-big">~22 W</div>
+            </div>
+            <div className="energy-arrow">↓</div>
+            <div className="energy-stage wafer">
+              <div className="energy-top">Power at wafer</div>
+              <div className="energy-big">~16 W</div>
+            </div>
+          </div>
+
+          <div className="throughput-panel">
+            <div className="throughput-formula">Area rate = Power / Resist dose</div>
+            <div className="throughput-stats">
+              <div>
+                <span>Illustrative resist dose</span>
+                <strong>20 mJ/cm²</strong>
               </div>
-
-              <div className="tile-caption">
-                Many programmable exposure elements operating simultaneously.
+              <div>
+                <span>Photon-limited capacity</span>
+                <strong>~700–800 cm²/s</strong>
+              </div>
+              <div className="wide">
+                <span>Likely dominant real constraints</span>
+                <strong>Synchronization · alignment · stitching · calibration</strong>
               </div>
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="litho-panel">
-          <div className="litho-panel-inner">
-            <div className="litho-kicker">Fabrication plausibility</div>
-            <h2>Semiconductor writer-head structure</h2>
-            <p className="litho-section-copy">
-              The core idea is not a giant optical machine, but a layered module
-              that looks like semiconductor hardware.
-            </p>
+        <Section
+          eyebrow="Landscape"
+          title="This is not the same path as monolithic scanner scaling."
+          className="landscape"
+        >
+          <p className="section-copy">
+            The concept fits into a different architectural lane: distributed,
+            programmable exposure rather than a single centralized system.
+          </p>
 
-            <div className="cross-section">
-              <div className="layer optics">Optical conditioning layer</div>
-              <div className="layer mems">MEMS steering layer</div>
-              <div className="layer emitters">Emitter / modulation array</div>
-              <div className="layer electronics">
-                Driver electronics + timing control
-              </div>
-              <div className="layer thermal">Thermal / power substrate</div>
+          <div className="industry-map-card">
+            <div className="map-y-label">Programmable patterning</div>
+            <div className="industry-map">
+              <div className="axis-y" />
+              <div className="axis-x" />
 
-              <div className="cross-section-beams">
-                <span />
-                <span />
-                <span />
+              <div className="map-item euv">
+                <strong>EUV scanners</strong>
+                <span>Monolithic machines</span>
               </div>
 
-              <div className="cross-wafer">Wafer exposure plane</div>
-            </div>
-          </div>
-        </section>
+              <div className="map-item nil">
+                <strong>Nanoimprint</strong>
+                <span>Replication path</span>
+              </div>
 
-        <section className="litho-panel">
-          <div className="litho-panel-inner">
-            <div className="litho-kicker">Feasibility</div>
-            <h2>Wall plug → wafer</h2>
-            <p className="litho-section-copy">
-              A first-order engineering model suggests that photon budget may
-              not be the dominant constraint. System synchronization,
-              calibration, stitching, and control can matter just as much.
-            </p>
+              <div className="map-item maskless">
+                <strong>Maskless direct write</strong>
+                <span>Flexible, narrower parallelism</span>
+              </div>
 
-            <div className="energy-flow">
-              <div className="energy-bar wall">
-                <div className="energy-label">Wall plug</div>
-                <div className="energy-value">100 W</div>
+              <div className="map-item distributed">
+                <strong>Distributed semiconductor lithography</strong>
+                <span>Tiled programmable modules</span>
               </div>
-              <div className="energy-arrow">↓</div>
-              <div className="energy-bar optical">
-                <div className="energy-label">Optical generation</div>
-                <div className="energy-value">~30 W</div>
-              </div>
-              <div className="energy-arrow">↓</div>
-              <div className="energy-bar conditioning">
-                <div className="energy-label">Conditioned beam</div>
-                <div className="energy-value">~22 W</div>
-              </div>
-              <div className="energy-arrow">↓</div>
-              <div className="energy-bar wafer">
-                <div className="energy-label">Power at wafer</div>
-                <div className="energy-value">~16 W</div>
-              </div>
-            </div>
 
-            <div className="throughput-card">
-              <div className="throughput-title">Illustrative throughput model</div>
-              <div className="throughput-formula">Area rate = Power / Resist dose</div>
-              <div className="throughput-grid">
-                <div>
-                  <span className="throughput-key">Power at wafer</span>
-                  <strong>~16 W</strong>
-                </div>
-                <div>
-                  <span className="throughput-key">Example resist dose</span>
-                  <strong>20 mJ/cm²</strong>
-                </div>
-                <div>
-                  <span className="throughput-key">Photon-limit capacity</span>
-                  <strong>~700–800 cm²/s</strong>
-                </div>
-                <div>
-                  <span className="throughput-key">Real constraint</span>
-                  <strong>Synchronization + stitching + calibration</strong>
-                </div>
+              <div className="map-x-label">
+                Monolithic machine → distributed semiconductor architecture
               </div>
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="litho-panel">
-          <div className="litho-panel-inner">
-            <div className="litho-kicker">Landscape</div>
-            <h2>Three paths for lithography</h2>
-            <p className="litho-section-copy">
-              This concept is not framed as a replacement for every existing
-              tool. It is a different architectural path.
-            </p>
+        <Section
+          eyebrow="Scaling"
+          title="Architecture determines how technologies scale."
+          className="scaling"
+        >
+          <div className="scaling-comparison">
+            <div className="scaling-side">
+              <div className="scaling-side-title">Monolithic lithography systems</div>
+              <div className="scaling-machine" />
+              <div className="scaling-chain">
+                <span>Higher resolution</span>
+                <span>↓</span>
+                <span>More optical complexity</span>
+                <span>↓</span>
+                <span>Larger machines</span>
+              </div>
+              <div className="scaling-note">
+                Scaling through optical complexity
+              </div>
+            </div>
 
-            <div className="industry-map-wrap">
-              <div className="industry-y-axis">Programmable patterning</div>
-              <div className="industry-map">
-                <div className="axis-x" />
-                <div className="axis-y" />
-
-                <div className="map-node euv">
-                  <strong>EUV scanners</strong>
-                  <span>Monolithic machines</span>
-                </div>
-
-                <div className="map-node nil">
-                  <strong>Nanoimprint</strong>
-                  <span>Replication path</span>
-                </div>
-
-                <div className="map-node directwrite">
-                  <strong>Maskless direct write</strong>
-                  <span>Flexible, limited parallelism</span>
-                </div>
-
-                <div className="map-node distributed">
-                  <strong>Distributed semiconductor lithography</strong>
-                  <span>Tiled programmable modules</span>
-                </div>
-
-                <div className="x-axis-label">
-                  Monolithic machine → distributed semiconductor architecture
-                </div>
+            <div className="scaling-side">
+              <div className="scaling-side-title">
+                Distributed lithography architecture
+              </div>
+              <div className="scaling-modules">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <span key={i} />
+                ))}
+              </div>
+              <div className="scaling-chain">
+                <span>Higher throughput</span>
+                <span>↓</span>
+                <span>More exposure modules</span>
+                <span>↓</span>
+                <span>Parallel scaling</span>
+              </div>
+              <div className="scaling-note">
+                Scaling through semiconductor integration
               </div>
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="litho-panel">
-          <div className="litho-panel-inner">
-            <div className="litho-kicker">Scaling</div>
-            <h2>Lithography scaling paths</h2>
-
-            <div className="scaling-slide">
-              <div className="scaling-column">
-                <div className="scaling-heading">Monolithic lithography systems</div>
-                <div className="machine-block" />
-                <div className="scaling-chain">
-                  <span>Higher resolution</span>
-                  <span>↓</span>
-                  <span>More optical complexity</span>
-                  <span>↓</span>
-                  <span>Larger machines</span>
-                </div>
-                <div className="scaling-caption">
-                  Scaling through optical complexity
-                </div>
-              </div>
-
-              <div className="scaling-column">
-                <div className="scaling-heading">
-                  Distributed lithography architecture
-                </div>
-                <div className="module-grid">
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <span key={i} />
-                  ))}
-                </div>
-                <div className="scaling-chain">
-                  <span>Higher throughput</span>
-                  <span>↓</span>
-                  <span>More exposure modules</span>
-                  <span>↓</span>
-                  <span>Parallel scaling</span>
-                </div>
-                <div className="scaling-caption">
-                  Scaling through semiconductor integration
-                </div>
-              </div>
-            </div>
-
-            <div className="scaling-footer">
-              Architecture determines how technologies scale.
-            </div>
-          </div>
-        </section>
-
-        <section className="litho-panel litho-closing">
-          <div className="litho-panel-inner">
-            <div className="litho-kicker">Thesis</div>
+        <section className="final-thesis">
+          <div className="final-thesis-inner">
+            <div className="litho-eyebrow">Thesis</div>
             <h2>
-              Lithography may eventually scale not through larger machines, but
-              through semiconductor-manufacturable exposure architectures.
+              Lithography may eventually scale not through larger optical
+              machines, but through semiconductor-manufacturable exposure
+              architectures.
             </h2>
           </div>
         </section>
-      </div>
+      </main>
     </PageShell>
   );
 }
