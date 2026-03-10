@@ -141,7 +141,7 @@ export default function Architecture() {
 
         <Section
           eyebrow="Writer head"
-          title="The building block should look like semiconductor hardware."
+          title="The writer head should look like semiconductor hardware."
           className="cross-section-panel"
         >
           <p className="section-copy">
@@ -175,9 +175,10 @@ export default function Architecture() {
           className="feasibility"
         >
           <p className="section-copy">
-            A first-order engineering estimate suggests that photon budget may
-            be workable. The harder problem may shift to synchronization,
-            calibration, stitching, and control.
+            A first-order estimate suggests photon budget may be workable.
+            <br />
+            The harder problem is system synchronization, calibration,
+            stitching, and control.
           </p>
 
           <div className="energy-stage-row">
@@ -215,7 +216,9 @@ export default function Architecture() {
               </div>
               <div className="wide">
                 <span>Likely dominant real constraints</span>
-                <strong>Synchronization · alignment · stitching · calibration</strong>
+                <strong>
+                  Synchronization · alignment · stitching · calibration · control
+                </strong>
               </div>
             </div>
           </div>
