@@ -21,49 +21,49 @@ export default function Concepts() {
         <section className="concepts-hero">
           <div className="concepts-hero-inner">
             <div className="concepts-eyebrow">Concepts</div>
-            <h1>Technical concepts for institutions capable of executing at scale.</h1>
+            <h1>Transparent, resilient architectures for serious AI systems.</h1>
             <p className="concepts-hero-copy">
-              IndustriallyStrong develops concepts as serious technical theses:
-              early architectural directions designed to be evaluated,
-              strengthened, and pursued by organizations with real execution
-              capability.
+              IndustriallyStrong develops concepts as technical theses: early
+              architectural directions designed to be evaluated, strengthened,
+              and pursued by organizations capable of meaningful execution.
             </p>
           </div>
         </section>
 
         <section className="concepts-section">
           <div className="concepts-section-inner">
-            <div className="concepts-eyebrow">What a concept means here</div>
-            <h2>Not lightweight ideas. Structured technical directions.</h2>
+            <div className="concepts-eyebrow">Core thesis</div>
+            <h2>Useful AI systems are defined by architecture, not by a single model.</h2>
             <p className="concepts-copy">
-              Concepts on this platform are framed as architecture-level
-              positions. They are intended to clarify where conventional
-              approaches break down, where discontinuities may exist, and what
-              kinds of systems or programs might follow.
+              The platform’s concept work increasingly centers on a simple idea:
+              reliability comes from structure. Different models, agents, and
+              operating constraints can be useful, but they become far more
+              valuable when their outputs are compared, checked, and made
+              visible.
             </p>
 
             <div className="concepts-definition-grid">
               <div className="definition-block">
+                <h3>Transparent</h3>
+                <p>
+                  Systems should expose sources, uncertainty, disagreement, and
+                  reasoning structure rather than hide them.
+                </p>
+              </div>
+
+              <div className="definition-block">
+                <h3>Resilient</h3>
+                <p>
+                  Systems should remain useful under uncertainty, partial
+                  failure, incomplete information, or model mismatch.
+                </p>
+              </div>
+
+              <div className="definition-block">
                 <h3>Architectural</h3>
                 <p>
-                  Focused on system structure, scaling path, and technical
-                  direction rather than isolated features.
-                </p>
-              </div>
-
-              <div className="definition-block">
-                <h3>Institutional</h3>
-                <p>
-                  Designed for organizations capable of engineering, funding,
-                  and executing at meaningful scale.
-                </p>
-              </div>
-
-              <div className="definition-block">
-                <h3>Credible</h3>
-                <p>
-                  Selectively disclosed, but grounded in enough technical
-                  substance to demonstrate seriousness.
+                  The emphasis is on how components interact, verify, and adapt
+                  rather than on isolated model capability.
                 </p>
               </div>
             </div>
@@ -73,44 +73,47 @@ export default function Concepts() {
         <section className="concepts-section">
           <div className="concepts-section-inner">
             <div className="concepts-eyebrow">Concept lane 01</div>
-            <h2>Program-scale technical directions.</h2>
+            <h2>Multi-agent intelligence needs structured disagreement and verification.</h2>
             <p className="concepts-copy">
-              Some concepts are best framed as mission-oriented technical
-              programs: high-risk, high-payoff directions where the challenge is
-              not incremental optimization, but architectural discontinuity.
+              Multiple agents are useful because they can produce different
+              answers, different interpretations, and different candidate paths.
+              But diversity alone is not enough. Agent outputs should be checked
+              against one another, checked against their sources, and checked by
+              an additional verification layer.
             </p>
 
             <div className="concepts-two-column">
               <div className="concept-lane-card emphasis">
-                <h3>DARPA-style program framing</h3>
+                <h3>Multi-agent comparison architecture</h3>
                 <p>
-                  These concepts emphasize mission-first articulation, clear
-                  problem definition, and a strong case for why conventional
-                  approaches are insufficient.
+                  The point of using multiple agents is not simply parallelism.
+                  It is to surface disagreement, expose hidden assumptions, and
+                  make it possible to verify competing outputs before action is
+                  taken.
                 </p>
 
                 <div className="signals-grid">
-                  <SignalItem>Problem-first framing</SignalItem>
-                  <SignalItem>High-risk / high-payoff direction</SignalItem>
-                  <SignalItem>Institutional execution model</SignalItem>
-                  <SignalItem>Selective disclosure with technical substance</SignalItem>
+                  <SignalItem>Different agents generate different answers</SignalItem>
+                  <SignalItem>Outputs are compared against one another</SignalItem>
+                  <SignalItem>Claims are checked against sources</SignalItem>
+                  <SignalItem>A third agent or layer performs verification</SignalItem>
                 </div>
               </div>
 
               <div className="concept-lane-side">
-                <ConceptCard title="Mission definition">
-                  The concept begins with the strategic or technical objective,
-                  not with a product feature list.
+                <ConceptCard title="Structured disagreement">
+                  Difference between agents is not noise to suppress. It is
+                  signal to inspect.
                 </ConceptCard>
 
-                <ConceptCard title="Architectural discontinuity">
-                  The emphasis is on new technical paths that may matter because
-                  they change the structure of the problem.
+                <ConceptCard title="Source-grounded checking">
+                  Agent claims should be evaluated against evidence, not accepted
+                  merely because they are fluent.
                 </ConceptCard>
 
-                <ConceptCard title="Execution relevance">
-                  The concept should be legible to institutions that could
-                  realistically pursue it.
+                <ConceptCard title="Independent verification">
+                  A third agent or separate checking layer can validate,
+                  challenge, or rank outputs before they are surfaced.
                 </ConceptCard>
               </div>
             </div>
@@ -120,32 +123,34 @@ export default function Concepts() {
         <section className="concepts-section">
           <div className="concepts-section-inner">
             <div className="concepts-eyebrow">Concept lane 02</div>
-            <h2>Infrastructure and systems concepts.</h2>
+            <h2>On-device AI matters, but should be treated realistically.</h2>
             <p className="concepts-copy">
-              Other concepts are oriented toward practical systems: financial
-              intelligence, decision support, transparent AI workflows, and
-              research architectures that can evolve into usable platforms.
+              On-device AI is valuable for privacy, responsiveness, and local
+              assistance. But current comparisons often show that local
+              foundation-model experiences remain weaker than stronger external
+              systems. The architectural implication is not to reject local AI,
+              but to place it correctly within a broader system.
             </p>
 
             <div className="concepts-card-grid">
-              <ConceptCard title="Resilient intelligence systems">
-                Architectures designed to preserve usefulness under uncertainty,
-                incomplete information, and real operating constraints.
+              <ConceptCard title="Local intelligence">
+                Useful for responsiveness, privacy-preserving interaction, and
+                device-native assistance.
               </ConceptCard>
 
-              <ConceptCard title="Strategy discovery and evaluation">
-                Concepts aimed at extracting better signal, generating clearer
-                hypotheses, and supporting serious financial workflows.
+              <ConceptCard title="External intelligence">
+                Often stronger for broader reasoning, deeper synthesis, and more
+                capable multi-step tasks.
               </ConceptCard>
 
-              <ConceptCard title="Transparent AI operating surfaces">
-                Systems where reasoning, uncertainty, and technical structure
-                are exposed rather than hidden behind black-box behavior.
+              <ConceptCard title="Hybrid orchestration">
+                The strongest architecture may combine on-device and external
+                intelligence rather than pretending they are equivalent.
               </ConceptCard>
 
-              <ConceptCard title="Bridging research to usable systems">
-                Architectural directions that connect experimental ideas to
-                deployable software and operational tooling.
+              <ConceptCard title="Transparent tradeoffs">
+                Systems should make the limits of local versus external
+                intelligence visible to the user when it matters.
               </ConceptCard>
             </div>
           </div>
@@ -153,41 +158,73 @@ export default function Concepts() {
 
         <section className="concepts-section">
           <div className="concepts-section-inner">
+            <div className="concepts-eyebrow">Concept lane 03</div>
+            <h2>Agents should reason adjacent to the constraints they are given.</h2>
+            <p className="concepts-copy">
+              Agents should not only optimize within a narrow parameter box.
+              They should also surface nearby possibilities: adjacent options,
+              overlooked reframings, and strategically relevant variations just
+              outside the current constraints.
+            </p>
+
+            <div className="adjacency-panel">
+              <div className="adjacency-core">
+                <h3>Constraint-aware adjacent reasoning</h3>
+                <p>
+                  A useful agent should understand the current parameters, but
+                  also identify where adjacent choices may be more effective,
+                  more resilient, or more informative.
+                </p>
+              </div>
+
+              <div className="adjacency-grid">
+                <div className="adjacency-item">Suggest nearby alternatives</div>
+                <div className="adjacency-item">Surface overlooked options</div>
+                <div className="adjacency-item">Reframe narrow problem definitions</div>
+                <div className="adjacency-item">Identify strategic adjacencies</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="concepts-section">
+          <div className="concepts-section-inner">
             <div className="concepts-eyebrow">Development model</div>
-            <h2>How concepts are strengthened.</h2>
+            <h2>Transparency and resilience are embodied in the architecture.</h2>
 
             <div className="concept-flow">
               <div className="concept-flow-node">
-                <h3>Concept</h3>
-                <p>Initial technical thesis and problem framing.</p>
+                <h3>Model diversity</h3>
+                <p>Multiple agents or model types produce candidate outputs.</p>
               </div>
 
               <div className="concept-flow-arrow">→</div>
 
               <div className="concept-flow-node">
-                <h3>Architecture</h3>
-                <p>System structure, scaling logic, and technical narrative.</p>
+                <h3>Cross-checking</h3>
+                <p>Outputs are compared against one another and against sources.</p>
               </div>
 
               <div className="concept-flow-arrow">→</div>
 
               <div className="concept-flow-node">
-                <h3>Prototype</h3>
-                <p>Experimental implementation or evidence-generating system.</p>
+                <h3>Verification</h3>
+                <p>An additional checking layer validates, challenges, or ranks results.</p>
               </div>
 
               <div className="concept-flow-arrow">→</div>
 
               <div className="concept-flow-node">
-                <h3>System</h3>
-                <p>Operational platform, tool, or deployable capability.</p>
+                <h3>Resilient output</h3>
+                <p>Useful, transparent results are surfaced with uncertainty and adjacencies.</p>
               </div>
             </div>
 
             <p className="concepts-summary">
-              The goal is to connect concept formation with real evidence:
-              research engines, prototypes, and deployed systems that show the
-              direction is grounded in actual implementation capability.
+              In this view, transparency and resilience are not abstract values.
+              They are concrete system properties produced by architecture:
+              comparison, checking, verification, and structured exposure of
+              uncertainty.
             </p>
           </div>
         </section>
@@ -197,8 +234,9 @@ export default function Concepts() {
             <div className="concepts-eyebrow">Closing statement</div>
             <h2>
               IndustriallyStrong treats concepts as the front end of serious
-              technical architecture work — not as isolated ideas, but as
-              starting points for systems that can be built.
+              technical architecture work — especially systems designed to make
+              disagreement visible, verification possible, and intelligence more
+              resilient under real constraints.
             </h2>
           </div>
         </section>
