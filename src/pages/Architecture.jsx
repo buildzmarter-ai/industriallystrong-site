@@ -1,5 +1,6 @@
 import PageShell from "../components/PageShell";
 import PrimaryButton from "../components/PrimaryButton";
+import architectureSystemDiagram from "../assets/architecture-system-diagram.svg";
 
 export default function Architecture() {
   return (
@@ -172,16 +173,26 @@ export default function Architecture() {
         </div>
       </section>
 
-      <section style={{ marginBottom: "20px" }}>
-        <h2 style={{ fontSize: "26px", marginBottom: "10px" }}>
-          Architecture at a glance
-        </h2>
+      <section style={{ marginBottom: "60px" }}>
+  <div
+    style={{
+      marginTop: "24px",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: "22px",
+      overflow: "hidden",
+      background: "rgba(255,255,255,0.02)",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
+    }}
+  >
+    <img
+      src={architectureSystemDiagram}
+      alt="IndustriallyStrong system architecture diagram showing deployed applications, agent orchestration, evidence and retrieval, and research infrastructure connected into a unified operating model."
+      style={{ display: "block", width: "100%", height: "auto" }}
+    />
+  </div>
+</section>
 
-        <p style={{ maxWidth: "860px", opacity: 0.85 }}>
-          The diagram below shows how deployed applications, agent workflows,
-          and research infrastructure connect into a unified system architecture.
-        </p>
-      </section>
+
 
       <section style={{ marginTop: "60px", marginBottom: "40px" }}>
         <h2 style={{ fontSize: "32px", marginBottom: "12px" }}>
