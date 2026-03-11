@@ -1,6 +1,7 @@
 import PageShell from "../components/PageShell";
 import "../assets/lithographyStory.css";
 import lithographyArchitectureDiagram from "../assets/lithography-architecture-diagram.svg";
+import multiWaferModularScanningDiagram from "../assets/multi-wafer-modular-scanning-diagram.svg";
 
 export default function Lithography() {
   return (
@@ -89,6 +90,28 @@ export default function Lithography() {
           <img
             src={lithographyArchitectureDiagram}
             alt="Traditional optical scanner versus modular lithography architecture"
+            className="lithography-diagram-image"
+          />
+        </div>
+      </section>
+
+      <section className="story-section">
+        <div className="story-eyebrow">Throughput architecture</div>
+
+        <h2>Multiple Writers on a Shared Apparatus</h2>
+
+        <p>
+          The modular concept becomes more significant when independently aligned
+          writers are distributed across a shared scanning apparatus. The result is
+          not just many writing elements, but a different throughput model in which
+          multiple wafer regions — and potentially multiple wafers — can be serviced
+          within one coordinated machine architecture.
+        </p>
+
+        <div className="lithography-diagram-frame">
+          <img
+            src={multiWaferModularScanningDiagram}
+            alt="Shared scanning apparatus with multiple writer modules, local alignment modules, and multiple wafer carriers."
             className="lithography-diagram-image"
           />
         </div>
