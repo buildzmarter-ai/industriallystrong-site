@@ -43,6 +43,7 @@ export default function App() {
         <Route path="/architecture" element={<Architecture />} />
         <Route path="/decks" element={<Decks />} />
         <Route path="/programs" element={<Programs />} />
+        <Route path="/lithography" element={<Lithography />} />
       </Routes>
 
       <SiteFooter />
