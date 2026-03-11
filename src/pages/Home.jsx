@@ -3,7 +3,6 @@ import PageShell from "../components/PageShell";
 export default function Home() {
   return (
     <PageShell>
-
       {/* HERO / INTRO */}
       <section style={{ marginBottom: "60px" }}>
         <h1 style={{ fontSize: "44px", marginBottom: "12px" }}>
@@ -24,10 +23,8 @@ export default function Home() {
         </p>
       </section>
 
-
       {/* Research directions */}
       <section style={{ marginTop: "80px", marginBottom: "80px" }}>
-
         <div
           style={{
             fontSize: "12px",
@@ -65,7 +62,6 @@ export default function Home() {
             marginTop: "18px",
           }}
         >
-
           {/* AI Architecture */}
           <a
             href="/architecture"
@@ -94,20 +90,19 @@ export default function Home() {
             </div>
           </a>
 
-
           {/* Lithography */}
           <a
-  href="/lithography"
-  style={{
-    border: "1px solid rgba(120,180,255,0.28)",
-    borderRadius: "18px",
-    padding: "22px",
-    textDecoration: "none",
-    color: "inherit",
-    background: "rgba(120,180,255,0.05)",
-    boxShadow: "0 10px 24px rgba(0,0,0,0.16)",
-  }}
->
+            href="/lithography"
+            style={{
+              border: "1px solid rgba(120,180,255,0.28)",
+              borderRadius: "18px",
+              padding: "22px",
+              textDecoration: "none",
+              color: "inherit",
+              background: "rgba(120,180,255,0.05)",
+              boxShadow: "0 10px 24px rgba(0,0,0,0.16)",
+            }}
+          >
             <div
               style={{
                 fontWeight: 700,
@@ -123,10 +118,8 @@ export default function Home() {
               throughput models for future lithography systems.
             </div>
           </a>
-
         </div>
       </section>
-
 
       {/* Core Systems */}
       <section style={{ marginTop: "72px", marginBottom: "40px" }}>
@@ -145,7 +138,6 @@ export default function Home() {
           exploration.
         </p>
       </section>
-
     </PageShell>
   );
 }
