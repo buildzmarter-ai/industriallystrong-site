@@ -13,10 +13,45 @@ export default function Architecture() {
             background: "rgba(255,255,255,0.02)",
           }}
         >
-          <p style={{ margin: 0, lineHeight: 1.7, opacity: 0.84 }}>
-            Diagram section placeholder. Reinsert your existing architecture
-            diagram component or markup here.
+          <h3 style={{ fontSize: "24px", marginBottom: "14px" }}>
+            System flow
+          </h3>
+
+          <p style={{ margin: "0 0 20px", lineHeight: 1.7, opacity: 0.84 }}>
+            IndustriallyStrong connects deployed applications, agent orchestration,
+            evidence handling, and research infrastructure into a unified operating
+            model.
           </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gap: "14px",
+              alignItems: "stretch",
+            }}
+          >
+            {[
+              "Deployed Applications",
+              "Agent Orchestration",
+              "Evidence and Retrieval",
+              "Research Infrastructure",
+            ].map((item) => (
+              <div
+                key={item}
+                style={{
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "14px",
+                  padding: "18px 16px",
+                  background: "rgba(255,255,255,0.02)",
+                  textAlign: "center",
+                  fontWeight: 600,
+                }}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -146,22 +181,6 @@ export default function Architecture() {
           The diagram below shows how deployed applications, agent workflows,
           and research infrastructure connect into a unified system architecture.
         </p>
-      </section>
-
-      <section style={{ marginBottom: "60px" }}>
-        <div
-          style={{
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "18px",
-            padding: "28px 24px",
-            background: "rgba(255,255,255,0.02)",
-          }}
-        >
-          <p style={{ margin: 0, lineHeight: 1.7, opacity: 0.84 }}>
-            Diagram section placeholder. Reinsert your existing architecture
-            diagram component or markup here.
-          </p>
-        </div>
       </section>
 
       <section style={{ marginTop: "60px", marginBottom: "40px" }}>
