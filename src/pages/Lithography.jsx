@@ -1,5 +1,6 @@
 import PageShell from "../components/PageShell";
 import "../assets/lithographyStory.css";
+import lithographyArchitectureDiagram from "../assets/lithography-architecture-diagram.svg";
 
 export default function Lithography() {
   return (
