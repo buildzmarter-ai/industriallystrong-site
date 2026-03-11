@@ -5,15 +5,19 @@ export default function Architecture() {
   return (
     <PageShell>
       <section style={{ marginBottom: "60px" }}>
-        <h1 style={{ fontSize: "42px", marginBottom: "10px" }}>
-          System Architecture
-        </h1>
-
-        <p style={{ fontSize: "20px", maxWidth: "860px", opacity: 0.9 }}>
-          IndustriallyStrong connects deployed applications, agent-driven
-          analysis, and research infrastructure into a unified architecture
-          designed for real-world decision systems.
-        </p>
+        <div
+          style={{
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: "18px",
+            padding: "28px 24px",
+            background: "rgba(255,255,255,0.02)",
+          }}
+        >
+          <p style={{ margin: 0, lineHeight: 1.7, opacity: 0.84 }}>
+            Diagram section placeholder. Reinsert your existing architecture
+            diagram component or markup here.
+          </p>
+        </div>
       </section>
 
       <section
