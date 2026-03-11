@@ -1,1 +1,154 @@
+<svg viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C1424"/>
+      <stop offset="1" stop-color="#121B2F"/>
+    </linearGradient>
 
+    <linearGradient id="rail" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#202E46"/>
+      <stop offset="1" stop-color="#2A3A57"/>
+    </linearGradient>
+
+    <linearGradient id="writer" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#2B7FFF"/>
+      <stop offset="1" stop-color="#1958CE"/>
+    </linearGradient>
+
+    <linearGradient id="align" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#2ED4A0"/>
+      <stop offset="1" stop-color="#12956F"/>
+    </linearGradient>
+
+    <linearGradient id="wafer" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFD48A"/>
+      <stop offset="1" stop-color="#E5A032"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="760" fill="url(#bg)"/>
+
+  <text x="70" y="78" fill="#FFFFFF" font-size="34" font-family="Inter, Arial, sans-serif" font-weight="700">
+    Shared Scanning Apparatus with Multiple Writers and Multiple Wafers
+  </text>
+  <text x="70" y="114" fill="#9FB0C8" font-size="18" font-family="Inter, Arial, sans-serif">
+    The architectural shift is from one centralized exposure path to many independently aligned writing paths operating on one machine platform.
+  </text>
+
+  <!-- Scanning rail -->
+  <rect x="90" y="180" width="1220" height="56" rx="28" fill="url(#rail)"/>
+  <text x="700" y="214" text-anchor="middle" fill="#D7E3F6" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="600">
+    Shared scanning apparatus / motion platform
+  </text>
+
+  <!-- Writers -->
+  <g filter="url(#shadow)">
+    <rect x="180" y="280" width="170" height="110" rx="22" fill="url(#writer)"/>
+    <text x="265" y="323" text-anchor="middle" fill="#FFFFFF" font-size="22" font-family="Inter, Arial, sans-serif" font-weight="700">Writer 1</text>
+    <text x="265" y="352" text-anchor="middle" fill="#DDEAFF" font-size="16" font-family="Inter, Arial, sans-serif">Exposure module</text>
+
+    <rect x="425" y="280" width="170" height="110" rx="22" fill="url(#writer)"/>
+    <text x="510" y="323" text-anchor="middle" fill="#FFFFFF" font-size="22" font-family="Inter, Arial, sans-serif" font-weight="700">Writer 2</text>
+    <text x="510" y="352" text-anchor="middle" fill="#DDEAFF" font-size="16" font-family="Inter, Arial, sans-serif">Exposure module</text>
+
+    <rect x="670" y="280" width="170" height="110" rx="22" fill="url(#writer)"/>
+    <text x="755" y="323" text-anchor="middle" fill="#FFFFFF" font-size="22" font-family="Inter, Arial, sans-serif" font-weight="700">Writer 3</text>
+    <text x="755" y="352" text-anchor="middle" fill="#DDEAFF" font-size="16" font-family="Inter, Arial, sans-serif">Exposure module</text>
+
+    <rect x="915" y="280" width="170" height="110" rx="22" fill="url(#writer)"/>
+    <text x="1000" y="323" text-anchor="middle" fill="#FFFFFF" font-size="22" font-family="Inter, Arial, sans-serif" font-weight="700">Writer 4</text>
+    <text x="1000" y="352" text-anchor="middle" fill="#DDEAFF" font-size="16" font-family="Inter, Arial, sans-serif">Exposure module</text>
+  </g>
+
+  <!-- Local alignment blocks -->
+  <g filter="url(#shadow)">
+    <rect x="205" y="430" width="120" height="64" rx="16" fill="url(#align)"/>
+    <text x="265" y="468" text-anchor="middle" fill="#08251C" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="700">Align 1</text>
+
+    <rect x="450" y="430" width="120" height="64" rx="16" fill="url(#align)"/>
+    <text x="510" y="468" text-anchor="middle" fill="#08251C" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="700">Align 2</text>
+
+    <rect x="695" y="430" width="120" height="64" rx="16" fill="url(#align)"/>
+    <text x="755" y="468" text-anchor="middle" fill="#08251C" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="700">Align 3</text>
+
+    <rect x="940" y="430" width="120" height="64" rx="16" fill="url(#align)"/>
+    <text x="1000" y="468" text-anchor="middle" fill="#08251C" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="700">Align 4</text>
+  </g>
+
+  <!-- Down arrows -->
+  <g stroke="#8EA0BA" stroke-width="3">
+    <line x1="265" y1="390" x2="265" y2="430"/>
+    <line x1="510" y1="390" x2="510" y2="430"/>
+    <line x1="755" y1="390" x2="755" y2="430"/>
+    <line x1="1000" y1="390" x2="1000" y2="430"/>
+
+    <line x1="265" y1="494" x2="265" y2="555"/>
+    <line x1="510" y1="494" x2="510" y2="555"/>
+    <line x1="755" y1="494" x2="755" y2="555"/>
+    <line x1="1000" y1="494" x2="1000" y2="555"/>
+  </g>
+
+  <!-- Wafer carriers -->
+  <g filter="url(#shadow)">
+    <rect x="130" y="560" width="270" height="120" rx="24" fill="#1A2438" stroke="#344563"/>
+    <text x="265" y="598" text-anchor="middle" fill="#D8E3F3" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="600">
+      Wafer Carrier A
+    </text>
+    <ellipse cx="210" cy="635" rx="34" ry="20" fill="url(#wafer)"/>
+    <ellipse cx="320" cy="635" rx="34" ry="20" fill="url(#wafer)"/>
+
+    <rect x="445" y="560" width="270" height="120" rx="24" fill="#1A2438" stroke="#344563"/>
+    <text x="580" y="598" text-anchor="middle" fill="#D8E3F3" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="600">
+      Wafer Carrier B
+    </text>
+    <ellipse cx="525" cy="635" rx="34" ry="20" fill="url(#wafer)"/>
+    <ellipse cx="635" cy="635" rx="34" ry="20" fill="url(#wafer)"/>
+
+    <rect x="760" y="560" width="270" height="120" rx="24" fill="#1A2438" stroke="#344563"/>
+    <text x="895" y="598" text-anchor="middle" fill="#D8E3F3" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="600">
+      Wafer Carrier C
+    </text>
+    <ellipse cx="840" cy="635" rx="34" ry="20" fill="url(#wafer)"/>
+    <ellipse cx="950" cy="635" rx="34" ry="20" fill="url(#wafer)"/>
+  </g>
+
+  <!-- top labels -->
+  <text x="180" y="258" fill="#AFC6EC" font-size="15" font-family="Inter, Arial, sans-serif">Replicated writing elements</text>
+  <text x="945" y="258" fill="#AFC6EC" font-size="15" font-family="Inter, Arial, sans-serif">Independent modules</text>
+
+  <text x="170" y="526" fill="#97E5CC" font-size="15" font-family="Inter, Arial, sans-serif">Local beam alignment per region</text>
+  <text x="860" y="526" fill="#97E5CC" font-size="15" font-family="Inter, Arial, sans-serif">Distributed control, not one central path</text>
+
+  <!-- right-side summary -->
+  <rect x="1105" y="285" width="220" height="315" rx="24" fill="#131F33" stroke="#31445F"/>
+  <text x="1135" y="325" fill="#FFFFFF" font-size="22" font-family="Inter, Arial, sans-serif" font-weight="700">
+    Consequence
+  </text>
+
+  <text x="1135" y="368" fill="#C8D5E8" font-size="17" font-family="Inter, Arial, sans-serif">
+    • more writers
+  </text>
+  <text x="1135" y="402" fill="#C8D5E8" font-size="17" font-family="Inter, Arial, sans-serif">
+    • more aligned paths
+  </text>
+  <text x="1135" y="436" fill="#C8D5E8" font-size="17" font-family="Inter, Arial, sans-serif">
+    • more serviced regions
+  </text>
+  <text x="1135" y="470" fill="#C8D5E8" font-size="17" font-family="Inter, Arial, sans-serif">
+    • potentially more wafers
+  </text>
+  <text x="1135" y="504" fill="#C8D5E8" font-size="17" font-family="Inter, Arial, sans-serif">
+    • higher aggregate throughput
+  </text>
+
+  <text x="1135" y="555" fill="#8FB3FF" font-size="16" font-family="Inter, Arial, sans-serif" font-weight="700">
+    This is a throughput model shift,
+  </text>
+  <text x="1135" y="579" fill="#8FB3FF" font-size="16" font-family="Inter, Arial, sans-serif" font-weight="700">
+    not just a component swap.
+  </text>
+</svg>
