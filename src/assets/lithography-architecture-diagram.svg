@@ -1,0 +1,70 @@
+<svg viewBox="0 0 1200 640" xmlns="http://www.w3.org/2000/svg">
+
+<style>
+.title{fill:#ffffff;font-size:26px;font-family:Inter,Arial;font-weight:600}
+.subtitle{fill:#9fb0c8;font-size:16px;font-family:Inter,Arial}
+.boxTitle{fill:#ffffff;font-size:18px;font-family:Inter,Arial;font-weight:600}
+.label{fill:#cfd8e6;font-size:14px;font-family:Inter,Arial}
+</style>
+
+<rect x="0" y="0" width="1200" height="640" fill="#0d1526"/>
+
+<!-- LEFT SIDE -->
+<text x="220" y="70" class="title">Traditional Scanner</text>
+<text x="210" y="95" class="subtitle">Monolithic Optical Architecture</text>
+
+<rect x="100" y="150" width="240" height="60" rx="12" fill="#3b4559"/>
+<text x="180" y="185" text-anchor="middle" class="boxTitle">Reticle</text>
+
+<line x1="220" y1="210" x2="220" y2="240" stroke="#7d8ba3" stroke-width="2"/>
+
+<rect x="100" y="240" width="240" height="70" rx="12" fill="#3b4559"/>
+<text x="220" y="275" text-anchor="middle" class="boxTitle">Projection Optics</text>
+
+<line x1="220" y1="310" x2="220" y2="340" stroke="#7d8ba3" stroke-width="2"/>
+
+<rect x="100" y="340" width="240" height="70" rx="12" fill="#e09a3d"/>
+<text x="220" y="375" text-anchor="middle" fill="#1a1204" font-size="18" font-family="Inter">Single Wafer Stage</text>
+
+<text x="100" y="450" class="label">Scaling:</text>
+<text x="100" y="470" class="label">• Larger optics</text>
+<text x="100" y="490" class="label">• Higher precision mechanics</text>
+<text x="100" y="510" class="label">• Sequential exposure</text>
+
+<!-- DIVIDER -->
+<line x1="600" y1="120" x2="600" y2="540" stroke="#2f3d57" stroke-width="2" stroke-dasharray="6 6"/>
+
+<!-- RIGHT SIDE -->
+<text x="760" y="70" class="title">Modular Exposure System</text>
+<text x="760" y="95" class="subtitle">Parallel Semiconductor Architecture</text>
+
+<rect x="700" y="150" width="300" height="70" rx="12" fill="#2b7fff"/>
+<text x="850" y="185" text-anchor="middle" class="boxTitle">Exposure Module Array</text>
+
+<!-- small modules -->
+<rect x="735" y="160" width="20" height="20" fill="#9ec1ff"/>
+<rect x="760" y="160" width="20" height="20" fill="#9ec1ff"/>
+<rect x="785" y="160" width="20" height="20" fill="#9ec1ff"/>
+<rect x="810" y="160" width="20" height="20" fill="#9ec1ff"/>
+
+<line x1="850" y1="220" x2="850" y2="250" stroke="#7d8ba3" stroke-width="2"/>
+
+<rect x="700" y="250" width="300" height="70" rx="12" fill="#27c59a"/>
+<text x="850" y="285" text-anchor="middle" fill="#08271f" font-size="18" font-family="Inter">Distributed Alignment</text>
+
+<line x1="850" y1="320" x2="850" y2="350" stroke="#7d8ba3" stroke-width="2"/>
+
+<rect x="700" y="350" width="300" height="90" rx="12" fill="#e09a3d"/>
+<text x="850" y="385" text-anchor="middle" fill="#1a1204" font-size="18" font-family="Inter">Multi-Wafer Platform</text>
+
+<!-- wafers -->
+<circle cx="820" cy="410" r="16" fill="#ffd89a"/>
+<circle cx="850" cy="410" r="16" fill="#ffd89a"/>
+<circle cx="880" cy="410" r="16" fill="#ffd89a"/>
+
+<text x="700" y="480" class="label">Scaling:</text>
+<text x="700" y="500" class="label">• More exposure modules</text>
+<text x="700" y="520" class="label">• Distributed control</text>
+<text x="700" y="540" class="label">• Parallel wafer throughput</text>
+
+</svg>
