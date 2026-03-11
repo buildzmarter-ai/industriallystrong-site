@@ -17,6 +17,7 @@ import Programs from "./pages/Programs";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { trackStatcounterPageView } from "./utils/statcounter";
+import Lithography from "./pages/Lithography";
 
 export default function App() {
 
