@@ -19,7 +19,7 @@ export default function Home() {
         >
           Exploring how architecture determines the behavior of complex systems —
           from AI reasoning infrastructure to experimental physical system
-          architectures.
+          designs.
         </p>
       </section>
 
@@ -72,6 +72,8 @@ export default function Home() {
               textDecoration: "none",
               color: "inherit",
               background: "rgba(255,255,255,0.02)",
+              transition: "all 0.18s ease",
+              cursor: "pointer",
             }}
           >
             <div
@@ -101,6 +103,8 @@ export default function Home() {
               color: "inherit",
               background: "rgba(120,180,255,0.05)",
               boxShadow: "0 10px 24px rgba(0,0,0,0.16)",
+              transition: "all 0.18s ease",
+              cursor: "pointer",
             }}
           >
             <div
@@ -114,6 +118,7 @@ export default function Home() {
             >
               Physical systems
             </div>
+
             <div
               style={{
                 fontWeight: 700,
@@ -125,8 +130,9 @@ export default function Home() {
             </div>
 
             <div style={{ opacity: 0.8, lineHeight: 1.6 }}>
-              Parallel exposure architectures, modular writers, and multi-wafer
-              throughput models for future lithography systems.
+              Parallel exposure architectures, distributed writers, and
+              multi-wafer throughput models for next-generation lithography
+              systems.
             </div>
           </a>
         </div>
