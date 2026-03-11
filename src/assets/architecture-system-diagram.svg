@@ -1,0 +1,131 @@
+<svg viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C1424"/>
+      <stop offset="1" stop-color="#111B2F"/>
+    </linearGradient>
+
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#2B7FFF"/>
+      <stop offset="1" stop-color="#1958CE"/>
+    </linearGradient>
+
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#2ED4A0"/>
+      <stop offset="1" stop-color="#12956F"/>
+    </linearGradient>
+
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9C7BFF"/>
+      <stop offset="1" stop-color="#6F4BD9"/>
+    </linearGradient>
+
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFB347"/>
+      <stop offset="1" stop-color="#D88718"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#000000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="760" fill="url(#bg)"/>
+
+  <text x="70" y="78" fill="#FFFFFF" font-size="34" font-family="Inter, Arial, sans-serif" font-weight="700">
+    IndustriallyStrong System Architecture
+  </text>
+  <text x="70" y="114" fill="#9FB0C8" font-size="18" font-family="Inter, Arial, sans-serif">
+    Deployed applications, agent workflows, evidence handling, and research infrastructure connected into one operating model.
+  </text>
+
+  <g filter="url(#shadow)">
+    <rect x="90" y="180" width="260" height="120" rx="24" fill="url(#blue)"/>
+    <text x="220" y="228" text-anchor="middle" fill="#FFFFFF" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Deployed
+    </text>
+    <text x="220" y="258" text-anchor="middle" fill="#E6EEFF" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Applications
+    </text>
+    <text x="220" y="286" text-anchor="middle" fill="#D8E5FF" font-size="16" font-family="Inter, Arial, sans-serif">
+      frontends, APIs, workflows
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="420" y="180" width="260" height="120" rx="24" fill="url(#green)"/>
+    <text x="550" y="228" text-anchor="middle" fill="#07251C" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Agent
+    </text>
+    <text x="550" y="258" text-anchor="middle" fill="#07251C" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Orchestration
+    </text>
+    <text x="550" y="286" text-anchor="middle" fill="#0C3A2B" font-size="16" font-family="Inter, Arial, sans-serif">
+      structured analysis, coordination
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="750" y="180" width="260" height="120" rx="24" fill="url(#violet)"/>
+    <text x="880" y="228" text-anchor="middle" fill="#FFFFFF" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Evidence &
+    </text>
+    <text x="880" y="258" text-anchor="middle" fill="#FFFFFF" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Retrieval
+    </text>
+    <text x="880" y="286" text-anchor="middle" fill="#ECE5FF" font-size="16" font-family="Inter, Arial, sans-serif">
+      sources, validation, context
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1080" y="180" width="240" height="120" rx="24" fill="url(#orange)"/>
+    <text x="1200" y="228" text-anchor="middle" fill="#1A1204" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Research
+    </text>
+    <text x="1200" y="258" text-anchor="middle" fill="#1A1204" font-size="24" font-family="Inter, Arial, sans-serif" font-weight="700">
+      Infrastructure
+    </text>
+    <text x="1200" y="286" text-anchor="middle" fill="#4B330A" font-size="16" font-family="Inter, Arial, sans-serif">
+      concepts, experiments, decks
+    </text>
+  </g>
+
+  <g stroke="#8EA0BA" stroke-width="4">
+    <line x1="350" y1="240" x2="420" y2="240"/>
+    <line x1="680" y1="240" x2="750" y2="240"/>
+    <line x1="1010" y1="240" x2="1080" y2="240"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="340" y="420" width="720" height="150" rx="28" fill="#16243A" stroke="#2C4060"/>
+  </g>
+
+  <text x="700" y="470" text-anchor="middle" fill="#FFFFFF" font-size="28" font-family="Inter, Arial, sans-serif" font-weight="700">
+    Unified Operating Model
+  </text>
+  <text x="700" y="510" text-anchor="middle" fill="#C9D8EC" font-size="18" font-family="Inter, Arial, sans-serif">
+    explainable reasoning • resilient workflows • real-world deployment
+  </text>
+  <text x="700" y="545" text-anchor="middle" fill="#9FB0C8" font-size="16" font-family="Inter, Arial, sans-serif">
+    architecture determines how capability scales across the system
+  </text>
+
+  <g stroke="#8EA0BA" stroke-width="3">
+    <line x1="220" y1="300" x2="220" y2="380"/>
+    <line x1="550" y1="300" x2="550" y2="380"/>
+    <line x1="880" y1="300" x2="880" y2="380"/>
+    <line x1="1200" y1="300" x2="1200" y2="380"/>
+  </g>
+
+  <g stroke="#8EA0BA" stroke-width="3">
+    <line x1="220" y1="380" x2="700" y2="380"/>
+    <line x1="1200" y1="380" x2="700" y2="380"/>
+    <line x1="700" y1="380" x2="700" y2="420"/>
+  </g>
+
+  <rect x="430" y="640" width="540" height="44" rx="22" fill="#132238" stroke="#2C4060"/>
+  <text x="700" y="668" text-anchor="middle" fill="#D7E4F6" font-size="17" font-family="Inter, Arial, sans-serif" font-weight="600">
+    System architecture connects operation, reasoning, evidence, and research
+  </text>
+</svg>
