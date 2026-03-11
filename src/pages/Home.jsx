@@ -111,16 +111,17 @@ export default function Home() {
               }}
             >
               <div
-  style={{
-    fontSize: "11px",
-    textTransform: "uppercase",
-    letterSpacing: "0.12em",
-    opacity: 0.72,
-    marginBottom: "8px",
-  }}
->
-  Physical systems
-</div>
+                style={{
+                  fontSize: "11px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.12em",
+                  opacity: 0.72,
+                  marginBottom: "8px",
+                }}
+              >
+                Physical systems
+              </div>
+              Modular Lithography
             </div>
 
             <div style={{ opacity: 0.8, lineHeight: 1.6 }}>
