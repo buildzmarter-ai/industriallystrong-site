@@ -21,19 +21,19 @@ export default function Lithography() {
 
       <section className="story-section">
         <p>
-          Lithography has historically scaled through larger and more precise
-          optical systems. That path has produced extraordinary machines, but
-          also extremely large and complex architectures.
+          Lithography systems have historically scaled through increasingly sophisticated
+          optics and mechanical precision. That path has produced extraordinary machines,
+          but also extremely large and complex architectures.
         </p>
         <p>
-          Semiconductor manufacturing itself scales differently: through
-          replication, modularity, and parallelism.
+          Semiconductor manufacturing itself scales through a different principle:
+          replication and parallelism. Millions of devices are fabricated simultaneously
+          on a single wafer.
         </p>
         <p>
-          This raises an architectural question: what if exposure systems could
-          scale more like semiconductors do — by increasing the number of
-          programmable exposure modules rather than increasing the size and
-          complexity of a single optical machine?
+          This raises an architectural question: could exposure systems scale in a similar
+          way — by increasing the number of programmable exposure modules rather than
+          continuously increasing the size and precision of a single optical machine?
         </p>
       </section>
 
@@ -98,9 +98,7 @@ export default function Lithography() {
 
       <section className="story-section">
         <div className="story-eyebrow">Throughput architecture</div>
-
         <h2>Multiple Writers on a Shared Apparatus</h2>
-
         <p>
           The modular concept becomes more significant when independently aligned
           writers are distributed across a shared scanning apparatus. The result is
@@ -108,7 +106,6 @@ export default function Lithography() {
           multiple wafer regions — and potentially multiple wafers — can be serviced
           within one coordinated machine architecture.
         </p>
-
         <div className="lithography-diagram-frame">
           <img
             src={multiWaferModularScanningDiagram}
@@ -120,17 +117,14 @@ export default function Lithography() {
 
       <section className="story-section">
         <div className="story-eyebrow">Program architecture</div>
-
         <h2>Enabling Stack for a Modular Exposure Program</h2>
-
         <p>
-          A modular exposure architecture is not only a machine concept. It is a
-          research architecture composed of enabling layers: source generation, MEMS
-          steering and local control, vacuum and thermal packaging, and system-level
-          orchestration. This framing makes the concept easier to evaluate as a
-          program of work rather than only as a finished machine proposal.
+          Viewed as a research program, a modular exposure architecture decomposes into
+          several enabling layers: semiconductor source generation, MEMS steering and
+          local alignment, vacuum and thermal packaging, and system-level orchestration.
+          Breaking the concept into these layers clarifies both feasibility questions and
+          research directions.
         </p>
-
         <div className="lithography-diagram-frame">
           <img
             src={darpaModularSourceStackDiagram}
