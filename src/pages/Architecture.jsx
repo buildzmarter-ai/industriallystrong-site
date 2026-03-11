@@ -19,7 +19,10 @@ export default function Architecture() {
           </h3>
 
           <p style={{ margin: "0 0 20px", lineHeight: 1.7, opacity: 0.84 }}>
-            IndustriallyStrong explores how architecture determines the behavior of complex systems. Deployed applications, agent-driven reasoning, evidence handling, and research infrastructure are connected into a single operating model designed for real-world decision environments.
+            The architecture connects deployed applications, agent reasoning layers,
+            evidence handling, and experimental research infrastructure into a
+            unified system. Each layer performs a distinct role while remaining
+            tightly integrated into the operating model.
           </p>
 
           <div
@@ -195,11 +198,28 @@ export default function Architecture() {
           Architecture Thinking Beyond Software
         </h2>
 
+        <div
+          style={{
+            fontSize: "12px",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            opacity: 0.7,
+            marginBottom: "10px",
+          }}
+        >
+          Physical systems exploration
+        </div>
+
         <p style={{ maxWidth: "900px", fontSize: "18px", lineHeight: "1.7" }}>
-          Architectural reasoning applies not only to software systems but also
-          to physical systems. One current exploration considers whether
-          lithography systems could scale through modular exposure architectures
-          rather than only through increasingly large optical machines.
+          Architectural reasoning applies not only to software systems but also to
+          physical systems. One current exploration considers whether lithography
+          systems could scale through modular exposure architectures rather than
+          only through increasingly large optical machines.
+        </p>
+
+        <p style={{ maxWidth: "900px", fontSize: "18px", lineHeight: "1.7" }}>
+          The concept explores parallel exposure modules, distributed alignment,
+          and multi-wafer throughput as an alternative scaling path.
         </p>
 
         <div style={{ marginTop: "18px" }}>
