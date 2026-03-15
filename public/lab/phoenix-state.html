@@ -1,41 +1,350 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Phoenix Engine State</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; background: #f8fafc; color: #1e293b; }
-        .nav { background: #1a1a2e; padding: 8px 24px; display: flex; gap: 16px; align-items: center; }
-        .nav a { color: #aac; text-decoration: none; font-size: 14px; padding: 4px 12px; border-radius: 4px; }
-        .nav a:hover { background: #2a2a4e; }
-        .nav a.active { background: #2563eb; color: #fff; }
-        .content { max-width: 800px; margin: 40px auto; padding: 24px; }
-        pre { background: #1e293b; color: #e2e8f0; padding: 24px; border-radius: 12px; font-size: 14px; overflow-x: auto; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Phoenix Engine State</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b1120; color: #e2e8f0; }
+
+/* ── Nav ────────────────────────────────────────────────────────────── */
+.nav { background: #1a1a2e; padding: 8px 24px; display: flex; gap: 16px; align-items: center; }
+.nav a { color: #aac; text-decoration: none; font-size: 14px; padding: 4px 12px; border-radius: 4px; }
+.nav a:hover { background: #2a2a4e; }
+.nav a.active { background: #2563eb; color: #fff; }
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+.page { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+.page-title { font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 4px; }
+.page-sub { font-size: 14px; color: #64748b; margin-bottom: 28px; line-height: 1.5; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-full { grid-column: 1 / -1; }
+
+@media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+
+/* ── Cards ──────────────────────────────────────────────────────────── */
+.card {
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 22px;
+}
+.card-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #64748b; margin-bottom: 16px;
+}
+
+/* ── Status badge ───────────────────────────────────────────────────── */
+.status-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.status-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #22c55e; box-shadow: 0 0 8px #22c55e;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.45; } }
+.status-label { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; color: #22c55e; letter-spacing: 1px; }
+
+/* ── Gauges ──────────────────────────────────────────────────────────── */
+.gauge-list { display: flex; flex-direction: column; gap: 14px; }
+.gauge-row { display: flex; align-items: center; gap: 12px; }
+.gauge-name { width: 110px; font-size: 12px; color: #94a3b8; text-align: right; flex-shrink: 0; }
+.gauge-track { flex: 1; height: 22px; background: #1e293b; border-radius: 4px; overflow: hidden; position: relative; }
+.gauge-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+.gauge-val {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  font-family: 'SF Mono', monospace; font-size: 11px; color: #e2e8f0; font-weight: 600;
+}
+
+/* ── State Diagram ──────────────────────────────────────────────────── */
+.diagram-wrap { position: relative; width: 100%; padding-top: 36%; min-height: 240px; }
+.diagram-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.node-rect { rx: 8; ry: 8; stroke-width: 1.5; }
+.node-label { font-family: -apple-system, sans-serif; font-size: 11px; font-weight: 600; fill: #e2e8f0; text-anchor: middle; dominant-baseline: central; }
+.node-sub { font-family: 'SF Mono', monospace; font-size: 9px; fill: #64748b; text-anchor: middle; dominant-baseline: central; }
+
+.edge { fill: none; stroke-width: 1.5; }
+.edge-label { font-family: 'SF Mono', monospace; font-size: 8.5px; fill: #64748b; text-anchor: middle; }
+
+.arrow-head { stroke: none; }
+
+/* active state highlight */
+.node-active .node-rect { filter: drop-shadow(0 0 10px var(--glow)); }
+.flow-particle { r: 3; opacity: 0; }
+
+/* ── KPI row ────────────────────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.kpi { text-align: center; }
+.kpi-value { font-family: 'SF Mono', monospace; font-size: 26px; font-weight: 700; color: #f1f5f9; }
+.kpi-unit { font-size: 13px; color: #64748b; font-weight: 400; }
+.kpi-label { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+/* ── Log ────────────────────────────────────────────────────────────── */
+.log-list { max-height: 180px; overflow-y: auto; font-family: 'SF Mono', monospace; font-size: 12px; line-height: 1.9; }
+.log-list::-webkit-scrollbar { width: 4px; }
+.log-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.log-time { color: #475569; margin-right: 8px; }
+.log-ok { color: #22c55e; }
+.log-warn { color: #f59e0b; }
+.log-shift { color: #3b82f6; }
+</style>
 </head>
 <body>
-    <div class="nav">
-        <a href="index.html">Dashboard</a>
-        <a href="2d-process.html">2D Process Sim</a>
-        <a href="3d-pipeline.html">3D Pipeline</a>
-        <a href="fleet-economics.html">Fleet Economics</a>
-        <a href="multihead.html">Multi-Head Array</a>
-        <a href="psf-synthesis.html">PSF Synthesis</a>
-        <a href="phoenix-state.html" class="active">Phoenix Engine</a>
+
+<div class="nav">
+  <a href="index.html">Dashboard</a>
+  <a href="2d-process.html">2D Process Sim</a>
+  <a href="3d-pipeline.html">3D Pipeline</a>
+  <a href="fleet-economics.html">Fleet Economics</a>
+  <a href="multihead.html">Multi-Head Array</a>
+  <a href="psf-synthesis.html">PSF Synthesis</a>
+  <a href="phoenix-state.html" class="active">Phoenix Engine</a>
+</div>
+
+<div class="page">
+  <h1 class="page-title">Phoenix Engine State</h1>
+  <p class="page-sub">Adaptive dose correction via multi-hypothesis state estimation. The engine maintains competing causal hypotheses, updates weights from in-situ sensor data, and derives real-time correction factors for closed-loop metrology feedback.</p>
+
+  <div class="grid">
+
+    <!-- ── Status + KPIs ────────────────────────────────────────── -->
+    <div class="card">
+      <div class="card-title">System Status</div>
+      <div class="status-row">
+        <div class="status-dot" id="statusDot"></div>
+        <div class="status-label" id="statusLabel">Adaptive Gating Active</div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-value" id="kpiCorrection">1.05</div>
+          <div class="kpi-label">Correction Factor</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiTolerance">2.0<span class="kpi-unit">%</span></div>
+          <div class="kpi-label">Dose Tolerance</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiCycles">0</div>
+          <div class="kpi-label">Update Cycles</div>
+        </div>
+      </div>
     </div>
-    <div class="content">
-        <h1>Phoenix Engine State</h1>
-        <p>Adaptive dose correction system — multi-hypothesis state estimation for closed-loop metrology feedback.</p>
-        <pre>{
-  "active_hypotheses": {
-    "nominal": 0.8,
-    "thermal_drift": 0.1,
-    "source_aging": 0.1
-  },
-  "correction_factor": 1.05,
-  "dose_tolerance": "2.0%",
-  "status": "Adaptive Gating Active"
-}</pre>
+
+    <!-- ── Hypothesis Gauges ────────────────────────────────────── -->
+    <div class="card">
+      <div class="card-title">Active Hypotheses</div>
+      <div class="gauge-list" id="gauges"></div>
     </div>
+
+    <!-- ── State Diagram ────────────────────────────────────────── -->
+    <div class="card grid-full">
+      <div class="card-title">Adaptive Gating State Machine</div>
+      <div class="diagram-wrap">
+        <svg id="stateDiagram" viewBox="0 0 800 280" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <marker id="ah" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" class="arrow-head" fill="#475569"/>
+            </marker>
+            <marker id="ahG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" class="arrow-head" fill="#22c55e"/>
+            </marker>
+          </defs>
+
+          <!-- Edges (drawn first, behind nodes) -->
+          <path id="e01" class="edge" stroke="#334155" d="M 170,80 L 288,80" marker-end="url(#ah)"/>
+          <path id="e12" class="edge" stroke="#334155" d="M 510,80 L 628,80" marker-end="url(#ah)"/>
+          <path id="e23" class="edge" stroke="#334155" d="M 700,110 L 700,160" marker-end="url(#ah)"/>
+          <path id="e34" class="edge" stroke="#334155" d="M 628,200 L 510,200" marker-end="url(#ah)"/>
+          <path id="e40" class="edge" stroke="#334155" d="M 290,200 L 100,200 L 100,110" marker-end="url(#ah)"/>
+
+          <!-- Edge labels -->
+          <text class="edge-label" x="230" y="70">sensor data</text>
+          <text class="edge-label" x="570" y="70">score &gt; θ</text>
+          <text class="edge-label" x="740" y="140">derive Δ</text>
+          <text class="edge-label" x="570" y="192">apply dose</text>
+          <text class="edge-label" x="190" y="192">feedback</text>
+
+          <!-- Flow particles -->
+          <circle class="flow-particle" id="fp01" fill="#22c55e"><animateMotion dur="1.2s" repeatCount="indefinite" begin="0s"><mpath href="#e01"/></animateMotion></circle>
+          <circle class="flow-particle" id="fp12" fill="#3b82f6"><animateMotion dur="1.2s" repeatCount="indefinite" begin="0.3s"><mpath href="#e12"/></animateMotion></circle>
+          <circle class="flow-particle" id="fp23" fill="#f59e0b"><animateMotion dur="0.8s" repeatCount="indefinite" begin="0.6s"><mpath href="#e23"/></animateMotion></circle>
+          <circle class="flow-particle" id="fp34" fill="#f59e0b"><animateMotion dur="1.2s" repeatCount="indefinite" begin="0.9s"><mpath href="#e34"/></animateMotion></circle>
+          <circle class="flow-particle" id="fp40" fill="#64748b"><animateMotion dur="1.6s" repeatCount="indefinite" begin="1.2s"><mpath href="#e40"/></animateMotion></circle>
+
+          <!-- Node 0: Ingest -->
+          <g id="n0" class="node" style="--glow:#22c55e">
+            <rect class="node-rect" x="30" y="50" width="140" height="60" fill="#0f2818" stroke="#22c55e"/>
+            <text class="node-label" x="100" y="74">Sensor Ingest</text>
+            <text class="node-sub" x="100" y="94">photodiode stream</text>
+          </g>
+
+          <!-- Node 1: Hypothesis Scoring -->
+          <g id="n1" class="node" style="--glow:#3b82f6">
+            <rect class="node-rect" x="290" y="50" width="220" height="60" fill="#0c1a33" stroke="#3b82f6"/>
+            <text class="node-label" x="400" y="74">Hypothesis Scoring</text>
+            <text class="node-sub" x="400" y="94">MHT weight update</text>
+          </g>
+
+          <!-- Node 2: State Selection -->
+          <g id="n2" class="node" style="--glow:#8b5cf6">
+            <rect class="node-rect" x="630" y="50" width="140" height="60" fill="#1a0f2e" stroke="#8b5cf6"/>
+            <text class="node-label" x="700" y="74">State Select</text>
+            <text class="node-sub" x="700" y="94">max-likelihood</text>
+          </g>
+
+          <!-- Node 3: Correction Derive -->
+          <g id="n3" class="node" style="--glow:#f59e0b">
+            <rect class="node-rect" x="630" y="170" width="140" height="60" fill="#291a00" stroke="#f59e0b"/>
+            <text class="node-label" x="700" y="194">Correction</text>
+            <text class="node-sub" x="700" y="214">Δ dose factor</text>
+          </g>
+
+          <!-- Node 4: Actuate -->
+          <g id="n4" class="node" style="--glow:#ef4444">
+            <rect class="node-rect" x="290" y="170" width="220" height="60" fill="#2a0f0f" stroke="#ef4444"/>
+            <text class="node-label" x="400" y="194">Actuate</text>
+            <text class="node-sub" x="400" y="214">drive signal update</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── Event Log ────────────────────────────────────────────── -->
+    <div class="card grid-full">
+      <div class="card-title">Event Log</div>
+      <div class="log-list" id="logList"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ── Engine simulation ──────────────────────────────────────────────── */
+const STATE = {
+  hypotheses: { nominal: 0.80, thermal_drift: 0.10, source_aging: 0.10 },
+  correction: 1.05,
+  tolerance: 2.0,
+  cycles: 0,
+  activeNode: 0,
+};
+
+const COLORS = { nominal: '#22c55e', thermal_drift: '#f59e0b', source_aging: '#ef4444' };
+const NAMES  = { nominal: 'Nominal', thermal_drift: 'Thermal Drift', source_aging: 'Source Aging' };
+
+/* ── Render gauges ──────────────────────────────────────────────────── */
+function renderGauges() {
+  const wrap = document.getElementById('gauges');
+  wrap.innerHTML = '';
+  for (const [key, val] of Object.entries(STATE.hypotheses)) {
+    const pct = (val * 100).toFixed(1);
+    wrap.innerHTML += `
+      <div class="gauge-row">
+        <div class="gauge-name">${NAMES[key]}</div>
+        <div class="gauge-track">
+          <div class="gauge-fill" style="width:${pct}%;background:${COLORS[key]}"></div>
+          <div class="gauge-val">${pct}%</div>
+        </div>
+      </div>`;
+  }
+}
+
+/* ── Update KPIs ────────────────────────────────────────────────────── */
+function updateKPIs() {
+  document.getElementById('kpiCorrection').textContent = STATE.correction.toFixed(3);
+  document.getElementById('kpiTolerance').innerHTML = STATE.tolerance.toFixed(1) + '<span class="kpi-unit">%</span>';
+  document.getElementById('kpiCycles').textContent = STATE.cycles;
+}
+
+/* ── Highlight active node ──────────────────────────────────────────── */
+function highlightNode(idx) {
+  document.querySelectorAll('.node').forEach((n, i) => {
+    n.classList.toggle('node-active', i === idx);
+    n.querySelector('.node-rect').style.strokeWidth = i === idx ? '2.5' : '1.5';
+  });
+}
+
+/* ── Flow particles visibility ──────────────────────────────────────── */
+function showParticles() {
+  document.querySelectorAll('.flow-particle').forEach(p => { p.style.opacity = 0.9; });
+}
+
+/* ── Event log ──────────────────────────────────────────────────────── */
+const LOG_MSGS = [
+  { cls: 'log-ok',   msg: 'Sensor packet received — 4 photodiodes nominal' },
+  { cls: 'log-shift', msg: 'Hypothesis weights updated — MHT iteration complete' },
+  { cls: 'log-ok',   msg: 'State selected: nominal (p={p})' },
+  { cls: 'log-warn', msg: 'Correction factor adjusted → {c}' },
+  { cls: 'log-ok',   msg: 'Drive signal dispatched — dose within tolerance' },
+  { cls: 'log-warn', msg: 'Thermal drift probability rising: {td}%' },
+  { cls: 'log-shift', msg: 'Source aging weight shifted: {sa}%' },
+  { cls: 'log-ok',   msg: 'Gating check passed — all hypotheses within bounds' },
+];
+
+function addLog(template) {
+  const list = document.getElementById('logList');
+  const now = new Date().toLocaleTimeString('en-US', { hour12: false, hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  let msg = template.msg
+    .replace('{p}', (STATE.hypotheses.nominal * 100).toFixed(1) + '%')
+    .replace('{c}', STATE.correction.toFixed(3))
+    .replace('{td}', (STATE.hypotheses.thermal_drift * 100).toFixed(1))
+    .replace('{sa}', (STATE.hypotheses.source_aging * 100).toFixed(1));
+  const el = document.createElement('div');
+  el.innerHTML = `<span class="log-time">${now}</span><span class="${template.cls}">${msg}</span>`;
+  list.prepend(el);
+  // keep max 40 entries
+  while (list.children.length > 40) list.removeChild(list.lastChild);
+}
+
+/* ── Simulation step ────────────────────────────────────────────────── */
+function simStep() {
+  // Random perturbation to hypothesis weights
+  const drift = (Math.random() - 0.48) * 0.04;
+  const aging = (Math.random() - 0.48) * 0.02;
+
+  let td = Math.max(0.02, Math.min(0.45, STATE.hypotheses.thermal_drift + drift));
+  let sa = Math.max(0.02, Math.min(0.30, STATE.hypotheses.source_aging + aging));
+  let nom = Math.max(0.20, 1 - td - sa);
+
+  // Normalize
+  const total = nom + td + sa;
+  STATE.hypotheses.nominal = nom / total;
+  STATE.hypotheses.thermal_drift = td / total;
+  STATE.hypotheses.source_aging = sa / total;
+
+  // Correction factor follows dominant hypothesis
+  STATE.correction = 1.0 + (STATE.hypotheses.thermal_drift * 0.15) + (STATE.hypotheses.source_aging * 0.25);
+
+  // Tolerance widens slightly under uncertainty
+  STATE.tolerance = 2.0 + (1 - STATE.hypotheses.nominal) * 3.0;
+
+  STATE.cycles++;
+
+  // Cycle active node through the state machine
+  STATE.activeNode = (STATE.activeNode + 1) % 5;
+  highlightNode(STATE.activeNode);
+
+  // Log entry
+  const logIdx = STATE.cycles % LOG_MSGS.length;
+  addLog(LOG_MSGS[logIdx]);
+
+  renderGauges();
+  updateKPIs();
+}
+
+/* ── Init ───────────────────────────────────────────────────────────── */
+renderGauges();
+updateKPIs();
+highlightNode(0);
+showParticles();
+
+// Initial log entries
+addLog({ cls: 'log-ok', msg: 'Phoenix Engine initialized — Adaptive Gating Active' });
+addLog({ cls: 'log-shift', msg: 'Loaded hypothesis priors: nominal=80%, thermal=10%, aging=10%' });
+
+// Run simulation loop
+setInterval(simStep, 2200);
+</script>
 </body>
 </html>
