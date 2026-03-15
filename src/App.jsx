@@ -15,10 +15,16 @@ import Decks from "./pages/Decks";
 import Programs from "./pages/Programs";
 
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { trackStatcounterPageView } from "./utils/statcounter";
 import Lithography from "./pages/Lithography";
 import Lab from "./pages/Lab";
+
+// External redirect component for /z
+function ExternalRedirect({ to }) {
+  useEffect(() => { window.location.href = to; }, [to]);
+  return null;
+}
 
 export default function App() {
 
@@ -46,6 +52,7 @@ export default function App() {
         <Route path="/programs" element={<Programs />} />
         <Route path="/lithography" element={<Lithography />} />
         <Route path="/lab" element={<Lab />} />
+        <Route path="/z" element={<ExternalRedirect to="https://z.industriallystrong.com" />} />
       </Routes>
 
       <SiteFooter />
