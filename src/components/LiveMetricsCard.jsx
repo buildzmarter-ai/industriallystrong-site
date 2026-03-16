@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 export default function LiveMetricsCard() {
   const [metrics, setMetrics] = useState(null);
   const [error, setError] = useState("");
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -18,6 +19,7 @@ export default function LiveMetricsCard() {
         const data = await res.json();
         if (!cancelled) {
           setMetrics(data);
+          setLastUpdated(new Date());
         }
       } catch (err) {
         if (!cancelled) {
@@ -27,7 +29,8 @@ export default function LiveMetricsCard() {
     }
 
     load();
-    const timer = setInterval(load, 60000);
+    // Refresh every 2 minutes (matches the 120s cache on the API)
+    const timer = setInterval(load, 120000);
 
     return () => {
       cancelled = true;
@@ -49,9 +52,15 @@ export default function LiveMetricsCard() {
         Live Site Activity
       </h2>
 
-      <p style={{ opacity: 0.82, marginTop: 0, marginBottom: "20px" }}>
+      <p style={{ opacity: 0.82, marginTop: 0, marginBottom: "8px" }}>
         Real-time telemetry from the site analytics layer.
       </p>
+
+      {lastUpdated && (
+        <p style={{ opacity: 0.48, marginTop: 0, marginBottom: "20px", fontSize: "12px" }}>
+          Updated {lastUpdated.toLocaleTimeString()}
+        </p>
+      )}
 
       {error && <div style={{ opacity: 0.72 }}>{error}</div>}
 
