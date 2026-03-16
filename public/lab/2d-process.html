@@ -297,6 +297,7 @@ function simulate(params) {
 }
 
 function updatePlot(params) {
+ try {
   console.log('Computing simulation...', params);
 
   const result = simulate(params);
@@ -417,7 +418,10 @@ function updatePlot(params) {
     });
   });
 
-  Plotly.react(plotDivId, data, layout, { responsive: true });
+  Plotly.newPlot(plotDivId, data, layout, { responsive: true });
+ } catch (err) {
+  console.error('2D Process Sim error:', err);
+ }
 }
 
 // Button click handler

@@ -405,7 +405,7 @@ function computeCompositePSF(grid_x, grid_y, positions, weights, sigma_nm) {
 // FWHM Calculation
 // ============================================================================
 function calculateFWHM(grid_x, grid_y, psf) {
-    let max_val = Math.max(...psf);
+    let max_val = psf.reduce((a, b) => Math.max(a, b), -Infinity);
     const half_max = max_val / 2;
 
     // Find all points at half max
@@ -455,6 +455,7 @@ function calculateDoseContainment(grid_x, grid_y, psf, target_radius_nm) {
 // Main Recalculation Function
 // ============================================================================
 function recalculatePSF() {
+  try {
     // Get form values
     const sigma_nm = parseFloat(document.querySelector('input[name="sigma_nm"]').value);
     const target_type = document.querySelector('select[name="target_type"]').value;
@@ -532,7 +533,8 @@ function recalculatePSF() {
 
     // Card 5: Dose Containment
     cards[5].querySelector('.value').textContent = dose_containment.toFixed(1) + '%';
-    const dose_delta = (dose_containment - (100 * calculateDoseContainment(grid_x, grid_y, native_psf, target_radius_nm))).toFixed(1);
+    const native_dose = calculateDoseContainment(grid_x, grid_y, native_psf, target_radius_nm);
+    const dose_delta = (dose_containment - native_dose).toFixed(1);
     cards[5].querySelector('.delta').textContent = dose_delta > 0 ? '+' + dose_delta + '%' : dose_delta + '%';
 
     // Card 6: Active Sub-Exposures
@@ -545,15 +547,24 @@ function recalculatePSF() {
     // Update Callout Values
     // ========================================================================
     const callouts = document.querySelectorAll('.callout');
-    if (callouts[1]) {
-        callouts[1].innerHTML = '<b>Resist fragility:</b> For ' + resist_thickness_nm.toFixed(1) + ' nm resist, ' +
+    // callout[0] = Invention Core, [1] = Physics constraint (warning), [2] = Key finding (success), [3] = Resist fragility, [4] = Coherent regime
+    if (callouts[3]) {
+        callouts[3].innerHTML = '<b>Resist fragility:</b> For ' + resist_thickness_nm.toFixed(1) + ' nm resist, ' +
             'τ<sub>thermal</sub> = d²/(4α) = ' + thermal_tau.toFixed(2) + ' ns. ' +
             'Inter-sub-exposure intervals of 10–100 ns provide 50–99%+ thermal relaxation, ' +
             'preventing pattern collapse and dose-rate reciprocity failure in thin films.';
     }
 
     if (callouts[2]) {
-        callouts[2].innerHTML = '<b>Coherent regime:</b> With phase-controlled illumination (FEG e-beam or laser), ' +
+        callouts[2].innerHTML = '<b>Key finding:</b> Coupled (joint) optimization of spatial offsets and temporal intervals ' +
+            'achieves <b>' + fidelity_improvement.toFixed(1) + '% better fidelity</b> and ' +
+            '<b>0.0% lower resist damage</b> than sequential (independent) optimization. ' +
+            'The cross-coupling term L<sub>reciprocity</sub> penalizes spatial configurations that demand ' +
+            'temporally aggressive scheduling, creating synergistic benefit impossible with independent tuning.';
+    }
+
+    if (callouts[4]) {
+        callouts[4].innerHTML = '<b>Coherent regime:</b> With phase-controlled illumination (FEG e-beam or laser), ' +
             'destructive interference at the wings can sharpen the effective PSF below the native FWHM. ' +
             'Achieved <b>' + coherent_improvement + '% FWHM reduction</b> (' + native_fwhm.toFixed(1) + ' → ' + coherent_fwhm.toFixed(1) + ' nm) ' +
             'using anti-phase satellite beamlets. Requires Claim 7 phase modulation capability.';
@@ -624,7 +635,7 @@ function recalculatePSF() {
         width: 900
     };
 
-    Plotly.react('c2bbbf94-65d6-4108-a7c8-2d0ad321f93e', [trace_composite], layout1);
+    Plotly.newPlot('c2bbbf94-65d6-4108-a7c8-2d0ad321f93e', [trace_composite], layout1);
 
     // Chart 2: Cross-Section Profiles
     const cross_x = [];
@@ -665,7 +676,7 @@ function recalculatePSF() {
         width: 900
     };
 
-    Plotly.react('18d43248-4863-40c7-a8fc-cffd3a31eadc', [trace_cross_native, trace_cross_composite], layout2);
+    Plotly.newPlot('18d43248-4863-40c7-a8fc-cffd3a31eadc', [trace_cross_native, trace_cross_composite], layout2);
 
     // Chart 3: Coupled vs Sequential Comparison
     const trace_coupled = {
@@ -691,7 +702,7 @@ function recalculatePSF() {
         width: 1100
     };
 
-    Plotly.react('6c7516e7-0da3-4f79-be51-67234a49d2c8', [trace_coupled, trace_sequential], layout3);
+    Plotly.newPlot('6c7516e7-0da3-4f79-be51-67234a49d2c8', [trace_coupled, trace_sequential], layout3);
 
     // Chart 4: Sub-Exposure Dither Positions
     const dither_x = [];
@@ -749,7 +760,7 @@ function recalculatePSF() {
         width: 900
     };
 
-    Plotly.react('03460702-2976-4681-a758-7b15844500f2', [trace_dither, trace_circle], layout4);
+    Plotly.newPlot('03460702-2976-4681-a758-7b15844500f2', [trace_dither, trace_circle], layout4);
 
     // Chart 5: Thermal Relaxation Decay Curve
     const thermal_times = [];
@@ -779,7 +790,7 @@ function recalculatePSF() {
         width: 800
     };
 
-    Plotly.react('94a5c6c9-f800-4ee1-a289-db22a6a7ee00', [trace_thermal], layout5);
+    Plotly.newPlot('94a5c6c9-f800-4ee1-a289-db22a6a7ee00', [trace_thermal], layout5);
 
     // Chart 6: Coherent PSF Sharpening
     const coherent_x = [];
@@ -820,7 +831,7 @@ function recalculatePSF() {
         width: 900
     };
 
-    Plotly.react('9f89af64-1449-433f-b53a-95ecff089a38', [trace_coherent_native, trace_coherent_sharp], layout6);
+    Plotly.newPlot('9f89af64-1449-433f-b53a-95ecff089a38', [trace_coherent_native, trace_coherent_sharp], layout6);
 
     // ========================================================================
     // Update Sub-Exposure Parameters Table
@@ -854,6 +865,19 @@ function recalculatePSF() {
         `;
         tbody.appendChild(row);
     }
+
+  } catch (err) {
+    console.error('recalculatePSF error:', err);
+    // Show error visually so it's not silent
+    let errDiv = document.getElementById('psf-error');
+    if (!errDiv) {
+      errDiv = document.createElement('div');
+      errDiv.id = 'psf-error';
+      errDiv.style.cssText = 'background:#fee2e2;color:#991b1b;padding:12px 24px;border:1px solid #fca5a5;font-size:13px;font-family:monospace;';
+      document.querySelector('.controls').after(errDiv);
+    }
+    errDiv.textContent = 'Calculation error: ' + err.message;
+  }
 }
 
 // ============================================================================

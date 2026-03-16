@@ -439,7 +439,7 @@ function updateArrayChart(arch, nRows, nCols, overlapPct, tileSize, color) {
     margin: { l: 80, r: 40, t: 60, b: 80 }
   };
 
-  Plotly.react('c08dde66-59dc-4a14-99d3-2e2b072c6c8e', traces, layout, { responsive: true });
+  Plotly.newPlot('c08dde66-59dc-4a14-99d3-2e2b072c6c8e', traces, layout, { responsive: true });
 }
 
 function updateCalculatorTable(nRows, nCols, overlapPct, powerPerHead, doseMjCm2) {
@@ -506,7 +506,7 @@ function updateExposureChart(nRows, nCols, overlapPct, powerPerHead, doseMjCm2) 
     margin: { l: 80, r: 40, t: 60, b: 80 }
   };
 
-  Plotly.react('a55dd583-6d21-4397-8faf-afb7a69f5c8f', [trace], layout, { responsive: true });
+  Plotly.newPlot('a55dd583-6d21-4397-8faf-afb7a69f5c8f', [trace], layout, { responsive: true });
 }
 
 function updateDoseHeatmap(emittersPerSide, arch) {
@@ -571,7 +571,7 @@ function updateDoseHeatmap(emittersPerSide, arch) {
     }]
   };
 
-  Plotly.react('68ad273b-42f4-4a74-8708-0d40386f8242', [trace1, trace2], layout, { responsive: true });
+  Plotly.newPlot('68ad273b-42f4-4a74-8708-0d40386f8242', [trace1, trace2], layout, { responsive: true });
 }
 
 // Initial render
