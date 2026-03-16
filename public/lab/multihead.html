@@ -336,14 +336,14 @@ function recalculate() {
   });
 
   // Update callout
-  const callout = document.querySelector('.section:nth-of-type(2) .callout');
+  const callout = document.querySelector('.section:nth-of-type(3) .callout');
   callout.innerHTML = `<b>${specs.name}:</b> ${nRows}×${nCols} = ${totalHeads} writer heads,
             each covering a ${tileSize}×${tileSize} µm tile
             with ${overlapPct}% overlap stitch zones (yellow).
             Total tiled region: ${tiledRowUm.toFixed(0)}×${tiledColUm.toFixed(0)} µm.`;
 
   // Update per-tile calculator callout
-  const calcCallout = document.querySelector('.section:nth-of-type(4) .callout');
+  const calcCallout = document.querySelector('.section:nth-of-type(5) .callout');
   calcCallout.innerHTML = `<b>Source power:</b> ${sourcePowerMw.toFixed(1)} mW total, split across ${totalHeads} heads
             = ${powerPerHead.toFixed(3)} mW/head.
             <b>Resist dose:</b> ${doseMjCm2.toFixed(1)} mJ/cm².
