@@ -33,7 +33,7 @@
 <a href="fleet-economics.html">Fleet Economics</a>
 <a href="multihead.html">Multi-Head Array</a>
 </div>
-<form action="3d-pipeline.html" class="controls" method="get" onsubmit="return false;">
+<form action="3d-pipeline.html" class="controls" method="get">
 <div class="control-group">
 <label>Gas Type</label>
 <select name="gas_type">
@@ -76,5 +76,252 @@
 <div> <script>/* moved to external js */</script>
  <div class="plotly-graph-div" id="d4a81756-4eeb-4a7c-8630-3b8d4f70e18f" style="height:900px; width:1500px;"></div> <script>/* moved to external js */</script> </div>
 </div>
-<script src="3d-pipeline-charts.js"></script></body>
+<script src="3d-pipeline-charts.js"></script>
+<script>
+// Physics constants and data
+const gasProperties = {
+  'Ar': { Ip: 15.76, lambda0: 800 },
+  'Ne': { Ip: 21.56, lambda0: 800 },
+  'Xe': { Ip: 12.13, lambda0: 800 },
+  'Kr': { Ip: 14.00, lambda0: 800 }
+};
+
+const filterProperties = {
+  'Al': { absLength: 80 },  // absorption length in nm at 13.5nm
+  'Zr': { absLength: 120 }
+};
+
+const hhgConversion = {
+  'Ar': 1e-6,
+  'Ne': 1e-7,
+  'Xe': 1e-5,
+  'Kr': 5e-6
+};
+
+const mirrorReflectivity = 0.67;  // per bounce at 13.5nm
+
+// Form submission handler
+document.querySelector('form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  recalculatePipeline();
+});
+
+function recalculatePipeline() {
+  // Read form parameters
+  const params = {
+    gas_type: document.querySelector('[name="gas_type"]').value,
+    pressure_mbar: parseFloat(document.querySelector('[name="pressure_mbar"]').value),
+    intensity_w_cm2: parseFloat(document.querySelector('[name="intensity_w_cm2"]').value),
+    n_mirrors: parseInt(document.querySelector('[name="n_mirrors"]').value),
+    filter_material: document.querySelector('[name="filter_material"]').value,
+    filter_thickness_nm: parseFloat(document.querySelector('[name="filter_thickness_nm"]').value)
+  };
+
+  // Calculate ponderomotive energy (in eV)
+  // Up = e^2 * I / (4 * me * omega^2)
+  // For 800nm laser: omega = 2*pi*c / lambda
+  // Simplified: Up (eV) ≈ 3.2e-19 * I (W/cm^2)
+  const omega_rad_per_fs = 2 * Math.PI * 0.3 / 0.8;  // rad/fs, simplified
+  const Up = 3.2e-19 * params.intensity_w_cm2;  // eV, empirical formula
+
+  // Photon energy of drive laser
+  const hc = 1240;  // eV*nm
+  const E_photon = hc / 800;  // eV
+
+  // HHG cutoff
+  const Ip = gasProperties[params.gas_type].Ip;
+  const n_max = Math.floor((Ip + 3.17 * Up) / E_photon);
+
+  // EUV target: H59 at 13.56nm (59th harmonic)
+  const target_harmonic = 59;
+  const euv_lambda = 800 / target_harmonic;  // 13.56nm
+
+  // HHG conversion efficiency
+  const hhg_eff = hhgConversion[params.gas_type];
+
+  // Pipeline stages: track power at each stage
+  const driveLaserPower = params.intensity_w_cm2 * 1e-4;  // Convert to rough power units
+
+  const stages = [
+    { name: 'Drive Laser Input', power: driveLaserPower, color: '#ff6b6b' },
+    {
+      name: 'HHG Generation',
+      power: driveLaserPower * hhg_eff,
+      color: '#ff8787'
+    }
+  ];
+
+  // Mirror stages
+  let mirrorInputPower = stages[stages.length - 1].power;
+  for (let i = 0; i < params.n_mirrors; i++) {
+    stages.push({
+      name: `Mirror ${i + 1}`,
+      power: mirrorInputPower * mirrorReflectivity,
+      color: '#4ecdc4'
+    });
+    mirrorInputPower = stages[stages.length - 1].power;
+  }
+
+  // Filter transmission
+  const absLength = filterProperties[params.filter_material].absLength;
+  const filterT = Math.exp(-params.filter_thickness_nm / absLength);
+  const filterPower = stages[stages.length - 1].power * filterT;
+
+  stages.push({
+    name: `Filter (${params.filter_material})`,
+    power: filterPower,
+    color: '#95e1d3'
+  });
+
+  // Wafer output
+  stages.push({
+    name: 'At Wafer',
+    power: filterPower,
+    color: '#fee'
+  });
+
+  // Create 3D visualization of pipeline stages
+  create3DPipelineViz(stages, params);
+
+  // Log results
+  console.log('Pipeline Calculation Results:', {
+    params,
+    Up: Up.toFixed(4),
+    Ip: Ip.toFixed(2),
+    n_max,
+    target_harmonic,
+    euv_lambda: euv_lambda.toFixed(2),
+    hhg_eff,
+    filterT: filterT.toFixed(6),
+    stages
+  });
+}
+
+function create3DPipelineViz(stages, params) {
+  // Find power range for scaling
+  const powers = stages.map(s => s.power);
+  const maxPower = Math.max(...powers);
+  const minPower = Math.min(...powers);
+
+  // Create 3D bars representing pipeline stages
+  const x = [], y = [], z = [];
+  const colors = [];
+  const hoverText = [];
+
+  stages.forEach((stage, idx) => {
+    const normalized = maxPower > 0 ? Math.log10(stage.power / maxPower + 1e-10) : 0;
+    const height = Math.max(0.5, 5 + normalized * 8);  // Scale for visibility
+
+    x.push(idx);
+    y.push(height);
+    z.push(0);
+    colors.push(stage.color);
+
+    const powerStr = stage.power.toExponential(2);
+    hoverText.push(
+      `<b>${stage.name}</b><br>` +
+      `Power: ${powerStr}<br>` +
+      `Efficiency: ${(stage.power / maxPower * 100).toFixed(2)}%`
+    );
+  });
+
+  // Also calculate harmonic spectrum
+  const Ip = gasProperties[params.gas_type].Ip;
+  const hc = 1240;
+  const E_photon = hc / 800;
+  const Up = 3.2e-19 * params.intensity_w_cm2;
+  const n_max = Math.floor((Ip + 3.17 * Up) / E_photon);
+
+  // Create bars trace
+  const trace = {
+    x: Array.from({length: stages.length}, (_, i) => i),
+    y: y.map((h, i) => h),
+    z: z,
+    name: 'Pipeline Power',
+    type: 'bar3d',
+    marker: {
+      color: colors,
+      line: { color: 'rgba(0,0,0,0.5)', width: 1 }
+    },
+    text: hoverText,
+    hoverinfo: 'text'
+  };
+
+  // Waterfall view: show cumulative loss
+  const x_labels = stages.map(s => s.name);
+  const y_values = stages.map(s => Math.log10(Math.max(s.power, 1e-20)));
+
+  const trace_waterfall = {
+    x: x_labels,
+    y: y_values,
+    name: 'Power (log scale)',
+    type: 'bar',
+    marker: { color: colors }
+  };
+
+  const layout = {
+    title: {
+      text: `EUV Pipeline: ${params.gas_type} @ ${params.pressure_mbar}mbar, I=${params.intensity_w_cm2.toExponential(1)}W/cm²`,
+      font: { size: 14 }
+    },
+    xaxis: { title: 'Pipeline Stage' },
+    yaxis: { title: 'Log Power (a.u.)' },
+    width: 1500,
+    height: 500,
+    margin: { l: 60, r: 40, t: 80, b: 60 }
+  };
+
+  // Replace with waterfall-style 2D plot for clarity
+  Plotly.newPlot('d4a81756-4eeb-4a7c-8630-3b8d4f70e18f', [trace_waterfall], layout, { responsive: true });
+
+  // Add summary stats below the plot
+  updateSummaryStats(stages, params, Ip, Up, n_max);
+}
+
+function updateSummaryStats(stages, params, Ip, Up, n_max) {
+  // Get or create stats div
+  let statsDiv = document.getElementById('pipeline-stats');
+  if (!statsDiv) {
+    statsDiv = document.createElement('div');
+    statsDiv.id = 'pipeline-stats';
+    statsDiv.style.cssText = 'background: #f5f5f5; padding: 16px 24px; border-top: 1px solid #e0e0e0; font-size: 13px; font-family: monospace; color: #333;';
+    document.querySelector('.plot-container').appendChild(statsDiv);
+  }
+
+  const absLength = filterProperties[params.filter_material].absLength;
+  const filterT = Math.exp(-params.filter_thickness_nm / absLength);
+  const hc = 1240;
+  const E_photon = hc / 800;
+  const target_harmonic = 59;
+  const euv_lambda = 800 / target_harmonic;
+
+  let html = '<b>Physics Summary</b><br>';
+  html += `Gas: ${params.gas_type} | Ionization Potential (Ip): ${Ip.toFixed(2)} eV<br>`;
+  html += `Ponderomotive Energy (Up): ${Up.toFixed(4)} eV<br>`;
+  html += `Drive Laser Photon: ${E_photon.toFixed(3)} eV (800nm)<br>`;
+  html += `HHG Cutoff: n_max ≈ ${n_max} | Target: H${target_harmonic} @ ${euv_lambda.toFixed(2)}nm<br>`;
+  html += `HHG Efficiency: ${(hhgConversion[params.gas_type] * 100).toExponential(2)}%<br>`;
+  html += `Mirror Reflectivity (×${params.n_mirrors}): ${(Math.pow(mirrorReflectivity, params.n_mirrors) * 100).toFixed(2)}%<br>`;
+  html += `Filter (${params.filter_material}, ${params.filter_thickness_nm}nm): ${(filterT * 100).toFixed(4)}%<br>`;
+  html += `<b>Total Pipeline Efficiency: ${(stages[stages.length - 1].power / stages[0].power * 100).toExponential(2)}%</b><br>`;
+
+  statsDiv.innerHTML = html;
+}
+
+// Initial render on page load
+document.addEventListener('DOMContentLoaded', function() {
+  // Try to load from URL params if present
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('gas_type')) {
+    document.querySelector('[name="gas_type"]').value = params.get('gas_type');
+    document.querySelector('[name="pressure_mbar"]').value = params.get('pressure_mbar') || 30.0;
+    document.querySelector('[name="intensity_w_cm2"]').value = params.get('intensity_w_cm2') || 1e14;
+    document.querySelector('[name="n_mirrors"]').value = params.get('n_mirrors') || 2;
+    document.querySelector('[name="filter_material"]').value = params.get('filter_material') || 'Al';
+    document.querySelector('[name="filter_thickness_nm"]').value = params.get('filter_thickness_nm') || 200.0;
+    recalculatePipeline();
+  }
+});
+</script>
+</body>
 </html>

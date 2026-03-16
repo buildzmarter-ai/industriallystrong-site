@@ -33,7 +33,7 @@
 <a href="fleet-economics.html">Fleet Economics</a>
 <a href="multihead.html">Multi-Head Array</a>
 </div>
-<form action="2d-process.html" class="controls" method="get" onsubmit="return false;">
+<form action="2d-process.html" class="controls" method="get">
 <div class="control-group">
 <label>Dose (mJ/cm²)</label>
 <input max="500" min="1" name="dose" step="any" type="number" value="20.0"/>
@@ -68,5 +68,392 @@
 <div> <script>/* moved to external js */</script>
  <div class="plotly-graph-div" id="2a535eb6-950b-4a51-a230-ef07463f6fd4" style="height:1000px; width:1200px;"></div> <script>/* moved to external js */</script> </div>
 </div>
-<script src="2d-process-charts.js"></script></body>
+<script src="2d-process-charts.js"></script>
+
+<script>
+// EUV Lithography 2D Process Simulation with Interactive Recalculation
+// Supports Aerial Image → Acid Generation → PEB Diffusion → Development
+
+const plotDivId = '2a535eb6-950b-4a51-a230-ef07463f6fd4';
+
+// Physics constants
+const NA = 0.33;  // Numerical aperture for EUV
+const WAVELENGTH_EUV = 13.5;  // nm
+const FWHM_TO_SIGMA = 1 / (2 * Math.sqrt(2 * Math.log(2)));
+const ALPHA = 0.01;  // Absorption coefficient (1/nm)
+const DEVELOP_TIME = 30.0;  // seconds
+
+// 1D Gaussian convolution (for rapid prototyping)
+function convolve1DGaussian(data, sigma, dx) {
+  if (sigma < dx) return data.slice();
+
+  const kernel_radius = Math.ceil(3 * sigma / dx);
+  const kernel = new Float64Array(2 * kernel_radius + 1);
+  const norm_factor = 1 / (sigma * Math.sqrt(2 * Math.PI));
+
+  for (let i = -kernel_radius; i <= kernel_radius; i++) {
+    kernel[i + kernel_radius] = norm_factor * Math.exp(-((i * dx) ** 2) / (2 * sigma ** 2));
+  }
+
+  // Normalize kernel
+  let sum = 0;
+  for (let k of kernel) sum += k;
+  for (let i = 0; i < kernel.length; i++) kernel[i] /= sum;
+
+  const result = new Float64Array(data.length);
+
+  for (let i = 0; i < data.length; i++) {
+    let val = 0;
+    for (let j = 0; j < kernel.length; j++) {
+      const idx = i + j - kernel_radius;
+      if (idx >= 0 && idx < data.length) {
+        val += data[idx] * kernel[j];
+      }
+    }
+    result[i] = val;
+  }
+
+  return result;
+}
+
+// 2D Gaussian convolution (for acid diffusion in PEB)
+function convolve2DGaussian(data2D, sigma, dx) {
+  const nx = data2D.length;
+  const nz = data2D[0].length;
+
+  if (sigma < dx) {
+    return data2D.map(row => new Float64Array(row));
+  }
+
+  const kernel_radius = Math.ceil(3 * sigma / dx);
+  const kernel = new Float64Array(2 * kernel_radius + 1);
+  const norm_factor = 1 / (sigma * Math.sqrt(2 * Math.PI));
+
+  for (let i = -kernel_radius; i <= kernel_radius; i++) {
+    kernel[i + kernel_radius] = norm_factor * Math.exp(-((i * dx) ** 2) / (2 * sigma ** 2));
+  }
+
+  let sum = 0;
+  for (let k of kernel) sum += k;
+  for (let i = 0; i < kernel.length; i++) kernel[i] /= sum;
+
+  const result = data2D.map(() => new Float64Array(nz));
+
+  // Convolve along x direction
+  for (let z = 0; z < nz; z++) {
+    for (let x = 0; x < nx; x++) {
+      let val = 0;
+      for (let j = 0; j < kernel.length; j++) {
+        const idx = x + j - kernel_radius;
+        if (idx >= 0 && idx < nx) {
+          val += data2D[idx][z] * kernel[j];
+        }
+      }
+      result[x][z] = val;
+    }
+  }
+
+  return result;
+}
+
+function simulate(params) {
+  // Grid setup
+  const pitch = 2 * params.line_width;
+  const x_min = -2 * pitch;
+  const x_max = 2 * pitch;
+  const z_max = 100;  // nm depth
+
+  const nx = 200;
+  const nz = 100;
+  const dx = (x_max - x_min) / (nx - 1);
+  const dz = z_max / (nz - 1);
+
+  const x_coords = new Float64Array(nx);
+  const z_coords = new Float64Array(nz);
+
+  for (let i = 0; i < nx; i++) {
+    x_coords[i] = x_min + i * dx;
+  }
+  for (let i = 0; i < nz; i++) {
+    z_coords[i] = i * dz;
+  }
+
+  // ===== STEP 1: Aerial Image I(x) =====
+  // I(x) = dose × (1 + cos(2π·x/pitch)) / 2, then blur with PSF
+  const fwhm = 25;  // ~0.61/NA for EUV
+  const sigma_psf = fwhm * FWHM_TO_SIGMA;
+
+  const aerial_1d = new Float64Array(nx);
+  for (let i = 0; i < nx; i++) {
+    const intensity = (1 + Math.cos(2 * Math.PI * x_coords[i] / pitch)) / 2;
+    aerial_1d[i] = params.dose * intensity;
+  }
+
+  const aerial_blurred = convolve1DGaussian(aerial_1d, sigma_psf, dx);
+
+  // Extend to 2D (constant in z for aerial image, but we'll show it)
+  const aerial_2d = new Array(nx);
+  for (let i = 0; i < nx; i++) {
+    aerial_2d[i] = new Float64Array(nz);
+    for (let j = 0; j < nz; j++) {
+      aerial_2d[i][j] = aerial_blurred[i];
+    }
+  }
+
+  // ===== STEP 2: Acid Generation acid(x,z) =====
+  // acid(x,z) = k_amp × I(x) × (1 - exp(-α·z))
+  const acid_init = new Array(nx);
+  for (let i = 0; i < nx; i++) {
+    acid_init[i] = new Float64Array(nz);
+    for (let j = 0; j < nz; j++) {
+      const z = z_coords[j];
+      acid_init[i][j] = params.k_amp * aerial_blurred[i] * (1 - Math.exp(-ALPHA * z));
+    }
+  }
+
+  // ===== STEP 3: PEB Diffusion =====
+  const diffusion_length = Math.sqrt(2 * params.diffusion_coef * params.peb_time);
+  const acid_peb = convolve2DGaussian(acid_init, diffusion_length, dx);
+
+  // Normalize acid to [0, 1] for subsequent use
+  let acid_max = 0;
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < nz; j++) {
+      acid_max = Math.max(acid_max, acid_peb[i][j]);
+    }
+  }
+
+  if (acid_max === 0) acid_max = 1;  // avoid division by zero
+
+  const acid_norm = new Array(nx);
+  for (let i = 0; i < nx; i++) {
+    acid_norm[i] = new Float64Array(nz);
+    for (let j = 0; j < nz; j++) {
+      acid_norm[i][j] = acid_peb[i][j] / acid_max;
+    }
+  }
+
+  // ===== STEP 4: Development Rate (Mack model) =====
+  // R(m) = r_max × m^n / (m^n + (1-m)^n × threshold^n)
+  // where m = normalized acid, threshold ≈ 0.5
+  const threshold = 0.5;
+  const rate_2d = new Array(nx);
+
+  for (let i = 0; i < nx; i++) {
+    rate_2d[i] = new Float64Array(nz);
+    for (let j = 0; j < nz; j++) {
+      const m = acid_norm[i][j];
+      const m_n = Math.pow(m, params.n_mack);
+      const one_m_n = Math.pow(1 - m, params.n_mack);
+      const threshold_n = Math.pow(threshold, params.n_mack);
+      const denom = m_n + one_m_n * threshold_n;
+      const rate = params.r_max * m_n / (denom > 1e-10 ? denom : 1e-10);
+      rate_2d[i][j] = rate;
+    }
+  }
+
+  // ===== STEP 5: Developed Profile =====
+  // depth(x,z) = rate(x,z) × develop_time
+  const developed_2d = new Array(nx);
+  for (let i = 0; i < nx; i++) {
+    developed_2d[i] = new Float64Array(nz);
+    for (let j = 0; j < nz; j++) {
+      developed_2d[i][j] = rate_2d[i][j] * DEVELOP_TIME;
+    }
+  }
+
+  // ===== STEP 6: Profile cross-section and CD measurement =====
+  // Extract center line (at x ≈ 0, corresponding to line center)
+  const center_idx = Math.floor(nx / 2);
+  const profile_z0 = new Float64Array(nx);
+
+  for (let i = 0; i < nx; i++) {
+    profile_z0[i] = developed_2d[i][0];  // at z=0
+  }
+
+  // CD measurement: find width at z=0 where resist height > 50% of max
+  const max_depth = Math.max(...profile_z0);
+  const threshold_depth = max_depth * 0.5;
+
+  let cd_left = null, cd_right = null;
+  for (let i = 0; i < center_idx; i++) {
+    if (profile_z0[center_idx - i] > threshold_depth) {
+      cd_left = x_coords[center_idx - i];
+    }
+  }
+  for (let i = 0; i < nx - center_idx; i++) {
+    if (profile_z0[center_idx + i] > threshold_depth) {
+      cd_right = x_coords[center_idx + i];
+    }
+  }
+
+  const measured_cd = (cd_right && cd_left) ? cd_right - cd_left : params.line_width;
+
+  return {
+    x_coords, z_coords,
+    aerial_2d, acid_peb, rate_2d, developed_2d,
+    profile_z0, measured_cd, pitch
+  };
+}
+
+function updatePlot(params) {
+  console.log('Computing simulation...', params);
+
+  const result = simulate(params);
+
+  // Prepare Plotly data
+  const trace_aerial = {
+    z: result.aerial_2d.map(row => Array.from(row)),
+    x: Array.from(result.x_coords),
+    y: Array.from(result.z_coords),
+    type: 'heatmap',
+    colorscale: 'Viridis',
+    name: 'Aerial Image'
+  };
+
+  const trace_acid = {
+    z: result.acid_peb.map(row => Array.from(row)),
+    x: Array.from(result.x_coords),
+    y: Array.from(result.z_coords),
+    type: 'heatmap',
+    colorscale: 'Plasma',
+    name: 'Acid after PEB'
+  };
+
+  const trace_rate = {
+    z: result.rate_2d.map(row => Array.from(row)),
+    x: Array.from(result.x_coords),
+    y: Array.from(result.z_coords),
+    type: 'heatmap',
+    colorscale: 'RdYlBu_r',
+    name: 'Dev Rate'
+  };
+
+  const trace_developed = {
+    z: result.developed_2d.map(row => Array.from(row)),
+    x: Array.from(result.x_coords),
+    y: Array.from(result.z_coords),
+    type: 'heatmap',
+    colorscale: 'Greys',
+    name: 'Developed'
+  };
+
+  const trace_profile = {
+    x: Array.from(result.x_coords),
+    y: Array.from(result.profile_z0),
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Profile @ z=0',
+    line: { color: '#2563eb', width: 2 }
+  };
+
+  const layout = {
+    title: `2D Process Simulation | CD = ${result.measured_cd.toFixed(1)} nm (target ${params.line_width} nm)`,
+    grid: { rows: 2, columns: 3, pattern: 'independent' },
+    height: 1000,
+    showlegend: false,
+    margin: { l: 50, r: 50, t: 60, b: 50 }
+  };
+
+  const specs = [
+    { type: 'heatmap' },
+    { type: 'heatmap' },
+    { type: 'heatmap' },
+    { type: 'heatmap' },
+    { type: 'xy' },
+    { type: 'xy' }
+  ];
+
+  const data = [trace_aerial, trace_acid, trace_rate, trace_developed, trace_profile];
+
+  // CD vs depth plot
+  const cd_trace = {
+    x: Array.from(result.z_coords),
+    y: Array.from(result.x_coords).map((_, i) => {
+      let left = null, right = null;
+      const center_idx = Math.floor(result.x_coords.length / 2);
+      const threshold = Math.max(...Array.from(result.developed_2d[center_idx])) * 0.5;
+
+      for (let j = 0; j < center_idx; j++) {
+        if (result.developed_2d[center_idx - j][i] > threshold) {
+          left = result.x_coords[center_idx - j];
+        }
+      }
+      for (let j = 0; j < result.x_coords.length - center_idx; j++) {
+        if (result.developed_2d[center_idx + j][i] > threshold) {
+          right = result.x_coords[center_idx + j];
+        }
+      }
+
+      return (right && left) ? right - left : params.line_width;
+    }),
+    type: 'scatter',
+    mode: 'lines+markers',
+    name: 'CD vs depth',
+    line: { color: '#dc2626', width: 2 },
+    marker: { size: 4 }
+  };
+
+  data.push(cd_trace);
+
+  const subplot_titles = [
+    'Aerial Image I(x,z)',
+    'Acid after PEB',
+    'Development Rate R(x,z)',
+    'Developed Profile',
+    'Cross-section @ z=0',
+    'CD vs Depth'
+  ];
+
+  layout.annotations = [];
+  subplot_titles.forEach((title, idx) => {
+    layout.annotations.push({
+      text: title,
+      x: 0.16 + (idx % 3) * 0.33,
+      y: 1.05 - Math.floor(idx / 3) * 0.55,
+      xref: 'paper', yref: 'paper',
+      showarrow: false,
+      font: { size: 12, color: '#333' }
+    });
+  });
+
+  Plotly.react(plotDivId, data, layout, { responsive: true });
+}
+
+// Form submission handler
+document.querySelector('form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const params = {
+    dose: parseFloat(formData.get('dose')),
+    line_width: parseFloat(formData.get('line_width')),
+    peb_time: parseFloat(formData.get('peb_time')),
+    diffusion_coef: parseFloat(formData.get('diffusion_coef')),
+    k_amp: parseFloat(formData.get('k_amp')),
+    r_max: parseFloat(formData.get('r_max')),
+    n_mack: parseFloat(formData.get('n_mack'))
+  };
+
+  updatePlot(params);
+});
+
+// Initial render on page load
+window.addEventListener('load', function() {
+  const formData = new FormData(document.querySelector('form'));
+  const params = {
+    dose: parseFloat(formData.get('dose')),
+    line_width: parseFloat(formData.get('line_width')),
+    peb_time: parseFloat(formData.get('peb_time')),
+    diffusion_coef: parseFloat(formData.get('diffusion_coef')),
+    k_amp: parseFloat(formData.get('k_amp')),
+    r_max: parseFloat(formData.get('r_max')),
+    n_mack: parseFloat(formData.get('n_mack'))
+  };
+
+  updatePlot(params);
+});
+</script>
+
+</body>
 </html>

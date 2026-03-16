@@ -98,7 +98,7 @@
 <div class="sub">@ 10.0 mW, 15.0 mJ/cm² dose</div>
 </div>
 </div>
-<form action="fleet-economics.html" class="controls" method="get" onsubmit="return false;">
+<form action="fleet-economics.html" class="controls" method="get">
 <div class="control-group">
 <label>Resist Dose (mJ/cm²)</label>
 <input max="100" min="1" name="dose_mj_cm2" step="any" type="number" value="15.0"/>
@@ -241,5 +241,235 @@
 </div>
 </div></div>
 </div>
-<script src="fleet-economics-charts.js"></script></body>
+<script src="fleet-economics-charts.js"></script>
+<script>
+(function() {
+  // Constants
+  const WAFER_AREA_CM2 = Math.PI * 15 * 15; // 706.858 cm²
+  const ASML_CAPEX = 380; // $M
+  const ASML_POWER = 1500; // kW
+  const ASML_WPH = 220; // wafers per hour
+  const FIELD_AREA_CM2 = 8.58; // 26×33mm field
+  const OVERHEAD_FACTOR = 0.704; // stepping, alignment
+  const POWER_LEVELS_MW = [0.1, 1.0, 5.0, 10.0, 50.0]; // mW
+
+  // Button animation state
+  let isRecalculating = false;
+
+  // Get form and button
+  const form = document.querySelector('form[action="fleet-economics.html"]');
+  const button = form.querySelector('button[type="submit"]');
+
+  // Add submit listener
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (isRecalculating) return;
+
+    recalculate();
+  });
+
+  function recalculate() {
+    // Get input values
+    const dose_mj_cm2 = parseFloat(document.querySelector('input[name="dose_mj_cm2"]').value);
+    const unit_cost_m = parseFloat(document.querySelector('input[name="unit_cost_m"]').value);
+    const unit_power_kw = parseFloat(document.querySelector('input[name="unit_power_kw"]').value);
+
+    // Validate inputs
+    if (isNaN(dose_mj_cm2) || isNaN(unit_cost_m) || isNaN(unit_power_kw)) {
+      alert('Please enter valid numbers for all fields');
+      return;
+    }
+
+    // Animation
+    isRecalculating = true;
+    const originalText = button.textContent;
+    button.textContent = 'Recalculating...';
+    button.disabled = true;
+
+    // Run calculations
+    const results = calculateAllPowerLevels(dose_mj_cm2, unit_cost_m, unit_power_kw);
+
+    // Update UI
+    updateHeroStats(results[3]); // 10 mW is index 3
+    updateChart(results, dose_mj_cm2);
+    updateTable(results);
+    updateSegmentCards(results);
+
+    // Reset button
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.disabled = false;
+      isRecalculating = false;
+    }, 300);
+  }
+
+  function calculateAllPowerLevels(dose_mj_cm2, unit_cost_m, unit_power_kw) {
+    const results = [];
+
+    for (let power_mw of POWER_LEVELS_MW) {
+      const power_kw = power_mw / 1000; // Convert to kW
+
+      // Wafers per hour per unit
+      const wph = (power_kw * 3600) / (dose_mj_cm2 * WAFER_AREA_CM2 * 1e-3) * OVERHEAD_FACTOR;
+
+      // Fleet size to match ASML 220 wph
+      const fleet_size = Math.ceil(ASML_WPH / wph);
+
+      // Fleet economics
+      const fleet_capex = fleet_size * unit_cost_m;
+      const fleet_power = fleet_size * unit_power_kw;
+
+      // Time per field
+      const time_per_field = (dose_mj_cm2 * FIELD_AREA_CM2) / power_mw;
+
+      // vs ASML comparisons
+      const vs_asml_capex = ((ASML_CAPEX - fleet_capex) / ASML_CAPEX) * 100;
+      const vs_asml_power = ((ASML_POWER - fleet_power) / ASML_POWER) * 100;
+
+      // Single unit failure impact
+      const failure_impact = fleet_size > 0 ? (1 / fleet_size) * 100 : 0;
+
+      results.push({
+        power_mw: power_mw,
+        wph: wph,
+        fleet_size: fleet_size,
+        fleet_capex: fleet_capex,
+        fleet_power: fleet_power,
+        time_per_field: time_per_field,
+        vs_asml_capex: vs_asml_capex,
+        vs_asml_power: vs_asml_power,
+        failure_impact: failure_impact
+      });
+    }
+
+    return results;
+  }
+
+  function updateHeroStats(result_10mw) {
+    const stats = document.querySelectorAll('.hero-stat');
+
+    // Stat 0: CAPEX vs ASML
+    stats[0].querySelector('.value').textContent =
+      (result_10mw.vs_asml_capex >= 0 ? '+' : '') + result_10mw.vs_asml_capex.toFixed(0) + '%';
+    stats[0].querySelector('.sub').textContent =
+      '$' + result_10mw.fleet_capex.toFixed(0) + 'M fleet vs $' + ASML_CAPEX + 'M monolith';
+
+    // Stat 1: Power Reduction
+    stats[1].querySelector('.value').textContent =
+      (result_10mw.vs_asml_power >= 0 ? '+' : '') + result_10mw.vs_asml_power.toFixed(1) + '%';
+    stats[1].querySelector('.sub').textContent =
+      result_10mw.fleet_power.toFixed(0) + ' kW vs ' + ASML_POWER + ' kW';
+
+    // Stat 2: Single-Unit Failure
+    stats[2].querySelector('.value').textContent =
+      result_10mw.failure_impact.toFixed(1) + '%';
+    stats[2].querySelector('.sub').textContent =
+      result_10mw.fleet_size + ' units → lose 1 = ' + result_10mw.failure_impact.toFixed(1) + '% capacity';
+
+    // Stat 3: Wafers/Hr per Unit
+    stats[3].querySelector('.value').textContent =
+      result_10mw.wph.toFixed(1);
+    stats[3].querySelector('.sub').textContent =
+      '@ 10.0 mW, ' + document.querySelector('input[name="dose_mj_cm2"]').value + ' mJ/cm² dose';
+  }
+
+  function updateChart(results, dose_mj_cm2) {
+    // Extract y-values for each subplot
+    const wph_y = results.map(r => r.wph);
+    const fleet_size_y = results.map(r => r.fleet_size);
+    const capex_y = results.map(r => r.fleet_capex);
+    const power_y = results.map(r => r.fleet_power);
+
+    // Format text labels
+    const wph_text = results.map(r => r.wph.toFixed(1));
+    const fleet_text = results.map(r => r.fleet_size.toString());
+    const capex_text = results.map(r => '$' + r.fleet_capex.toFixed(0) + 'M');
+    const power_text = results.map(r => r.fleet_power.toFixed(0) + ' kW');
+
+    // Update chart traces
+    const updates = {
+      y: [wph_y, fleet_size_y, capex_y, power_y],
+      text: [wph_text, fleet_text, capex_text, power_text]
+    };
+
+    // Update all 4 traces in the chart
+    Plotly.restyle('20deba22-dcc1-491e-892a-d8cf57fdc6d2', updates, [0, 1, 2, 3]);
+  }
+
+  function updateTable(results) {
+    const tbody = document.querySelector('.data-table tbody');
+    const rows = tbody.querySelectorAll('tr');
+
+    results.forEach((result, idx) => {
+      if (rows[idx]) {
+        const cells = rows[idx].querySelectorAll('td');
+
+        // First cell keeps bold formatting
+        cells[0].innerHTML = '<b>' + result.power_mw.toFixed(1) + ' mW</b>';
+        cells[1].textContent = result.wph.toFixed(2);
+        cells[2].textContent = result.time_per_field.toFixed(1) + 's';
+        cells[3].textContent = result.fleet_size.toString();
+        cells[4].textContent = '$' + result.fleet_capex.toFixed(0) + 'M';
+
+        // Update vs ASML CAPEX with color
+        cells[5].textContent =
+          (result.vs_asml_capex >= 0 ? '+' : '') + result.vs_asml_capex.toFixed(0) + '%';
+        cells[5].className = result.vs_asml_capex >= 0 ? 'positive' : 'negative';
+
+        cells[6].textContent = result.fleet_power.toFixed(0) + ' kW';
+
+        // Update vs ASML Power with color
+        cells[7].textContent =
+          (result.vs_asml_power >= 0 ? '+' : '') + result.vs_asml_power.toFixed(1) + '%';
+        cells[7].className = result.vs_asml_power >= 0 ? 'positive' : 'negative';
+
+        cells[8].textContent = result.failure_impact.toFixed(1) + '%';
+      }
+    });
+  }
+
+  function updateSegmentCards(results) {
+    const cards = document.querySelectorAll('.segment-card');
+
+    // Get the 10 mW result (index 3)
+    const result_10mw = results[3];
+
+    // R&D / Prototyping: 2 units
+    const rd_cost_low = 2 * parseFloat(document.querySelector('input[name="unit_cost_m"]').value);
+    const rd_cost_high = rd_cost_low * 1.5;
+    const rd_power_low = 2 * parseFloat(document.querySelector('input[name="unit_power_kw"]').value);
+    const rd_power_high = rd_power_low * 1.5;
+    updateSegmentCard(cards[0], 2, rd_cost_low, rd_cost_high, rd_power_low, rd_power_high);
+
+    // Specialty / Defense: 10 units
+    const specialty_cost_low = 10 * parseFloat(document.querySelector('input[name="unit_cost_m"]').value);
+    const specialty_cost_high = specialty_cost_low * 1.5;
+    const specialty_power_low = 10 * parseFloat(document.querySelector('input[name="unit_power_kw"]').value);
+    const specialty_power_high = specialty_power_low * 1.5;
+    updateSegmentCard(cards[1], 10, specialty_cost_low, specialty_cost_high, specialty_power_low, specialty_power_high);
+
+    // Mid-Volume: 50 units
+    const mid_cost_low = 50 * parseFloat(document.querySelector('input[name="unit_cost_m"]').value);
+    const mid_cost_high = mid_cost_low * 1.5;
+    const mid_power_low = 50 * parseFloat(document.querySelector('input[name="unit_power_kw"]').value);
+    const mid_power_high = mid_power_low * 1.5;
+    updateSegmentCard(cards[2], 50, mid_cost_low, mid_cost_high, mid_power_low, mid_power_high);
+
+    // HVM Parity: from 10 mW result
+    updateSegmentCard(cards[3],
+      result_10mw.fleet_size,
+      result_10mw.fleet_capex,
+      result_10mw.fleet_capex,
+      result_10mw.fleet_power,
+      result_10mw.fleet_power);
+  }
+
+  function updateSegmentCard(card, units, cost_low, cost_high, power_low, power_high) {
+    const spans = card.querySelectorAll('.segment-stats span');
+    spans[0].textContent = units + ' units';
+    spans[1].textContent = '$' + cost_low.toFixed(0) + '–' + cost_high.toFixed(0) + 'M';
+    spans[2].textContent = power_low.toFixed(1) + '–' + power_high.toFixed(1) + ' kW';
+  }
+})();
+</script></body>
 </html>
