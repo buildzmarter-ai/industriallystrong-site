@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTA Evaluation Engine — MHT-FAISS Live Research Console</title>
+  <meta property="og:title" content="CTA Evaluation Engine — Live Decision Output">
+  <meta property="og:description" content="AI-powered CTA portfolio evaluation: ranked candidates, allocation weights, regime detection, and reasoning traces. Built on MHT-FAISS decision architecture.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #002e5c;
+      --gold: #b38f5c;
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a202c;
+      --muted: #64748b;
+      --green: #16a34a;
+      --red: #dc2626;
+      --orange: #ea580c;
+      --blue: #2563eb;
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ── Page Header ─────────────────────────────────── */
+    .page-header {
+      background: var(--navy);
+      color: white;
+      padding: 24px 32px;
+    }
+    .page-header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .page-header .subtitle {
+      font-size: 13px;
+      opacity: 0.7;
+      letter-spacing: 0.5px;
+    }
+    .header-badges {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .badge-live { background: var(--green); color: white; }
+    .badge-regime { background: var(--gold); color: white; }
+    .badge-source { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); }
+
+    /* ── Sections ─────────────────────────────────────── */
+    .section { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
+    .section-divider {
+      max-width: 1200px;
+      margin: 32px auto;
+      border: none;
+      border-top: 2px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    /* ── Cards ─────────────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card-header {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    /* ── Pipeline Timeline ────────────────────────────── */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+    }
+    .pipeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+    .pipeline-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 4px;
+      transition: all 0.5s ease;
+    }
+    .pipeline-icon.done { background: #dcfce7; color: var(--green); }
+    .pipeline-icon.active { background: var(--navy); color: white; animation: pulse-step 1.5s infinite; }
+    .pipeline-icon.pending { background: #f1f5f9; color: #94a3b8; }
+    .pipeline-label { font-size: 10px; font-weight: 600; color: var(--muted); }
+    .pipeline-arrow { color: #cbd5e1; font-size: 14px; margin: 0 -8px; margin-bottom: 18px; }
+
+    @keyframes pulse-step {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,46,92,0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(0,46,92,0); }
+    }
+
+    /* ── Regime Card ───────────────────────────────────── */
+    .regime-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .regime-badge {
+      font-size: 14px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 8px;
+    }
+    .regime-trending { background: #dcfce7; color: var(--green); }
+    .regime-signal { font-size: 14px; color: var(--text); flex: 1; min-width: 200px; }
+    .regime-conf {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .regime-conf strong { color: var(--green); font-family: var(--mono); }
+
+    /* ── Candidates Table ─────────────────────────────── */
+    .candidates-table { width: 100%; border-collapse: collapse; }
+    .candidates-table th {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    .candidates-table th.right { text-align: right; }
+    .candidates-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: top;
+    }
+    .candidates-table tr { transition: background 0.2s; }
+    .candidates-table tr:hover { background: #f8fafc; }
+    .candidates-table tr.animate-in {
+      animation: slide-in 0.4s ease forwards;
+      opacity: 0;
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .cta-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+    .cta-program { font-size: 11px; color: var(--muted); }
+    .cta-type { font-size: 10px; color: var(--gold); font-weight: 500; }
+
+    .decision-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .decision-select { background: #dcfce7; color: var(--green); }
+    .decision-reject { background: #fee2e2; color: var(--red); }
+    .decision-watchlist { background: #fff7ed; color: var(--orange); }
+
+    .score-cell {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--mono);
+    }
+    .score-high { color: var(--green); }
+    .score-mid { color: var(--orange); }
+    .score-low { color: var(--red); }
+
+    .alloc-bar-wrap {
+      width: 80px;
+      height: 8px;
+      background: #f1f5f9;
+      border-radius: 4px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    .alloc-bar {
+      height: 100%;
+      background: var(--navy);
+      border-radius: 4px;
+      transition: width 1.5s ease;
+    }
+    .alloc-pct { font-size: 12px; font-weight: 600; font-family: var(--mono); color: var(--navy); }
+
+    .perf-positive { color: var(--green); font-weight: 600; font-family: var(--mono); }
+    .perf-negative { color: var(--red); font-weight: 600; font-family: var(--mono); }
+
+    .conf-meter {
+      display: inline-block;
+      width: 40px;
+      height: 6px;
+      background: #f1f5f9;
+      border-radius: 3px;
+      overflow: hidden;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .conf-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+    .conf-val { font-size: 11px; font-family: var(--mono); color: var(--muted); }
+
+    .regime-align-strong { color: var(--green); font-weight: 600; }
+    .regime-align-moderate { color: var(--orange); font-weight: 600; }
+    .regime-align-weak { color: var(--red); font-weight: 600; }
+
+    /* ── Reasoning Expandable ─────────────────────────── */
+    .reasoning-toggle {
+      font-size: 11px;
+      color: var(--blue);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 2px 0;
+      font-family: var(--font);
+    }
+    .reasoning-toggle:hover { text-decoration: underline; }
+    .reasoning-body {
+      display: none;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background: #f8fafc;
+      border-left: 3px solid var(--navy);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .reasoning-body.open { display: block; }
+    .risk-flags {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--orange);
+    }
+    .source-trace {
+      margin-top: 4px;
+      font-size: 10px;
+      color: #94a3b8;
+    }
+
+    /* ── Allocation Summary ────────────────────────────── */
+    .alloc-summary {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .alloc-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .alloc-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .alloc-chip-name { font-weight: 600; color: var(--navy); }
+    .alloc-chip-pct { font-family: var(--mono); font-weight: 700; }
+
+    /* ── Portfolio Summary ─────────────────────────────── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .summary-stat {
+      text-align: center;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+    }
+    .summary-stat .num {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: var(--mono);
+      line-height: 1;
+    }
+    .summary-stat .label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .num-green { color: var(--green); }
+    .num-orange { color: var(--orange); }
+    .num-red { color: var(--red); }
+    .num-navy { color: var(--navy); }
+
+    .methodology-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #f8fafc;
+      border-radius: 6px;
+      border-left: 3px solid var(--gold);
+    }
+
+    /* ── Before/After ──────────────────────────────────── */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .ba-col { padding: 16px; border-radius: 8px; }
+    .ba-before { background: #fef2f2; border: 1px solid #fecaca; }
+    .ba-after { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .ba-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .ba-before .ba-title { color: var(--red); }
+    .ba-after .ba-title { color: var(--green); }
+    .ba-item {
+      font-size: 13px;
+      padding: 4px 0;
+      color: var(--text);
+    }
+
+    /* ── Disclaimer ────────────────────────────────────── */
+    .disclaimer {
+      text-align: center;
+      font-size: 10px;
+      color: #94a3b8;
+      padding: 16px;
+    }
+
+    /* ── Divider Label ─────────────────────────────────── */
+    .divider-label {
+      text-align: center;
+      position: relative;
+      margin: 40px auto 24px;
+      max-width: 1200px;
+    }
+    .divider-label::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      top: 50%;
+      height: 2px;
+      background: var(--border);
+    }
+    .divider-label span {
+      position: relative;
+      background: var(--bg);
+      padding: 0 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── MHT-FAISS Section (preserved from original) ──── */
+    .mht-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+    }
+    .mht-header {
+      margin-bottom: 16px;
+    }
+    .mht-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .mht-header p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .mht-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .mht-col-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .mht-col-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .signal-chip {
+      display: inline-block;
+      padding: 4px 10px;
+      margin: 2px 4px 2px 0;
+      background: #f1f5f9;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .answer-pill {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #dcfce7;
+      color: var(--green);
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: 6px;
+      font-family: var(--mono);
+    }
+    .answer-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    .hyp-row, .hyp-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .hyp-name { font-size: 12px; width: 130px; color: var(--text); }
+    .hyp-track {
+      flex: 1;
+      height: 8px;
+      background: #f1f5f9;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .hyp-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+    #hypStatic0 .hyp-fill, #hypFill0, [id^="hypStatic0"], [id^="hypFill0"] { background: var(--blue); }
+    #hypStatic1, #hypFill1 { background: var(--orange); }
+    #hypStatic2, #hypFill2 { background: var(--green); }
+    .hyp-val { font-size: 12px; font-family: var(--mono); font-weight: 600; width: 36px; text-align: right; color: var(--muted); }
+    .hyp-note { font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+    .fail-item, .prop-item {
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .fail-item { background: #fef2f2; color: var(--red); border-left: 3px solid var(--red); }
+    .prop-item { background: #f0fdf4; color: var(--green); border-left: 3px solid var(--green); }
+
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      margin-bottom: 4px;
+      background: #f8fafc;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .action-rank { font-weight: 700; color: var(--navy); }
+    .action-score { font-family: var(--mono); font-weight: 700; color: var(--green); }
+
+    .console-links {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      padding: 24px;
+    }
+    .console-btn {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .console-btn.primary { background: var(--navy); color: white; }
+    .console-btn.primary:hover { background: #003d7a; }
+    .console-btn.secondary { background: var(--card); color: var(--navy); border: 1px solid var(--border); }
+    .console-btn.secondary:hover { background: #f1f5f9; }
+
+    /* ── Responsive ────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .mht-container { grid-template-columns: 1fr; }
+      .before-after { grid-template-columns: 1fr; }
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .candidates-table { font-size: 12px; }
+      .candidates-table th, .candidates-table td { padding: 8px 6px; }
+      .pipeline { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 1: CTA EVALUATION ENGINE (NEW — LEADS THE PAGE)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<header class="page-header">
+  <h1>CTA Evaluation Engine</h1>
+  <div class="subtitle">AI-powered portfolio evaluation: ranked candidates, allocation weights, regime detection, and full reasoning traces</div>
+  <div class="header-badges">
+    <span class="badge badge-live" id="liveBadge">● EVALUATING</span>
+    <span class="badge badge-regime" id="regimeBadge">REGIME: TRENDING</span>
+    <span class="badge badge-source">SOURCE: IASG CTA INDEX (IASG.COM)</span>
+  </div>
+</header>
+
+<!-- Pipeline -->
+<div class="section">
+  <div class="card">
+    <div class="card-header">Decision Pipeline</div>
+    <div class="pipeline" id="pipeline">
+      <div class="pipeline-step">
+        <div class="pipeline-icon done" id="pipe0">📥</div>
+        <div class="pipeline-label">Ingest</div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon done" id="pipe1">⚙️</div>
+        <div class="pipeline-label">Normalize</div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon done" id="pipe2">🧠</div>
+        <div class="pipeline-label">Evaluate</div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon done" id="pipe3">📊</div>
+        <div class="pipeline-label">Allocate</div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="pipeline-icon done" id="pipe4">✅</div>
+        <div class="pipeline-label">Decide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Regime Detection -->
+  <div class="card">
+    <div class="card-header">Current Market Regime</div>
+    <div class="regime-row">
+      <span class="regime-badge regime-trending" id="regimeLabel">Trending</span>
+      <span class="regime-signal" id="regimeSignal">Strong directional moves across equities and commodities. Trend-following strategies are well-positioned in the current environment.</span>
+      <span class="regime-conf">Confidence: <strong id="regimeConf">78%</strong></span>
+    </div>
+  </div>
+
+  <!-- Before / After -->
+  <div class="card">
+    <div class="card-header">What Changed — Before vs After</div>
+    <div class="before-after">
+      <div class="ba-col ba-before">
+        <div class="ba-title">❌ Before (Manual Diligence)</div>
+        <div class="ba-item">Weeks of spreadsheet analysis</div>
+        <div class="ba-item">Fragmented data across databases</div>
+        <div class="ba-item">Manual interpretation, no regime awareness</div>
+        <div class="ba-item">No allocation weights — just "looks good"</div>
+        <div class="ba-item">No reasoning trail — black box decisions</div>
+      </div>
+      <div class="ba-col ba-after">
+        <div class="ba-title">✅ After (This Engine)</div>
+        <div class="ba-item">Seconds from ingest to decision</div>
+        <div class="ba-item">Normalized IASG data, single pipeline</div>
+        <div class="ba-item">AI regime detection with confidence scores</div>
+        <div class="ba-item">Allocation weights summing to 100%</div>
+        <div class="ba-item">Full reasoning trace on every candidate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Candidates (THE Decision Output) -->
+  <div class="card">
+    <div class="card-header">Top Candidates (Current Regime) — Decision Output</div>
+    <table class="candidates-table" id="candidatesTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>CTA / Program</th>
+          <th>Decision</th>
+          <th class="right">Score</th>
+          <th class="right">Allocation</th>
+          <th class="right">YTD Perf</th>
+          <th>Regime Fit</th>
+          <th class="right">Confidence</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="candidatesBody">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+
+    <div style="margin-top: 16px;">
+      <div class="card-header">Suggested Allocation</div>
+      <div class="alloc-summary" id="allocSummary">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Portfolio Summary -->
+  <div class="card">
+    <div class="card-header">Portfolio Summary</div>
+    <div class="summary-grid">
+      <div class="summary-stat">
+        <div class="num num-navy" id="sumEvaluated">20</div>
+        <div class="label">Evaluated</div>
+      </div>
+      <div class="summary-stat">
+        <div class="num num-green" id="sumSelected">5</div>
+        <div class="label">Selected</div>
+      </div>
+      <div class="summary-stat">
+        <div class="num num-orange" id="sumWatchlist">7</div>
+        <div class="label">Watchlist</div>
+      </div>
+      <div class="summary-stat">
+        <div class="num num-red" id="sumRejected">8</div>
+        <div class="label">Rejected</div>
+      </div>
+    </div>
+    <div class="methodology-note" id="methodNote">
+      Candidates scored on YTD performance magnitude, track record length (inception vintage), strategy type diversification, and alignment with the detected market regime. Allocation weights favor diversification across strategy types and penalize track records shorter than 3 years. All data from publicly published IASG CTA Index rankings.
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    Data sourced from IASG CTA Index (iasg.com) — publicly published rankings.<br>
+    AI-generated evaluation for demonstration purposes. Not investment advice.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     DIVIDER: MHT-FAISS SECTION BELOW
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="divider-label"><span>UNDERLYING ARCHITECTURE</span></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SECTION 2: MHT-FAISS LIVE RESEARCH CONSOLE (PRESERVED FROM ORIGINAL)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+
+<div class="mht-section">
+  <div class="mht-header">
+    <h2>MHT-FAISS Live Research Console</h2>
+    <p>Two systems processing the same asynchronous signal stream — one collapses uncertainty, the other preserves competing hypotheses until evidence converges.</p>
+  </div>
+
+  <div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">Why this matters</div>
+    <div style="font-size: 13px; color: var(--text);">
+      In the fog of noise, systems that commit too early can misread regime change. This console compares a one-shot LLM surface with a tracked decision architecture that preserves competing hypotheses, updates them through time, and ranks actions before commitment.
+    </div>
+  </div>
+
+  <div class="mht-container">
+    <!-- LEFT: LLM-Only -->
+    <div>
+      <div class="mht-col-name">LLM-Only System</div>
+      <div class="mht-col-desc">Single inference per tick. Uncertainty is compressed into one output.</div>
+
+      <div class="card">
+        <div class="card-header">Pipeline Stages</div>
+        <div>
+          <span class="signal-chip">Signal</span>
+          <span class="signal-chip">Prompt</span>
+          <span class="signal-chip">Model</span>
+          <span class="signal-chip">Answer</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Current LLM Output</div>
+        <div class="answer-pill">BULLISH TREND</div>
+        <div class="answer-sub">The LLM surface compresses the stream into one dominant directional label.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Failure Modes</div>
+        <div class="fail-item">Prompt context limits</div>
+        <div class="fail-item">No explicit competing hypotheses</div>
+        <div class="fail-item">No persistent probabilistic state</div>
+        <div class="fail-item">Regime shifts appear as abrupt answer flips</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Decision Architecture -->
+    <div>
+      <div class="mht-col-name">Decision Architecture</div>
+      <div class="mht-col-desc">Competing hypotheses maintained, updated, and scored before commitment.</div>
+
+      <div class="card">
+        <div class="card-header">Pipeline Stages</div>
+        <div>
+          <span class="signal-chip">Signal</span>
+          <span class="signal-chip">State Encoder</span>
+          <span class="signal-chip">Retrieval</span>
+          <span class="signal-chip">Hypothesis Update</span>
+          <span class="signal-chip">Decision Ranking</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Live Hypothesis Weights</div>
+        <div class="hyp-row">
+          <div class="hyp-name">Trend continuation</div>
+          <div class="hyp-track"><div class="hyp-fill" style="width:97%; background:var(--blue)"></div></div>
+          <div class="hyp-val">97%</div>
+        </div>
+        <div class="hyp-row">
+          <div class="hyp-name">Volatility spike</div>
+          <div class="hyp-track"><div class="hyp-fill" style="width:1%; background:var(--orange)"></div></div>
+          <div class="hyp-val">1%</div>
+        </div>
+        <div class="hyp-row">
+          <div class="hyp-name">Mean reversion</div>
+          <div class="hyp-track"><div class="hyp-fill" style="width:2%; background:var(--green)"></div></div>
+          <div class="hyp-val">2%</div>
+        </div>
+        <div class="hyp-note">Trend continuation currently leads, but alternatives remain live.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Decision Surface</div>
+        <div class="action-row"><div><span class="action-rank">1.</span> LONG — trend following momentum entry</div><div class="action-score">0.82</div></div>
+        <div class="action-row"><div><span class="action-rank">2.</span> FLAT — stand aside, await confirmation</div><div class="action-score">0.09</div></div>
+        <div class="action-row"><div><span class="action-rank">3.</span> SHORT — trend following momentum entry</div><div class="action-score">0.04</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Resilient Properties</div>
+        <div class="prop-item">Explicit competing hypotheses</div>
+        <div class="prop-item">Historical retrieval before commitment</div>
+        <div class="prop-item">Smooth probabilistic evolution over time</div>
+        <div class="prop-item">Ranked action surface instead of one-shot output</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 20px;">
+    <div class="card-header">Why the outputs diverge</div>
+    <div style="font-size: 13px; color: var(--text);">
+      Markets behave like a fog of noise: asynchronous, overlapping, partially conflicting signals. The left side emits one answer at a time. The right side maintains multiple live paths, updates them with new evidence, and delays commitment until the structure becomes clearer. That is the core difference between prompt-level inference and tracked state estimation.
+    </div>
+  </div>
+
+  <div class="console-links">
+    <a class="console-btn primary" href="https://industriallystrong.com/decks/mht.html">Why this architecture matters</a>
+    <a class="console-btn secondary" href="https://industriallystrong.com/research">Back to research</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     JAVASCRIPT: Animated CTA Evaluation
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<script>
+const CANDIDATES = [
+  { rank:1, group:"Superfund Group", program:"Superfund Green SILVER SICAV", iasgRank:1, perf:28.60, inception:"1/1/2017", score:0.85, alloc:22, decision:"select", type:"Trend Following", regime:"strong", conf:0.82, reasoning:"Strongest YTD at +28.60% with 8-year track record. Trend-following strategy aligns strongly with current trending regime. Diversified commodities and currencies exposure provides portfolio breadth.", risks:["Single manager concentration if over-allocated"], sources:["IASG public rankings","Performance history"] },
+  { rank:2, group:"Mulvaney Capital Management", program:"The Mulvaney Global Markets Fund", iasgRank:2, perf:20.38, inception:"5/1/1999", score:0.88, alloc:25, decision:"select", type:"Systematic Macro", regime:"strong", conf:0.90, reasoning:"26-year track record is the longest in the cohort — exceptional vintage. +20.38% YTD with systematic macro approach provides true diversification from pure trend followers. Highest confidence score due to track record depth.", risks:["Higher minimum investment (100k)"], sources:["IASG public rankings","Performance history","Inception vintage"] },
+  { rank:3, group:"Purple Valley Capital", program:"Diversified Trend 1", iasgRank:3, perf:18.86, inception:"8/1/2008", score:0.79, alloc:20, decision:"select", type:"Trend Following", regime:"strong", conf:0.75, reasoning:"Strong +18.86% with 17-year track record through multiple market cycles including 2008 crisis. Name explicitly signals trend-following. Moderate allocation to balance with Superfund exposure.", risks:["Concentration with Superfund in trend-following bucket"], sources:["IASG public rankings","Performance history"] },
+  { rank:4, group:"AIS Capital Management", program:"MAAP (3x-6x) Composite", iasgRank:4, perf:13.08, inception:"7/1/1992", score:0.76, alloc:18, decision:"select", type:"Multi-Strategy", regime:"moderate", conf:0.72, reasoning:"33-year track record — the deepest vintage in the entire cohort. Multi-strategy approach provides diversification against pure trend. Solid +13.08% but leveraged (3x-6x) warrants monitoring.", risks:["Leveraged structure (3x-6x) increases drawdown risk","High min investment (2,000k)"], sources:["IASG public rankings","Performance history","Inception vintage"] },
+  { rank:5, group:"Ditsch Trading, LLC", program:"Agricultural Trading Program", iasgRank:7, perf:9.04, inception:"1/1/2011", score:0.71, alloc:15, decision:"select", type:"Discretionary", regime:"moderate", conf:0.68, reasoning:"Agricultural focus provides sector diversification absent from other selections. 14-year track record. +9.04% is lower but the uncorrelated exposure to agricultural markets justifies inclusion.", risks:["Sector concentration in agriculture","Lower absolute return vs peers"], sources:["IASG public rankings","Sector diversification analysis"] },
+  { rank:6, group:"Superfund Group", program:"Superfund Green Master", iasgRank:5, perf:9.50, inception:"5/1/2001", score:0.62, alloc:0, decision:"watchlist", type:"Trend Following", regime:"strong", conf:0.65, reasoning:"Solid 24-year track record but duplicates Superfund Green SILVER exposure. Would create excessive single-manager concentration if added alongside the SILVER SICAV allocation.", risks:["Redundant with Superfund SILVER selection","Manager concentration"], sources:["IASG public rankings"] },
+  { rank:7, group:"AIS Capital Management", program:"MAAP (2x-4x) Composite", iasgRank:6, perf:9.35, inception:"10/1/1992", score:0.60, alloc:0, decision:"watchlist", type:"Multi-Strategy", regime:"moderate", conf:0.70, reasoning:"Nearly identical vintage and strategy to MAAP 3x-6x already selected. Lower leverage variant would be preferred if risk reduction is needed, but adds no new diversification.", risks:["Redundant with MAAP 3x-6x selection"], sources:["IASG public rankings"] },
+  { rank:8, group:"White River Group", program:"Institutional Options Strategy", iasgRank:9, perf:7.94, inception:"9/1/2020", score:0.48, alloc:0, decision:"reject", type:"Volatility", regime:"weak", conf:0.55, reasoning:"Options-based strategy with only 5-year track record. Current trending regime is unfavorable for options premium collection strategies. Insufficient vintage for institutional allocation.", risks:["Short track record (5 years)","Regime misalignment","Options strategies underperform in strong trends"], sources:["IASG public rankings","Regime analysis"] },
+];
+
+const COLORS = ['#1e40af','#059669','#7c3aed','#ea580c','#0891b2','#64748b','#be123c','#4f46e5'];
+
+// ── Render candidates table ──────────────────────────────
+function renderCandidates() {
+  const tbody = document.getElementById('candidatesBody');
+  tbody.innerHTML = '';
+
+  CANDIDATES.forEach((c, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'animate-in';
+    tr.style.animationDelay = `${i * 0.12}s`;
+
+    const perfClass = c.perf >= 0 ? 'perf-positive' : 'perf-negative';
+    const scoreClass = c.score >= 0.75 ? 'score-high' : c.score >= 0.5 ? 'score-mid' : 'score-low';
+    const decClass = c.decision === 'select' ? 'decision-select' : c.decision === 'reject' ? 'decision-reject' : 'decision-watchlist';
+    const regimeClass = c.regime === 'strong' ? 'regime-align-strong' : c.regime === 'moderate' ? 'regime-align-moderate' : 'regime-align-weak';
+    const confColor = c.conf >= 0.7 ? 'var(--green)' : c.conf >= 0.4 ? 'var(--orange)' : 'var(--red)';
+    const reasonId = `reason-${i}`;
+
+    tr.innerHTML = `
+      <td style="font-weight:700; color:var(--navy); font-family:var(--mono)">${c.rank}</td>
+      <td>
+        <div class="cta-name">${c.group}</div>
+        <div class="cta-program">${c.program}</div>
+        <div class="cta-type">${c.type}</div>
+      </td>
+      <td><span class="decision-badge ${decClass}">${c.decision.toUpperCase()}</span></td>
+      <td class="right"><span class="score-cell ${scoreClass}">${Math.round(c.score*100)}</span></td>
+      <td class="right">
+        ${c.alloc > 0 ? `<div class="alloc-bar-wrap"><div class="alloc-bar" style="width:${c.alloc}%"></div></div><span class="alloc-pct">${c.alloc}%</span>` : '<span style="color:#94a3b8">—</span>'}
+      </td>
+      <td class="right"><span class="${perfClass}">${c.perf >= 0 ? '+' : ''}${c.perf.toFixed(2)}%</span></td>
+      <td><span class="${regimeClass}" style="font-size:12px">${c.regime}</span></td>
+      <td class="right">
+        <span class="conf-meter"><span class="conf-fill" style="width:${c.conf*100}%; background:${confColor}"></span></span>
+        <span class="conf-val">${Math.round(c.conf*100)}%</span>
+      </td>
+      <td><button class="reasoning-toggle" onclick="toggleReason('${reasonId}')">why?</button></td>
+    `;
+
+    tbody.appendChild(tr);
+
+    // Reasoning row
+    const reasonTr = document.createElement('tr');
+    reasonTr.innerHTML = `<td colspan="9" style="padding:0">
+      <div class="reasoning-body" id="${reasonId}">
+        ${c.reasoning}
+        ${c.risks.length ? `<div class="risk-flags">⚠ ${c.risks.join(' • ')}</div>` : ''}
+        <div class="source-trace">📄 Sources: ${c.sources.join(', ')}</div>
+      </div>
+    </td>`;
+    tbody.appendChild(reasonTr);
+  });
+
+  // Allocation summary
+  const allocDiv = document.getElementById('allocSummary');
+  allocDiv.innerHTML = '';
+  CANDIDATES.filter(c => c.decision === 'select').forEach((c, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'alloc-chip';
+    chip.innerHTML = `
+      <span class="alloc-dot" style="background:${COLORS[i]}"></span>
+      <span class="alloc-chip-name">${c.program.substring(0,20)}${c.program.length > 20 ? '…' : ''}</span>
+      <span class="alloc-chip-pct" style="color:${COLORS[i]}">${c.alloc}%</span>
+    `;
+    allocDiv.appendChild(chip);
+  });
+}
+
+function toggleReason(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ── Pipeline animation ───────────────────────────────────
+function animatePipeline() {
+  const steps = ['pipe0','pipe1','pipe2','pipe3','pipe4'];
+  let current = 0;
+
+  // Reset all
+  steps.forEach(id => {
+    document.getElementById(id).className = 'pipeline-icon pending';
+  });
+
+  function next() {
+    if (current > 0) {
+      document.getElementById(steps[current-1]).className = 'pipeline-icon done';
+    }
+    if (current < steps.length) {
+      document.getElementById(steps[current]).className = 'pipeline-icon active';
+      current++;
+      setTimeout(next, 600);
+    } else {
+      // All done
+      document.getElementById('liveBadge').textContent = '● COMPLETE';
+      document.getElementById('liveBadge').style.background = 'var(--green)';
+    }
+  }
+  next();
+}
+
+// ── Init ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  animatePipeline();
+  setTimeout(renderCandidates, 2800);
+});
+</script>
+
+</body>
+</html>

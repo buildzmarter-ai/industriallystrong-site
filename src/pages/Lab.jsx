@@ -2,6 +2,14 @@ import PageShell from "../components/PageShell";
 
 const labCards = [
   {
+    href: "/lab/cta-evaluation.html",
+    tag: "MHT-FAISS",
+    tagColor: "#e6c45b",
+    tagBg: "#5f4b1e",
+    title: "CTA Evaluation Engine",
+    desc: "Allocator-grade CTA evaluation with MHT-FAISS decision architecture. Regime detection, ranked candidates, allocation weights, confidence scores, and full reasoning traces.",
+  },
+  {
     href: "/lab/psf-synthesis.html",
     tag: "CLAIM 4 EVIDENCE",
     tagColor: "#5be6e6",
