@@ -204,11 +204,11 @@
         </div>
         <div class="control-group">
             <label>Pressure (mbar)</label>
-            <input type="number" name="pressure_mbar" value="30.0" step="5" min="1" max="200">
+            <input type="number" name="pressure_mbar" value="30.0" step="any" min="1" max="200">
         </div>
         <div class="control-group">
             <label>Intensity (W/cm&sup2;)</label>
-            <input type="number" name="intensity_w_cm2" value="1e+14" step="1e13" min="1e13" max="1e16">
+            <input type="number" name="intensity_w_cm2" value="1e+14" step="any" min="1e13" max="1e16">
         </div>
         <div class="control-group">
             <label>Mirrors</label>
@@ -227,7 +227,7 @@
         </div>
         <div class="control-group">
             <label>Filter (nm)</label>
-            <input type="number" name="filter_thickness_nm" value="200.0" step="50" min="50" max="500">
+            <input type="number" name="filter_thickness_nm" value="200.0" step="any" min="50" max="500">
         </div>
         <button type="submit">Update Pipeline</button>
     </form>
