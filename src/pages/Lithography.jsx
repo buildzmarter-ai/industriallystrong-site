@@ -261,7 +261,7 @@ export default function Lithography() {
         <p>
           Explore the physics behind modular lithography through interactive
           simulations — PSF synthesis, multi-head writer arrays, beam
-          propagation, fleet economics, and more.
+          propagation, platform economics, and more.
         </p>
 
         <Link

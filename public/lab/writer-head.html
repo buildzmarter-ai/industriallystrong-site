@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>11-DOF Writer Head Architecture</title>
+    <script src="plotly.min.js"></script>
+    <style>
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #f8fafc; color: #1e293b; }
+.nav { background: #1a1a2e; padding: 8px 24px; display: flex; gap: 16px; align-items: center; }
+.nav a { color: #aac; text-decoration: none; font-size: 14px; padding: 4px 12px; border-radius: 4px; }
+.nav a:hover { background: #2a2a4e; }
+.nav a.active { background: #2563eb; color: #fff; }
+.section { padding: 20px 24px; }
+.section h2 { font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #2563eb; padding-bottom: 6px; display: inline-block; }
+.plot-container { padding: 0 8px; }
+.two-col { display: flex; gap: 24px; flex-wrap: wrap; }
+.two-col > * { flex: 1; min-width: 400px; }
+
+.dof-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin-top: 12px; }
+.dof-card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.dof-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.dof-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.dof-id { color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+.dof-cat { font-size: 11px; color: #64748b; }
+.dof-card h3 { margin: 0 0 4px 0; font-size: 14px; color: #0f172a; }
+.dof-desc { font-size: 12px; color: #64748b; margin: 0 0 8px 0; line-height: 1.4; }
+.dof-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.dof-meta span { font-size: 11px; background: #f1f5f9; padding: 2px 8px; border-radius: 10px; color: #475569; }
+.dof-component { font-weight: 600; }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+.data-table th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-weight: 700; color: #475569; border-bottom: 2px solid #e2e8f0; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
+.data-table tr:hover { background: #f8fafc; }
+.layer-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+.callout-blue {
+    background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px;
+    padding: 14px 20px; margin: 16px 0; font-size: 13px; color: #1e40af; line-height: 1.5;
+}
+.callout-blue b { color: #1e3a8a; }
+
+.hero-banner {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+    color: #fff; padding: 32px 40px; text-align: center;
+}
+.hero-banner h1 { font-size: 28px; margin: 0 0 8px 0; font-weight: 800; }
+.hero-banner p { font-size: 14px; color: #c7d2fe; margin: 0; max-width: 800px; margin: 0 auto; line-height: 1.5; }
+.hero-stats { display: flex; justify-content: center; gap: 40px; margin-top: 20px; flex-wrap: wrap; }
+.hero-stat { text-align: center; }
+.hero-stat .value { font-size: 32px; font-weight: 800; color: #a5b4fc; }
+.hero-stat .label { font-size: 11px; color: #818cf8; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+    
+<div class="nav">
+    <a href="2d-process.html">2D Process Sim</a>
+    <a href="3d-pipeline.html">3D Pipeline</a>
+    <a href="fleet-economics.html">Platform Economics</a>
+    <a href="multihead.html">Multi-Head Array</a>
+    <a href="psf-synthesis.html">PSF Synthesis</a>
+    <a href="writer-head.html" class="active">11-DOF Writer Head</a>
+</div>
+
+    <div class="hero-banner">
+        <h1>11 Degrees of Freedom Writer Head</h1>
+        <p>
+            3D optical structure built from 2D planar semiconductor processes.
+            Each writer head integrates beam propagation, optical switches, waveguides,
+            polarizers, Bragg diffractor mirrors, and vacuum containment into a single
+            ~2×2mm die. Output PSF coupled via index-matching immersion fluid.
+        </p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="value">11</div>
+                <div class="label">Degrees of Freedom</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value">11</div>
+                <div class="label">Functional Layers</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value">137 µm</div>
+                <div class="label">Total Stack Height</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value">1,000+</div>
+                <div class="label">Heads per Fab Run</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="callout-blue">
+        <b>Manufacturing:</b> All layers are fabricated using standard 2D planar semiconductor
+        processes (CMOS, III-V epitaxy, PECVD, ALD) on 200/300mm wafers, then assembled
+        robotically in cleanroom. Bragg diffractor mirrors provide wavelength selection
+        across all three architectures. Vacuum containment shell enables EUV operation.
+        Output PSF is coupled to resist via index-matching immersion fluid at the appropriate
+        NA for DUV (n≈1.44 water) or EUV (vacuum/thin film).
+    </div>
+
+    <div class="section">
+        <h2>11 Degrees of Freedom</h2>
+        <div class="two-col">
+            <div class="plot-container"><div>                            <div id="954bc5a8-93d7-4a52-ad48-93606d24b3eb" class="plotly-graph-div" style="height:500px; width:600px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("954bc5a8-93d7-4a52-ad48-93606d24b3eb")) {                    Plotly.newPlot(                        "954bc5a8-93d7-4a52-ad48-93606d24b3eb",                        [{"fill":"toself","fillcolor":"rgba(99, 102, 241, 0.15)","line":{"color":"#6366f1","width":2},"name":"11 DOF System","r":[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0],"theta":["X Beam Position","Y Beam Position","Z Structure (3D Stack)","Time \u002f Dithering","Focus Drilling","Polarization","Phase Modulation","Coherent Temporal Combination","Wavelength Selection","Dose Integration","Thermal Compensation","X Beam Position"],"type":"scatterpolar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"polar":{"radialaxis":{"visible":false,"range":[0,1.3]},"angularaxis":{"tickfont":{"size":10}}},"margin":{"t":60,"b":20},"height":500,"width":600,"title":{"text":"11 Degrees of Freedom"},"showlegend":false},                        {"responsive": true}                    )                };            </script>        </div></div>
+            <div>
+                <p style="font-size:13px; color:#64748b; line-height:1.6; margin-top:0;">
+                    The writer head is an <b>11-dimensional control system</b>. Spatial DOF (XY beam, Z stack, focus)
+                    define where the beam goes. Temporal DOF (dithering, dose integration, coherent combination)
+                    define when and how energy is delivered. Optical DOF (polarization, phase, wavelength)
+                    shape the PSF. Feedback (thermal) closes the loop for stability.
+                    <br><br>
+                    This multi-dimensional control enables <b>PSF synthesis</b> — the ability to compose
+                    arbitrary point-spread functions from the combined action of all 11 DOF, far beyond
+                    what a fixed-optics single-pass system can achieve.
+                </p>
+            </div>
+        </div>
+        <div class="dof-grid"><div class="dof-card" style="border-left: 4px solid #ef4444;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#ef4444;">DOF 1</span>
+                <span class="dof-cat">📍 Spatial</span>
+            </div>
+            <h3>X Beam Position</h3>
+            <p class="dof-desc">Lateral beam steering in X via MEMS micromirror actuation</p>
+            <div class="dof-meta">
+                <span class="dof-component">MEMS Tip/Tilt Mirror</span>
+                <span class="dof-range">±50 µm</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #f97316;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#f97316;">DOF 2</span>
+                <span class="dof-cat">📍 Spatial</span>
+            </div>
+            <h3>Y Beam Position</h3>
+            <p class="dof-desc">Lateral beam steering in Y via MEMS micromirror actuation</p>
+            <div class="dof-meta">
+                <span class="dof-component">MEMS Tip/Tilt Mirror</span>
+                <span class="dof-range">±50 µm</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #eab308;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#eab308;">DOF 3</span>
+                <span class="dof-cat">📍 Spatial</span>
+            </div>
+            <h3>Z Structure (3D Stack)</h3>
+            <p class="dof-desc">3D optical structure built from 2D planar semiconductor layers</p>
+            <div class="dof-meta">
+                <span class="dof-component">Planar Layer Stack</span>
+                <span class="dof-range">10–200 µm stack height</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #22c55e;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#22c55e;">DOF 4</span>
+                <span class="dof-cat">⏱️ Temporal</span>
+            </div>
+            <h3>Time / Dithering</h3>
+            <p class="dof-desc">Temporal modulation and sub-pixel dither patterns for resolution enhancement</p>
+            <div class="dof-meta">
+                <span class="dof-component">Modulation Driver</span>
+                <span class="dof-range">1–100 MHz modulation</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #06b6d4;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#06b6d4;">DOF 5</span>
+                <span class="dof-cat">📍 Spatial</span>
+            </div>
+            <h3>Focus Drilling</h3>
+            <p class="dof-desc">Depth-of-focus control through focal stack adjustment</p>
+            <div class="dof-meta">
+                <span class="dof-component">MEMS Piston + Varifocal</span>
+                <span class="dof-range">±2 µm DOF</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #3b82f6;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#3b82f6;">DOF 6</span>
+                <span class="dof-cat">💠 Optical</span>
+            </div>
+            <h3>Polarization</h3>
+            <p class="dof-desc">Polarization state control for resist interaction optimization</p>
+            <div class="dof-meta">
+                <span class="dof-component">Integrated Waveguide Polarizer</span>
+                <span class="dof-range">Linear / Circular / Elliptical</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #6366f1;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#6366f1;">DOF 7</span>
+                <span class="dof-cat">🌀 Coherent</span>
+            </div>
+            <h3>Phase Modulation</h3>
+            <p class="dof-desc">Phase control across multiple emitter elements for coherent PSF shaping</p>
+            <div class="dof-meta">
+                <span class="dof-component">Phase Modulators (multi-element)</span>
+                <span class="dof-range">0–2π per element</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #8b5cf6;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#8b5cf6;">DOF 8</span>
+                <span class="dof-cat">🌀 Coherent</span>
+            </div>
+            <h3>Coherent Temporal Combination</h3>
+            <p class="dof-desc">Coherent combination of multiple exposures in time domain</p>
+            <div class="dof-meta">
+                <span class="dof-component">Temporal Coherence Engine</span>
+                <span class="dof-range">1–N pulse stacking</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #a855f7;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#a855f7;">DOF 9</span>
+                <span class="dof-cat">💠 Optical</span>
+            </div>
+            <h3>Wavelength Selection</h3>
+            <p class="dof-desc">Wavelength selection via Bragg grating tuning (Arch A: 405nm, B: 248nm, C: 13.5nm)</p>
+            <div class="dof-meta">
+                <span class="dof-component">Bragg Diffractor Grating</span>
+                <span class="dof-range">13.5–405 nm</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #ec4899;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#ec4899;">DOF 10</span>
+                <span class="dof-cat">⏱️ Temporal</span>
+            </div>
+            <h3>Dose Integration</h3>
+            <p class="dof-desc">Dwell time and pulse energy control for precise dose delivery</p>
+            <div class="dof-meta">
+                <span class="dof-component">Dwell Controller</span>
+                <span class="dof-range">0.1–100 mJ/cm²</span>
+            </div>
+        </div><div class="dof-card" style="border-left: 4px solid #f43f5e;">
+            <div class="dof-header">
+                <span class="dof-id" style="background:#f43f5e;">DOF 11</span>
+                <span class="dof-cat">🔄 Feedback</span>
+            </div>
+            <h3>Thermal Compensation</h3>
+            <p class="dof-desc">Real-time thermal feedback for drift compensation and stability</p>
+            <div class="dof-meta">
+                <span class="dof-component">On-Die Thermal Sensor + Loop</span>
+                <span class="dof-range">±0.01°C stability</span>
+            </div>
+        </div></div>
+    </div>
+
+    <div class="section">
+        <h2>Physical Layer Stack (3D from 2D Planar)</h2>
+        <p style="font-size:13px; color:#64748b; margin:0 0 8px 0;">
+            Each layer is deposited/bonded using standard semiconductor processes.
+            The complete stack forms a self-contained optical engine with integrated
+            emitters, steering, waveguides, polarizers, Bragg mirrors, and vacuum shell.
+        </p>
+        <div class="plot-container">
+<div id="stack3d" style="width:100%;height:750px;"></div>
+<div style="display:flex;align-items:center;gap:16px;padding:8px 24px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;margin:8px 0;">
+    <label style="font-size:13px;font-weight:700;color:#475569;white-space:nowrap;">Explode Z Gap:</label>
+    <input id="gapSlider" type="range" min="0" max="40" value="15" step="1"
+           style="flex:1;accent-color:#6366f1;">
+    <span id="gapVal" style="font-size:13px;font-weight:600;color:#6366f1;min-width:55px;">15 µm</span>
+</div>
+<script>
+(function() {
+    var layers = [{"name": "Silicon Substrate", "thickness": 50, "color": "#475569", "desc": "Foundation: standard 200/300mm Si wafer"}, {"name": "CMOS Driver Layer", "thickness": 10, "color": "#64748b", "desc": "Modulation drivers, thermal sensors, control logic"}, {"name": "Waveguide Layer", "thickness": 5, "color": "#3b82f6", "desc": "SiN/SiO\u2082 waveguides, optical routing, switches"}, {"name": "Polarizer Layer", "thickness": 3, "color": "#6366f1", "desc": "Integrated wire-grid or metasurface polarizers"}, {"name": "Phase Modulator Array", "thickness": 5, "color": "#8b5cf6", "desc": "Electro-optic phase shifters for coherent combination"}, {"name": "Bragg Diffractor Mirrors", "thickness": 8, "color": "#a855f7", "desc": "Distributed Bragg reflectors for wavelength selection"}, {"name": "Emitter Array (VCSEL/DUV/EUV)", "thickness": 6, "color": "#ef4444", "desc": "Surface-emitting source array (architecture-dependent)"}, {"name": "MEMS Steering Layer", "thickness": 15, "color": "#f97316", "desc": "Micromirror/microlens array: tip, tilt, piston (XY + focus)"}, {"name": "Vacuum Containment Shell", "thickness": 20, "color": "#1e293b", "desc": "Hermetic seal for EUV operation; optional for DUV/NIR"}, {"name": "Immersion Coupling Interface", "thickness": 5, "color": "#06b6d4", "desc": "Index-matching fluid interface for NA optimization (DUV/EUV)"}, {"name": "Output Micro-Objective", "thickness": 10, "color": "#22c55e", "desc": "Final focusing optic; delivers PSF to resist surface"}];
+    var xSize = 70, ySize = 70;
+    var triI = [0,0,4,4,0,0,1,1,0,0,3,3];
+    var triJ = [1,2,5,6,1,4,2,5,3,4,2,6];
+    var triK = [2,3,6,7,4,5,5,6,4,7,6,7];
+
+    function buildTraces(gap) {
+        var traces = [];
+        var z = 0;
+        var layerCenters = [];
+
+        for (var i = 0; i < layers.length; i++) {
+            var t = layers[i].thickness;
+            var z0 = z, z1 = z + t;
+            var cx = (z0 + z1) / 2;
+            layerCenters.push(cx);
+
+            // Box mesh
+            traces.push({
+                type: 'mesh3d',
+                x: [-xSize/2, xSize/2, xSize/2, -xSize/2, -xSize/2, xSize/2, xSize/2, -xSize/2],
+                y: [-ySize/2, -ySize/2, ySize/2, ySize/2, -ySize/2, -ySize/2, ySize/2, ySize/2],
+                z: [z0, z0, z0, z0, z1, z1, z1, z1],
+                i: triI, j: triJ, k: triK,
+                color: layers[i].color,
+                opacity: 0.75,
+                name: layers[i].name,
+                hovertext: '<b>' + layers[i].name + '</b><br>' + layers[i].desc +
+                           '<br>Thickness: ' + t + ' µm<br>Z: ' + z0.toFixed(0) + '–' + z1.toFixed(0) + ' µm',
+                hoverinfo: 'text',
+                flatshading: true,
+                showlegend: true,
+            });
+
+            // Label
+            traces.push({
+                type: 'scatter3d',
+                x: [xSize/2 + 12], y: [0], z: [cx],
+                mode: 'text',
+                text: [layers[i].name + ' (' + t + 'µm)'],
+                textfont: {size: 10, color: layers[i].color},
+                textposition: 'middle right',
+                hoverinfo: 'skip',
+                showlegend: false,
+            });
+
+            z = z1 + gap;
+        }
+
+        // Beam path
+        var beamZ = [], beamX = [], beamY = [];
+        for (var bz = z + 25; bz >= -15; bz -= 2) {
+            beamZ.push(bz); beamX.push(0); beamY.push(0);
+        }
+        traces.push({
+            type: 'scatter3d', x: beamX, y: beamY, z: beamZ,
+            mode: 'lines', line: {color: '#ef4444', width: 5},
+            name: 'Beam Path', hoverinfo: 'skip', showlegend: false,
+        });
+
+        // PSF cone at bottom
+        var coneZ = -15, coneR = 18;
+        var cx2 = [], cy2 = [], cz2 = [];
+        for (var a = 0; a <= 2*Math.PI; a += 0.22) {
+            cx2.push(coneR * Math.cos(a));
+            cy2.push(coneR * Math.sin(a));
+            cz2.push(coneZ);
+        }
+        traces.push({
+            type: 'scatter3d', x: cx2, y: cy2, z: cz2,
+            mode: 'lines', line: {color: '#22c55e', width: 3, dash: 'dash'},
+            name: 'PSF Output', hoverinfo: 'skip', showlegend: false,
+        });
+        for (var ca = 0; ca < 4; ca++) {
+            var ang = ca * Math.PI / 2;
+            traces.push({
+                type: 'scatter3d',
+                x: [0, coneR * Math.cos(ang)],
+                y: [0, coneR * Math.sin(ang)],
+                z: [0, coneZ],
+                mode: 'lines', line: {color: '#22c55e', width: 1, dash: 'dash'},
+                hoverinfo: 'skip', showlegend: false,
+            });
+        }
+
+        return {traces: traces, maxZ: z + 30};
+    }
+
+    function render(gap) {
+        var result = buildTraces(gap);
+        Plotly.react('stack3d', result.traces, {
+            scene: {
+                xaxis: {title: 'X (µm)', range: [-90, 140]},
+                yaxis: {title: 'Y (µm)', range: [-60, 60]},
+                zaxis: {title: 'Z stack (µm)', range: [-25, result.maxZ]},
+                aspectmode: 'manual',
+                aspectratio: {x: 1.5, y: 0.8, z: 1.6},
+                camera: {eye: {x: 1.5, y: -1.0, z: 0.7}},
+            },
+            height: 750, width: 1100,
+            title: 'Writer Head: 3D Optical Stack (' + (gap === 0 ? 'Physical' : 'Exploded ' + gap + 'µm gap') + ')',
+            margin: {t: 50, b: 20},
+        });
+    }
+
+    // Initial render at default gap
+    render(15);
+
+    // Slider interaction
+    var slider = document.getElementById('gapSlider');
+    var valLabel = document.getElementById('gapVal');
+    slider.addEventListener('input', function() {
+        var g = parseInt(this.value);
+        valLabel.textContent = g + ' µm';
+        render(g);
+    });
+})();
+</script></div>
+        <table class="data-table">
+        <thead><tr><th>Layer</th><th>Thickness</th><th>Z Position</th><th>Function</th></tr></thead>
+        <tbody><tr>
+            <td><span class="layer-dot" style="background:#475569;"></span>Silicon Substrate</td>
+            <td>50 µm</td>
+            <td>0–50 µm</td>
+            <td>Foundation: standard 200/300mm Si wafer</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#64748b;"></span>CMOS Driver Layer</td>
+            <td>10 µm</td>
+            <td>50–60 µm</td>
+            <td>Modulation drivers, thermal sensors, control logic</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#3b82f6;"></span>Waveguide Layer</td>
+            <td>5 µm</td>
+            <td>60–65 µm</td>
+            <td>SiN/SiO₂ waveguides, optical routing, switches</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#6366f1;"></span>Polarizer Layer</td>
+            <td>3 µm</td>
+            <td>65–68 µm</td>
+            <td>Integrated wire-grid or metasurface polarizers</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#8b5cf6;"></span>Phase Modulator Array</td>
+            <td>5 µm</td>
+            <td>68–73 µm</td>
+            <td>Electro-optic phase shifters for coherent combination</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#a855f7;"></span>Bragg Diffractor Mirrors</td>
+            <td>8 µm</td>
+            <td>73–81 µm</td>
+            <td>Distributed Bragg reflectors for wavelength selection</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#ef4444;"></span>Emitter Array (VCSEL/DUV/EUV)</td>
+            <td>6 µm</td>
+            <td>81–87 µm</td>
+            <td>Surface-emitting source array (architecture-dependent)</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#f97316;"></span>MEMS Steering Layer</td>
+            <td>15 µm</td>
+            <td>87–102 µm</td>
+            <td>Micromirror/microlens array: tip, tilt, piston (XY + focus)</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#1e293b;"></span>Vacuum Containment Shell</td>
+            <td>20 µm</td>
+            <td>102–122 µm</td>
+            <td>Hermetic seal for EUV operation; optional for DUV/NIR</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#06b6d4;"></span>Immersion Coupling Interface</td>
+            <td>5 µm</td>
+            <td>122–127 µm</td>
+            <td>Index-matching fluid interface for NA optimization (DUV/EUV)</td>
+        </tr><tr>
+            <td><span class="layer-dot" style="background:#22c55e;"></span>Output Micro-Objective</td>
+            <td>10 µm</td>
+            <td>127–137 µm</td>
+            <td>Final focusing optic; delivers PSF to resist surface</td>
+        </tr><tr style="font-weight:700; background:#f1f5f9;">
+        <td>Total Stack</td><td>137 µm</td><td>0–137 µm</td>
+        <td>Complete writer head: 2D planar fab → 3D optical structure</td>
+    </tr></tbody>
+    </table>
+    </div>
+</body>
+</html>

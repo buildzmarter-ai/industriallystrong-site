@@ -30,8 +30,8 @@ const labCards = [
     tag: "DARPA-READY",
     tagColor: "#e6c45b",
     tagBg: "#5f4b1e",
-    title: "Fleet Economics",
-    desc: "Sensitivity analysis across EUV power levels. ASML power-loss comparison, fleet sizing, CAPEX, and market segment breakdown.",
+    title: "Platform Economics",
+    desc: "Integrated multi-head platform vs ASML monolith. Head→Package→Module→Platform hierarchy with semiconductor cost scaling, power comparison, and market segment configs.",
   },
   {
     href: "/lab/multihead.html",
@@ -40,6 +40,14 @@ const labCards = [
     tagBg: "#3b1e5f",
     title: "Multi-Head Writer",
     desc: "Tiled multi-head array with A/B/C architecture selector, per-tile exposure calculator, stitching zones, and per-site dose calibration.",
+  },
+  {
+    href: "/lab/writer-head.html",
+    tag: "11-DOF ARCHITECTURE",
+    tagColor: "#e65b8a",
+    tagBg: "#5f1e3a",
+    title: "11-DOF Writer Head",
+    desc: "3D exploded layer stack of a single writer head die. 11 degrees of freedom: beam steering, focus drilling, polarization, phase modulation, coherent combination. Interactive explosion slider.",
   },
   {
     href: "/lab/phoenix-state.html",
@@ -74,7 +82,7 @@ export default function Lab() {
         <p style={{ fontSize: "20px", maxWidth: "860px", opacity: 0.9 }}>
           Chip-scale coherent EUV source simulation platform. Interactive
           visualizations of lithography physics, multi-head writer architectures,
-          PSF synthesis, and fleet economics.
+          11-DOF writer head design, PSF synthesis, and integrated platform economics.
         </p>
       </section>
 
