@@ -47,7 +47,7 @@ const labCards = [
     tagColor: "#c45be6",
     tagBg: "#3b1e5f",
     title: "Multi-Head Writer",
-    desc: "Tiled multi-head array with A/B/C architecture selector, per-tile exposure calculator, stitching zones, and per-site dose calibration.",
+    desc: "Tiled multi-head array with A/B/C architecture selector, per-tile exposure calculator, dose calibration. Includes Lab 91 use case: MoS₂ RF switch fabrication with 405nm VCSEL replacing EBL.",
   },
   {
     href: "/lab/writer-head.html",
