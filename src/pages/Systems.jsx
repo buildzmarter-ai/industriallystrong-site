@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import "../assets/systemsPage.css";
 
-function SystemCard({ title, subtitle, description, evidence, to }) {
+function SystemCard({ title, subtitle, description, evidence, to, href }) {
+  const linkTarget = to || href;
   const card = (
-    <div className="systems-card" style={to ? { cursor: "pointer" } : {}}>
+    <div className="systems-card" style={linkTarget ? { cursor: "pointer" } : {}}>
       <div className="systems-card-top">
         <h3>{title}</h3>
         <div className="systems-subtitle">{subtitle}</div>
@@ -17,7 +18,7 @@ function SystemCard({ title, subtitle, description, evidence, to }) {
         <strong>{evidence}</strong>
       </div>
 
-      {to && (
+      {linkTarget && (
         <div style={{
           marginTop: "12px",
           fontSize: "14px",
@@ -33,6 +34,9 @@ function SystemCard({ title, subtitle, description, evidence, to }) {
 
   if (to) {
     return <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>{card}</Link>;
+  }
+  if (href) {
+    return <a href={href} style={{ textDecoration: "none", color: "inherit" }}>{card}</a>;
   }
   return card;
 }
@@ -117,7 +121,7 @@ export default function Systems() {
                 subtitle="Research engine for hypothesis tracking and retrieval"
                 description="A research-oriented system connecting multi-hypothesis reasoning with high-dimensional retrieval. It serves as an evidence layer for the platform’s broader work in structured intelligence and strategy tracking."
                 evidence="Research engine supporting technical experimentation"
-                to="/decks/mht"
+                href="/decks/mht"
               />
             </div>
           </div>
