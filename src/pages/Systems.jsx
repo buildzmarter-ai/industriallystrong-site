@@ -16,6 +16,18 @@ function SystemCard({ title, subtitle, description, evidence, to }) {
         <span>System evidence</span>
         <strong>{evidence}</strong>
       </div>
+
+      {to && (
+        <div style={{
+          marginTop: "12px",
+          fontSize: "14px",
+          fontWeight: 600,
+          color: "#5B8DEF",
+          letterSpacing: "0.02em",
+        }}>
+          View system →
+        </div>
+      )}
     </div>
   );
 

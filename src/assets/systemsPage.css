@@ -145,6 +145,17 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+a .systems-card {
+  cursor: pointer;
+}
+
+a .systems-card:hover {
+  border-color: #5B8DEF;
+  box-shadow: 0 0 20px rgba(91, 141, 239, 0.18);
+  transform: translateY(-2px);
 }
 
 .systems-card-top {
