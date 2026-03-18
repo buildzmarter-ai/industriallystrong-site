@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import "../assets/systemsPage.css";
 
-function SystemCard({ title, subtitle, description, evidence }) {
-  return (
-    <div className="systems-card">
+function SystemCard({ title, subtitle, description, evidence, to }) {
+  const card = (
+    <div className="systems-card" style={to ? { cursor: "pointer" } : {}}>
       <div className="systems-card-top">
         <h3>{title}</h3>
         <div className="systems-subtitle">{subtitle}</div>
@@ -17,6 +18,11 @@ function SystemCard({ title, subtitle, description, evidence }) {
       </div>
     </div>
   );
+
+  if (to) {
+    return <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>{card}</Link>;
+  }
+  return card;
 }
 
 export default function Systems() {
@@ -84,6 +90,7 @@ export default function Systems() {
                 subtitle="AI-assisted strategy discovery platform"
                 description="A working platform focused on strategy discovery, evaluation, and decision-support workflows. It reflects the site’s interest in transparent intelligence, structured reasoning, and practical system usability."
                 evidence="Deployed platform for strategy discovery and analysis"
+                to="/systems/qrlphoenix"
               />
 
               <SystemCard
