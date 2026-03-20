@@ -66,6 +66,7 @@ button:hover { background: #1d4ed8; }
     <a href="multihead.html" class="active">Adaptive Writer Array</a>
     <a href="psf-synthesis.html">PSF Synthesis</a>
     <a href="writer-head.html">11-DOF Head</a>
+    <a href="lab91.html">Lab 91</a>
 </div>
 
     <form class="controls" method="get" action="multihead.html">
@@ -251,248 +252,29 @@ button:hover { background: #1d4ed8; }
     </div>
 
     
-    <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <!-- EXAMPLE IMPLEMENTATION SECTION                                     -->
-    <!-- ═══════════════════════════════════════════════════════════════════ -->
-    <div style="margin-top:40px; border-top:3px solid #2563eb; padding-top:0;">
-    <div style="background:linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); color:#fff; padding:32px 40px;">
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-            <span style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px;
-                         background:#1e5f3a; color:#5be6a3; letter-spacing:0.5px;">EXAMPLE IMPLEMENTATION</span>
-            <span style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px;
-                         background:#5f4b1e; color:#e6c45b; letter-spacing:0.5px;">2D MATERIALS</span>
-        </div>
-        <h2 style="margin:0 0 6px 0; font-size:26px; font-weight:800;">MoS₂ ALD on Tier-1 Platforms</h2>
-        <p style="margin:0 0 16px 0; font-size:14px; color:#94a3b8; max-width:800px; line-height:1.6; font-style:italic;">
-            As 2D materials move toward foundry integration, the limiting factor shifts from material performance to process stability within fixed tool architectures.
-        </p>
-        <p style="margin:0; font-size:15px; color:#94a3b8; max-width:800px; line-height:1.6;">
-            <b style="color:#fff;">Context:</b> MoS₂ RF switches for 6G — CVD monolayer transfer from growth wafers to target wafers using existing EBL tooling.<br>
-            <b style="color:#fbbf24;">Bottleneck:</b> Polymer residue from PMMA/EBL degrades MoS₂ contact interfaces. Serial EBL exposure damages monolayers via charging and radiolysis.<br>
-            <b style="color:#5be6a3;">Implication:</b> The patterning step must become an adaptive control layer — compensating for transfer-induced variability rather than enforcing static precision.
-        </p>
-    </div>
-
-    <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:0 0 8px 8px;
-                padding:16px 24px; margin:0 0 4px 0;">
-        <div style="display:flex; gap:32px; flex-wrap:wrap;">
-            <div style="text-align:center; min-width:140px;">
-                <div style="font-size:28px; font-weight:800; color:#16a34a;">61</div>
-                <div style="font-size:11px; color:#64748b; text-transform:uppercase;">Wafers/Hour</div>
-            </div>
-            <div style="text-align:center; min-width:140px;">
-                <div style="font-size:28px; font-weight:800; color:#16a34a;">59s</div>
-                <div style="font-size:11px; color:#64748b; text-transform:uppercase;">Per 300mm Wafer</div>
-            </div>
-            <div style="text-align:center; min-width:140px;">
-                <div style="font-size:28px; font-weight:800; color:#16a34a;">12,000</div>
-                <div style="font-size:11px; color:#64748b; text-transform:uppercase;">Parallel Emitters</div>
-            </div>
-            <div style="text-align:center; min-width:140px;">
-                <div style="font-size:28px; font-weight:800; color:#16a34a;">33 ps</div>
-                <div style="font-size:11px; color:#64748b; text-transform:uppercase;">Pixel Dwell Time</div>
-            </div>
-            <div style="text-align:center; min-width:140px;">
-                <div style="font-size:28px; font-weight:800; color:#16a34a;">289 nm</div>
-                <div style="font-size:11px; color:#64748b; text-transform:uppercase;">CD at NA=0.7</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3-Layer Constraint → Tool → Architecture Diagram -->
-    <div style="padding:24px 24px 0 24px;">
-        <div style="background:#fff; border:2px solid #e2e8f0; border-radius:12px; padding:28px 32px; max-width:900px;">
-            <div style="display:flex; align-items:stretch; gap:0; justify-content:center;">
-                <!-- Layer 1: Constraint -->
-                <div style="flex:1; max-width:240px; text-align:center;">
-                    <div style="background:#fef2f2; border:2px solid #fca5a5; border-radius:10px; padding:16px 12px;">
-                        <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Constraint</div>
-                        <div style="font-size:14px; font-weight:700; color:#991b1b; line-height:1.4;">Fixed tool architectures<br><span style="font-size:12px; font-weight:400; color:#b91c1c;">Chamber geometry, stage travel, vacuum envelope locked by Tier-1 vendor</span></div>
+    <!-- Link to Lab 91 standalone page -->
+    <div style="padding:20px 24px 0 24px;">
+        <a href="lab91.html" style="display:block; text-decoration:none; color:inherit; max-width:900px;">
+            <div style="background:linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); color:#fff; padding:24px 32px; border-radius:12px;
+                        border:2px solid transparent; transition: border-color 0.2s, transform 0.15s;"
+                 onmouseover="this.style.borderColor='#2563eb'; this.style.transform='translateY(-2px)';"
+                 onmouseout="this.style.borderColor='transparent'; this.style.transform='translateY(0)';">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+                            <span style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px;
+                                         background:#1e5f3a; color:#5be6a3; letter-spacing:0.5px;">EXAMPLE IMPLEMENTATION</span>
+                            <span style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px;
+                                         background:#5f4b1e; color:#e6c45b; letter-spacing:0.5px;">2D MATERIALS</span>
+                        </div>
+                        <div style="font-size:20px; font-weight:800; margin-bottom:4px;">MoS₂ ALD on Tier-1 Platforms →</div>
+                        <div style="font-size:13px; color:#94a3b8; max-width:600px;">How distributed adaptive control solves the MoS₂ contact degradation problem within fixed foundry tool architectures.</div>
                     </div>
-                </div>
-                <!-- Arrow 1 -->
-                <div style="display:flex; align-items:center; padding:0 8px;">
-                    <svg width="32" height="24" viewBox="0 0 32 24"><path d="M0 12 L24 12 M18 6 L24 12 L18 18" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <!-- Layer 2: Tool Response -->
-                <div style="flex:1; max-width:240px; text-align:center;">
-                    <div style="background:#fefce8; border:2px solid #fde68a; border-radius:10px; padding:16px 12px;">
-                        <div style="font-size:10px; font-weight:700; color:#a16207; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Tool Response</div>
-                        <div style="font-size:14px; font-weight:700; color:#854d0e; line-height:1.4;">Adaptive write head<br><span style="font-size:12px; font-weight:400; color:#a16207;">VCSEL array mounts in-situ — no new chambers, no vacuum breaks</span></div>
-                    </div>
-                </div>
-                <!-- Arrow 2 -->
-                <div style="display:flex; align-items:center; padding:0 8px;">
-                    <svg width="32" height="24" viewBox="0 0 32 24"><path d="M0 12 L24 12 M18 6 L24 12 L18 18" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <!-- Layer 3: Architecture -->
-                <div style="flex:1; max-width:240px; text-align:center;">
-                    <div style="background:#f0fdf4; border:2px solid #86efac; border-radius:10px; padding:16px 12px;">
-                        <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Architecture</div>
-                        <div style="font-size:14px; font-weight:700; color:#166534; line-height:1.4;">Distributed adaptive control<br><span style="font-size:12px; font-weight:400; color:#15803d;">Per-emitter feedback converges to precision locally, not globally</span></div>
-                    </div>
+                    <div style="font-size:36px; color:#2563eb; padding-left:24px;">→</div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
-
-    <div class="section">
-        <h2>Five Process Modifications</h2>
-        <p style="font-size:13px; color:#64748b; margin:0 0 14px 0; line-height:1.5;">
-            Each modification replaces an EBL step with a VCSEL multiwriter equivalent — eliminating
-            polymer residue and electron damage at the MoS₂ contact interface.
-        </p>
-        
-        <div style="background:#fff; border:2px solid #e6394622; border-left:4px solid #e63946;
-                    border-radius:10px; padding:20px; margin-bottom:14px;
-                    transition: transform 0.15s, box-shadow 0.15s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)';"
-             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                <span style="font-size:24px;">🔬</span>
-                <h3 style="margin:0; font-size:15px; color:#0f172a;">Contact Patterning: Replace EBL with VCSEL Direct Optical Write</h3>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Current (EBL)</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">EBL — serial, slow, electron dose (100–1000 µC/cm²) damages MoS₂ via charging and radiolysis</div>
-                </div>
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">VCSEL Multiwriter</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">405 nm optical exposure avoids electron-induced damage mechanisms (charging, radiolysis, S-vacancy creation), shifting interaction into a controllable photochemical/photothermal regime</div>
-                </div>
-            </div>
-            <ul style="font-size:12px; color:#475569; margin:0; padding-left:18px; line-height:1.5;">
-                <li style="margin:3px 0;">405 nm at NA=0.7 → 290 nm resolution (sufficient for ≥300 nm contacts in far-field)</li><li style="margin:3px 0;">No electron-induced charging or radiolysis — categorically gentler than EBL</li><li style="margin:3px 0;">Future scaling path: near-field apertures (50–100 nm) for sub-diffraction contacts below 100 nm</li>
-            </ul>
-        </div>
-        <div style="background:#fff; border:2px solid #457b9d22; border-left:4px solid #457b9d;
-                    border-radius:10px; padding:20px; margin-bottom:14px;
-                    transition: transform 0.15s, box-shadow 0.15s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)';"
-             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                <span style="font-size:24px;">📊</span>
-                <h3 style="margin:0; font-size:15px; color:#0f172a;">Dose Control: Shot-Noise Advantage of 405 nm Over EUV</h3>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Current (EBL)</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">EUV at 60 mJ/cm²: 163 photons per 2nm pixel → 8% shot noise</div>
-                </div>
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">VCSEL Multiwriter</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">VCSEL 405nm at 20 mJ/cm²: 1,630 photons per 2nm pixel → 2.5% shot noise (3× improvement)</div>
-                </div>
-            </div>
-            <ul style="font-size:12px; color:#475569; margin:0; padding-left:18px; line-height:1.5;">
-                <li style="margin:3px 0;">3× better dose uniformity per pixel vs EUV</li><li style="margin:3px 0;">Lower contact edge roughness (LER/LWR) floor</li><li style="margin:3px 0;">Tighter filament formation zone → better ON/OFF ratio reproducibility</li>
-            </ul>
-        </div>
-        <div style="background:#fff; border:2px solid #2a9d8f22; border-left:4px solid #2a9d8f;
-                    border-radius:10px; padding:20px; margin-bottom:14px;
-                    transition: transform 0.15s, box-shadow 0.15s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)';"
-             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                <span style="font-size:24px;">🧪</span>
-                <h3 style="margin:0; font-size:15px; color:#0f172a;">Resist Chemistry: Metal-Oxide or t-SPL Resists</h3>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Current (EBL)</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">PMMA leaves residue degrading MoS₂ contacts; AZ1512HS requires DUV + IBE cleaning</div>
-                </div>
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">VCSEL Multiwriter</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">Metal-oxide resists (HfO₂/ZrO₂) — zero organic residue, 5–10× etch resistance; or gold mask lithography for contamination-free contacts</div>
-                </div>
-            </div>
-            <ul style="font-size:12px; color:#475569; margin:0; padding-left:18px; line-height:1.5;">
-                <li style="margin:3px 0;">Zero organic residue after development</li><li style="margin:3px 0;">5–10× higher etch resistance than PMMA</li><li style="margin:3px 0;">Gold mask lift-off protects MoS₂ surface throughout</li><li style="margin:3px 0;">Exposure calibrated against resist contrast curve (Hurter-Driffield) for stable CD control under local dose variation</li>
-            </ul>
-        </div>
-        <div style="background:#fff; border:2px solid #e9c46a22; border-left:4px solid #e9c46a;
-                    border-radius:10px; padding:20px; margin-bottom:14px;
-                    transition: transform 0.15s, box-shadow 0.15s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)';"
-             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                <span style="font-size:24px;">⚡</span>
-                <h3 style="margin:0; font-size:15px; color:#0f172a;">Control Architecture: Local Analog Power Stabilization</h3>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Current (EBL)</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">FPGA loop latency 5–10 ns → 150–300× too slow for 33 ps pixel dwell</div>
-                </div>
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">VCSEL Multiwriter</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">Per-VCSEL analog power stabilization (monitor photodiode + TIA) at the emitter level, plus slower zone-level compensation for transfer-induced thickness nonuniformity</div>
-                </div>
-            </div>
-            <ul style="font-size:12px; color:#475569; margin:0; padding-left:18px; line-height:1.5;">
-                <li style="margin:3px 0;">33 ps pixel dwell at 30 GHz per emitter — requires emitter-local analog control</li><li style="margin:3px 0;">Per-VCSEL monitor photodiode samples ~1% of output for real-time power stabilization</li><li style="margin:3px 0;">Zone-level dose correction compensates MoS₂ thickness variation across grain boundaries</li><li style="margin:3px 0;">Emitter-level power stabilization and scan strategies limit thermal accumulation and cross-talk during exposure</li>
-            </ul>
-        </div>
-        <div style="background:#fff; border:2px solid #26465322; border-left:4px solid #264653;
-                    border-radius:10px; padding:20px; margin-bottom:14px;
-                    transition: transform 0.15s, box-shadow 0.15s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)';"
-             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                <span style="font-size:24px;">🔧</span>
-                <h3 style="margin:0; font-size:15px; color:#0f172a;">Transfer Process Integration: In-Situ Write in Transfer Chamber</h3>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Current (EBL)</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">Separate EBL patterning step with vacuum break, atmospheric contamination at contacts</div>
-                </div>
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">VCSEL Multiwriter</div>
-                    <div style="font-size:12px; color:#64748b; line-height:1.4;">VCSEL write head mounted in-situ in transfer tool — expose immediately after MoS₂ placement, before contamination</div>
-                </div>
-            </div>
-            <ul style="font-size:12px; color:#475569; margin:0; padding-left:18px; line-height:1.5;">
-                <li style="margin:3px 0;">Zero vacuum break between transfer and patterning</li><li style="margin:3px 0;">No resist spin, no EBL chamber needed</li><li style="margin:3px 0;">Real-time compensation for MoS₂ thickness variation via per-zone dose feedback</li><li style="margin:3px 0;">Global alignment inherited from Lab 91's transfer tool; local exposure in continuous scan avoids stitching artifacts</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Shot Noise Advantage: 405 nm vs EUV</h2>
-        <div class="callout">
-            <b>At a 2×2 nm² voxel:</b> EUV at 60 mJ/cm² delivers only 163 photons (8% shot noise).
-            The VCSEL at 405 nm and 20 mJ/cm² delivers 1,630 photons (2.5% shot noise) — a
-            <b>10× photon count</b> and <b>3× noise reduction</b> per pixel.
-            This directly improves contact edge roughness and atomristor switching reproducibility.
-        </div>
-        <div class="plot-container"><div>                            <div id="cf4fdf18-6c0c-4e94-b795-17865974502e" class="plotly-graph-div" style="height:350px; width:800px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("cf4fdf18-6c0c-4e94-b795-17865974502e")) {                    Plotly.newPlot(                        "cf4fdf18-6c0c-4e94-b795-17865974502e",                        [{"marker":{"color":["#6a0dad","#e63946"]},"showlegend":false,"text":["163","1630"],"textposition":"outside","x":["EUV (13.5 nm)","VCSEL (405 nm)"],"y":[163,1630],"type":"bar","xaxis":"x","yaxis":"y"},{"marker":{"color":["#6a0dad","#e63946"]},"showlegend":false,"text":["7.8%","2.5%"],"textposition":"outside","x":["EUV (13.5 nm)","VCSEL (405 nm)"],"y":[7.8,2.5],"type":"bar","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.425]},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Photons"}},"xaxis2":{"anchor":"y2","domain":[0.575,1.0]},"yaxis2":{"anchor":"x2","domain":[0.0,1.0],"title":{"text":"Shot Noise %"}},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Photons per 2\u00d72 nm\u00b2 Voxel","x":0.2125,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Shot Noise (%)","x":0.7875,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"margin":{"t":50,"b":40},"height":350,"width":800},                        {"responsive": true}                    )                };            </script>        </div></div>
-    </div>
-
-    <div class="section">
-        <h2>Throughput: Emitter Scaling</h2>
-        <div class="callout">
-            <b>Target:</b> 60+ wafers per hour on 300 mm wafers.
-            At 12,000 emitters running at 30 GHz each,
-            total pixel rate is 3.6e+14 px/s.
-            A full 300 mm wafer completes in <b>59 seconds</b>
-            (61 wph) including 20% stepping overhead.
-        </div>
-        <div class="plot-container"><div>                            <div id="c09acedd-3a39-4e25-aab1-65f09a4b0add" class="plotly-graph-div" style="height:400px; width:1000px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("c09acedd-3a39-4e25-aab1-65f09a4b0add")) {                    Plotly.newPlot(                        "c09acedd-3a39-4e25-aab1-65f09a4b0add",                        [{"hovertemplate":"Emitters: %{x:,}\u003cbr\u003eTime: %{y:.1f} s\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#e63946","width":3},"marker":{"size":8},"mode":"lines+markers","name":"Wafer Time","x":[1000,2000,4000,8000,12000,16000,24000],"y":[706.8577499999999,353.42887499999995,176.71443749999997,88.35721874999999,58.90481249999999,44.17860937499999,29.452406249999996],"type":"scatter","xaxis":"x","yaxis":"y"},{"hovertemplate":"Emitters: %{x:,}\u003cbr\u003eWPH: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#2a9d8f","width":3},"marker":{"size":8},"mode":"lines+markers","name":"Throughput","x":[1000,2000,4000,8000,12000,16000,24000],"y":[5.092962480782025,10.18592496156405,20.3718499231281,40.7436998462562,61.1155497693843,81.4873996925124,122.2310995387686],"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.425],"title":{"text":"Emitter Count"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Seconds per Wafer"}},"xaxis2":{"anchor":"y2","domain":[0.575,1.0],"title":{"text":"Emitter Count"}},"yaxis2":{"anchor":"x2","domain":[0.0,1.0],"title":{"text":"Wafers per Hour"}},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Wafer Time vs Emitter Count","x":0.2125,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Throughput (wph) vs Emitter Count","x":0.7875,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"showarrow":false,"text":"60 s target","x":1,"xanchor":"right","xref":"x domain","y":60,"yanchor":"bottom","yref":"y"},{"showarrow":false,"text":"60 wph target","x":1,"xanchor":"right","xref":"x2 domain","y":60,"yanchor":"bottom","yref":"y2"}],"shapes":[{"line":{"color":"#64748b","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":60,"y1":60,"yref":"y"},{"line":{"color":"#64748b","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x2 domain","y0":60,"y1":60,"yref":"y2"}],"margin":{"t":50,"b":40},"height":400,"width":1000,"showlegend":false},                        {"responsive": true}                    )                };            </script>        </div></div>
-    </div>
-
-    <div class="section">
-        <div class="callout" style="background:#fef3c7; border-color:#f59e0b; color:#92400e;">
-            <b>Transfer Integration:</b> The VCSEL write head mounts in-situ in the transfer tool.
-            MoS₂ monolayer placement → immediate resist exposure → no vacuum break,
-            no atmospheric contamination, no resist spin, no EBL chamber.
-            Per-zone VCSEL dose feedback compensates for MoS₂ thickness variation across
-            grain boundaries in real time.
-        </div>
-    </div>
-    </div><!-- end Example Implementation section -->
 
 </body>
 </html>
