@@ -119,9 +119,9 @@ button:hover { background: #1d4ed8; }
 </div>
 
     <article style="max-width:900px; margin:0 auto; padding:20px 40px 0;">
-        <p style="font-size:15px; color:#475569; line-height:1.7; margin:0 0 8px 0;">The Distributed Adaptive Writer Array is a parallelized beam-writing architecture that treats lithography as a distributed control problem. Instead of enforcing global precision through a single monolithic optical column, it converges to precision locally through independent writer heads with per-zone feedback.</p>
-        <p style="font-size:14px; color:#64748b; line-height:1.6; margin:0 0 8px 0;">This is novel because it eliminates the fundamental scaling bottleneck of conventional lithography — the assumption that a single source must uniformly illuminate the entire field. By distributing writing across semiconductor-replicated heads, throughput scales with parallelism rather than source power.</p>
-        <p style="font-size:14px; color:#64748b; line-height:1.6; margin:0;">This architecture unlocks: sub-wavelength patterning without EUV-class optics, desktop-scale lithography platforms at orders-of-magnitude lower cost and power, and a path to semiconductor-economics scaling for advanced patterning tools.</p>
+        <p style="font-size:15px; color:#475569; line-height:1.7; margin:0 0 8px 0;">The Distributed Adaptive Writer Array replaces monolithic optical projection with semiconductor-replicated writer heads under closed-loop correction. Each head operates as an independent control node. Precision converges locally through per-zone feedback, not through global field uniformity.</p>
+        <p style="font-size:14px; color:#64748b; line-height:1.6; margin:0 0 8px 0;">Conventional lithography assumes a single source can uniformly illuminate the entire field. That assumption fails at scale. Here, throughput scales with parallelism — not source power — and each writer head compensates for local process variation in real time.</p>
+        <p style="font-size:14px; color:#64748b; line-height:1.6; margin:0;">Measured consequence: sub-wavelength patterning without EUV-class optics, desktop-scale platforms at $0.6M instead of $380M, and a cost trajectory that follows semiconductor manufacturing economics.</p>
     </article>
 
     <form class="controls" method="get" action="multihead.html">
@@ -161,25 +161,77 @@ button:hover { background: #1d4ed8; }
     </form>
 
     <div class="callout" style="background:#eff6ff; border-color:#93c5fd; color:#1e40af; margin:16px 24px;">
-        <b>Each writer head is an independent control node with optical actuation capability</b> — built from 2D planar semiconductor
-        layers: emitters, MEMS steering, waveguides, polarizers, Bragg diffractor mirrors,
-        phase modulators, and vacuum containment. Batch-fabricated ~1,000 per wafer run.
-        <a href="writer-head.html" style="color:#2563eb; font-weight:700;">Explore the 3D structure →</a>
+        <b>Each writer head is an independent control node</b> — 11 degrees of freedom, ~2×2 mm die, 137 µm stack.
+        Batch-fabricated: ~1,000 per wafer run via standard planar semiconductor processes.
+        Without this actuation dimensionality, the control loop has no basis to compensate.
+        <a href="writer-head.html" style="color:#2563eb; font-weight:700;">See the actuation layer →</a>
     </div>
 
     <div class="section">
-        <!-- Core Contrast — readable in 3 seconds -->
-        <div style="display:flex; gap:0; margin:0 0 24px 0; border-radius:10px; overflow:hidden; border:2px solid #e2e8f0;">
-            <div style="flex:1; background:#fef2f2; padding:18px 24px; border-right:2px solid #e2e8f0;">
-                <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Traditional Lithography</div>
-                <div style="font-size:16px; font-weight:800; color:#991b1b; line-height:1.3;">Enforce global precision upfront</div>
-                <div style="font-size:12px; color:#b91c1c; margin-top:4px;">Single monolithic source, uniform field, tight environmental control — brittle at scale</div>
+        <!-- Structural Asymmetry — the difference is visible without reading -->
+        <div style="display:flex; gap:0; margin:0 0 28px 0; border-radius:10px; overflow:hidden; border:2px solid #e2e8f0;">
+            <div style="flex:1; background:#fef2f2; padding:20px 24px; border-right:2px solid #e2e8f0; opacity:0.7;">
+                <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Early Commitment</div>
+                <div style="font-size:18px; font-weight:800; color:#991b1b; line-height:1.3;">Commits to exposure strategy before the wafer responds</div>
+                <div style="font-size:12px; color:#b91c1c; margin-top:8px; line-height:1.5;">Cannot recover from stochastic variation.<br>Amplifies error at every node.</div>
+                <div style="margin-top:12px; font-size:11px; color:#991b1b; font-style:italic;">At 193 nm, absorption dominates. No cavity. No finesse. No recovery.</div>
             </div>
-            <div style="flex:1; background:#f0fdf4; padding:18px 24px;">
-                <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">This System</div>
-                <div style="font-size:16px; font-weight:800; color:#166534; line-height:1.3;">Converge to precision locally, over time</div>
-                <div style="font-size:12px; color:#15803d; margin-top:4px;">Parallel writers introduce instability unless locally controlled. This system closes that loop.</div>
+            <div style="flex:1.2; background:#f0fdf4; padding:20px 24px; border-left:4px solid #16a34a;">
+                <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Continuous Evaluation</div>
+                <div style="font-size:18px; font-weight:800; color:#166534; line-height:1.3;">Maintains multiple exposure hypotheses until convergence</div>
+                <div style="font-size:12px; color:#15803d; margin-top:8px; line-height:1.5;">Adapts to signal/noise in real time.<br>Trades compute for robustness.</div>
+                <div style="margin-top:12px; font-size:11px; color:#166534; font-style:italic;">Continuous evaluation becomes necessary when signal is below stability threshold.</div>
             </div>
+        </div>
+
+        <!-- Invariant vs Divergence — engineers scan tables, not paragraphs -->
+        <div style="margin:0 0 28px 0;">
+            <h2 style="font-size:16px; font-weight:700; color:#0f172a; margin:0 0 12px 0; border-bottom:2px solid #2563eb; padding-bottom:6px; display:inline-block;">Invariant vs Divergence</h2>
+            <table class="data-table" style="margin-top:4px;">
+                <thead>
+                    <tr>
+                        <th style="width:28%;">Aspect</th>
+                        <th style="width:36%; color:#991b1b;">Early Commitment</th>
+                        <th style="width:36%; color:#166534;">Continuous Evaluation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:600;">Hypothesis count</td>
+                        <td>Collapses early</td>
+                        <td style="font-weight:600;">Persists</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">Error recovery</td>
+                        <td>Low</td>
+                        <td style="font-weight:600;">High</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">Compute pattern</td>
+                        <td>Serial</td>
+                        <td style="font-weight:600;">Parallel</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">Failure mode</td>
+                        <td>Wrong lock-in</td>
+                        <td style="font-weight:600;">Compute cost</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:600;">Physics regime</td>
+                        <td>Stable above threshold</td>
+                        <td style="font-weight:600;">Required below threshold</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Physics → Architecture linkage -->
+        <div style="background:#f8fafc; border-left:3px solid #2563eb; padding:14px 20px; margin:0 0 28px 0; font-size:13px; color:#334155; line-height:1.6;">
+            <b style="color:#0f172a;">Why this architecture follows from physics:</b>
+            At 193 nm and below, absorption dominates — there is no cavity, no finesse, no path to recovery once the exposure commits.
+            Early commitment architectures are structurally brittle in this regime.
+            Continuous evaluation becomes necessary when the signal-to-noise ratio is below the stability threshold of a single-pass system.
+            This is not a design preference. It is a constraint.
         </div>
 
         <h2>Architecture Selection</h2>

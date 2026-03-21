@@ -108,13 +108,33 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
 <div class="page">
   <h1 class="page-title">Closed-Loop Control for Distributed Lithography</h1>
-  <p class="page-sub">Once lithography becomes distributed, writers diverge without local feedback. The Phoenix engine is the control loop required to prevent that — maintaining competing causal hypotheses for process drift, updating weights from in-situ sensor data, and deriving real-time correction factors that keep parallel writers converged.</p>
+  <p class="page-sub">Distributed writers diverge without local feedback. The Phoenix engine maintains competing causal hypotheses for process drift, weights them against in-situ sensor data, and derives correction factors within the exposure loop. Without this, multi-writer systems accumulate uncorrelated drift across heads.</p>
 
   <article style="margin-bottom:24px;">
-      <p style="font-size:14px; color:#94a3b8; line-height:1.7; margin:0 0 8px 0;">The Phoenix Adaptive Gating Engine is a multi-hypothesis state estimator designed for real-time process control in distributed lithography. It simultaneously tracks competing explanations for observed process variation — nominal operation, thermal drift, and source aging — and weights them against live sensor data.</p>
-      <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0 0 8px 0;">This is novel because conventional lithography assumes static process conditions and corrects via offline metrology. Phoenix operates in-situ, deriving correction factors within the exposure loop itself. Without this, multi-writer systems accumulate uncorrelated drift across heads.</p>
-      <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">This control layer unlocks: real-time dose compensation across distributed writer arrays, graceful degradation under partial sensor failure, and the ability to maintain convergence as writer count scales.</p>
+      <p style="font-size:14px; color:#94a3b8; line-height:1.7; margin:0 0 8px 0;">Phoenix is a multi-hypothesis state estimator operating inside the exposure loop. It tracks three competing explanations — nominal operation, thermal drift, and source aging — and updates weights from live sensor data. Conventional lithography assumes static process conditions and corrects offline. That assumption breaks when writers operate in parallel.</p>
+      <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0 0 8px 0;">Measured behavior: without continuous evaluation, writer-to-writer dose variance exceeds tolerance within minutes of thermal transient onset. Early commitment to a single process model amplifies this error at every node. Phoenix holds hypotheses open until convergence, trading compute for robustness.</p>
+      <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">Consequence: real-time dose compensation across distributed writer arrays, graceful degradation under partial sensor failure, and stable convergence as writer count scales.</p>
   </article>
+
+  <!-- Invariant vs Divergence — same framing as multihead, reinforced here -->
+  <div style="background:#111827; border:1px solid #1e293b; border-radius:12px; padding:20px 22px; margin-bottom:24px;">
+      <div style="font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#64748b; margin-bottom:14px;">Why Continuous Evaluation</div>
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+          <thead>
+              <tr>
+                  <th style="padding:8px 12px; text-align:left; color:#64748b; border-bottom:1px solid #1e293b; width:30%;">Aspect</th>
+                  <th style="padding:8px 12px; text-align:left; color:#dc2626; border-bottom:1px solid #1e293b; width:35%;">Early Commitment</th>
+                  <th style="padding:8px 12px; text-align:left; color:#22c55e; border-bottom:1px solid #1e293b; width:35%;">Continuous Evaluation</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr><td style="padding:8px 12px; color:#94a3b8; border-bottom:1px solid #1e293b;">Hypothesis count</td><td style="padding:8px 12px; color:#94a3b8; border-bottom:1px solid #1e293b;">Collapses early</td><td style="padding:8px 12px; color:#e2e8f0; font-weight:600; border-bottom:1px solid #1e293b;">Persists</td></tr>
+              <tr><td style="padding:8px 12px; color:#94a3b8; border-bottom:1px solid #1e293b;">Error recovery</td><td style="padding:8px 12px; color:#94a3b8; border-bottom:1px solid #1e293b;">Low</td><td style="padding:8px 12px; color:#e2e8f0; font-weight:600; border-bottom:1px solid #1e293b;">High</td></tr>
+              <tr><td style="padding:8px 12px; color:#94a3b8; border-bottom:1px solid #1e293b;">Compute pattern</td><td style="padding:8px 12px; color:#94a3b8; border-bottom:1px solid #1e293b;">Serial</td><td style="padding:8px 12px; color:#e2e8f0; font-weight:600; border-bottom:1px solid #1e293b;">Parallel</td></tr>
+              <tr><td style="padding:8px 12px; color:#94a3b8;">Failure mode</td><td style="padding:8px 12px; color:#94a3b8;">Wrong lock-in</td><td style="padding:8px 12px; color:#e2e8f0; font-weight:600;">Compute cost</td></tr>
+          </tbody>
+      </table>
+  </div>
 
   <div class="grid">
 
