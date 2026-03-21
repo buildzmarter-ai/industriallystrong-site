@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Phoenix Engine State</title>
+<title>Closed-Loop Control for Distributed Lithography</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b1120; color: #e2e8f0; }
@@ -94,29 +94,27 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <body>
 
 <div class="nav">
-  <a href="index.html">Dashboard</a>
-  <a href="2d-process.html">2D Process Sim</a>
-  <a href="3d-pipeline.html">3D Pipeline</a>
-  <a href="fleet-economics.html">Platform Economics</a>
-  <a href="multihead.html">Multi-Head Array</a>
-  <a href="writer-head.html">11-DOF Writer Head</a>
-  <a href="alab.html">ALab</a>
-  <a href="psf-synthesis.html">PSF Synthesis</a>
-  <a href="phoenix-state.html" class="active">Phoenix Engine</a>
+    <a href="multihead.html">Distributed Writer Array</a>
+    <a href="phoenix-state.html" class="active">Closed-Loop Control</a>
+    <a href="writer-head.html">11-DOF Actuation</a>
+    <a href="psf-synthesis.html">PSF Physics</a>
+    <a href="fleet-economics.html">Why This Wins</a>
+    <a href="3d-pipeline.html">Implementation Detail</a>
+    <a href="2d-process.html">Validation</a>
 </div>
 
 <div class="page">
-  <h1 class="page-title">Phoenix Engine State</h1>
-  <p class="page-sub">Adaptive dose correction via multi-hypothesis state estimation. The engine maintains competing causal hypotheses, updates weights from in-situ sensor data, and derives real-time correction factors for closed-loop metrology feedback.</p>
+  <h1 class="page-title">Closed-Loop Control for Distributed Lithography</h1>
+  <p class="page-sub">Once lithography becomes distributed, writers diverge without local feedback. The Phoenix engine is the control loop required to prevent that — maintaining competing causal hypotheses for process drift, updating weights from in-situ sensor data, and deriving real-time correction factors that keep parallel writers converged.</p>
 
   <div class="grid">
 
     <!-- ── Status + KPIs ────────────────────────────────────────── -->
     <div class="card">
-      <div class="card-title">System Status</div>
+      <div class="card-title">Control Loop Status</div>
       <div class="status-row">
         <div class="status-dot" id="statusDot"></div>
-        <div class="status-label" id="statusLabel">Adaptive Gating Active</div>
+        <div class="status-label" id="statusLabel">Distributed Control Active</div>
       </div>
       <div class="kpi-grid">
         <div class="kpi">
@@ -142,7 +140,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
     <!-- ── State Diagram ────────────────────────────────────────── -->
     <div class="card grid-full">
-      <div class="card-title">Adaptive Gating State Machine</div>
+      <div class="card-title">Distributed Control State Machine</div>
       <div class="diagram-wrap">
         <svg id="stateDiagram" viewBox="0 0 800 280" preserveAspectRatio="xMidYMid meet">
           <defs>

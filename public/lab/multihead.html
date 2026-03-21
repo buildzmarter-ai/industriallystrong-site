@@ -55,18 +55,64 @@ button:hover { background: #1d4ed8; }
     padding: 14px 20px; margin: 16px 0; font-size: 13px; color: #1e40af; line-height: 1.5;
 }
 .callout b { color: #1e3a8a; }
+.thesis-banner {
+    background: #0f172a; color: #e2e8f0; padding: 48px 40px 40px;
+    max-width: 900px; margin: 0 auto;
+}
+.thesis-banner h1 {
+    font-size: 32px; font-weight: 800; color: #f1f5f9; margin: 0 0 12px 0;
+    line-height: 1.2; letter-spacing: -0.5px;
+}
+.thesis-banner .subline {
+    font-size: 16px; color: #94a3b8; margin: 0 0 28px 0; line-height: 1.6;
+    max-width: 720px;
+}
+.thesis-bullets {
+    list-style: none; padding: 0; margin: 0 0 32px 0;
+}
+.thesis-bullets li {
+    font-size: 14px; color: #cbd5e1; padding: 8px 0 8px 20px;
+    border-left: 3px solid #334155; margin-bottom: 4px; line-height: 1.5;
+}
+.thesis-conclusion {
+    background: #1e293b; border-left: 4px solid #3b82f6;
+    padding: 20px 24px; border-radius: 0 8px 8px 0;
+    margin-top: 8px;
+}
+.thesis-conclusion .therefore {
+    font-size: 12px; font-weight: 700; color: #3b82f6;
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px;
+}
+.thesis-conclusion p {
+    font-size: 18px; font-weight: 700; color: #f1f5f9; margin: 0;
+    line-height: 1.4;
+}
 </style>
 </head>
 <body>
     
 <div class="nav">
-    <a href="/api/visualize">2D Process Sim</a>
-    <a href="/api/visualize-3d">3D Pipeline</a>
-    <a href="fleet-economics.html">Platform Economics</a>
-    <a href="multihead.html" class="active">Adaptive Writer Array</a>
-    <a href="psf-synthesis.html">PSF Synthesis</a>
-    <a href="writer-head.html">11-DOF Head</a>
-    <a href="alab.html">ALab</a>
+    <a href="multihead.html" class="active">Distributed Writer Array</a>
+    <a href="phoenix-state.html">Closed-Loop Control</a>
+    <a href="writer-head.html">11-DOF Actuation</a>
+    <a href="psf-synthesis.html">PSF Physics</a>
+    <a href="fleet-economics.html">Why This Wins</a>
+    <a href="3d-pipeline.html">Implementation Detail</a>
+    <a href="2d-process.html">Validation</a>
+</div>
+
+<div class="thesis-banner">
+    <h1>Lithography does not scale with optics.<br>It scales with control.</h1>
+    <p class="subline">At high throughput, stochastic effects dominate. This forces a transition from monolithic exposure to distributed, feedback-controlled writing.</p>
+    <ul class="thesis-bullets">
+        <li>Electron-based patterning introduces irreversible material damage at scale</li>
+        <li>Optical projection cannot compensate for local variability across the wafer</li>
+        <li>Throughput increases require parallel writers — which introduces control instability</li>
+    </ul>
+    <div class="thesis-conclusion">
+        <div class="therefore">Therefore</div>
+        <p>Advanced lithography is a distributed control system problem, not an optics problem.</p>
+    </div>
 </div>
 
     <form class="controls" method="get" action="multihead.html">
@@ -106,7 +152,7 @@ button:hover { background: #1d4ed8; }
     </form>
 
     <div class="callout" style="background:#eff6ff; border-color:#93c5fd; color:#1e40af; margin:16px 24px;">
-        <b>Each writer head is an 11-DOF optical engine</b> built from 2D planar semiconductor
+        <b>Each writer head is an independent control node with optical actuation capability</b> — built from 2D planar semiconductor
         layers: emitters, MEMS steering, waveguides, polarizers, Bragg diffractor mirrors,
         phase modulators, and vacuum containment. Batch-fabricated ~1,000 per wafer run.
         <a href="writer-head.html" style="color:#2563eb; font-weight:700;">Explore the 3D structure →</a>
@@ -118,12 +164,12 @@ button:hover { background: #1d4ed8; }
             <div style="flex:1; background:#fef2f2; padding:18px 24px; border-right:2px solid #e2e8f0;">
                 <div style="font-size:10px; font-weight:700; color:#dc2626; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Traditional Lithography</div>
                 <div style="font-size:16px; font-weight:800; color:#991b1b; line-height:1.3;">Enforce global precision upfront</div>
-                <div style="font-size:12px; color:#b91c1c; margin-top:4px;">Single source, uniform field, tight environmental control</div>
+                <div style="font-size:12px; color:#b91c1c; margin-top:4px;">Single monolithic source, uniform field, tight environmental control — brittle at scale</div>
             </div>
             <div style="flex:1; background:#f0fdf4; padding:18px 24px;">
                 <div style="font-size:10px; font-weight:700; color:#16a34a; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">This System</div>
                 <div style="font-size:16px; font-weight:800; color:#166534; line-height:1.3;">Converge to precision locally, over time</div>
-                <div style="font-size:12px; color:#15803d; margin-top:4px;">Distributed emitters, per-zone feedback, adaptive dose correction</div>
+                <div style="font-size:12px; color:#15803d; margin-top:4px;">Parallel writers introduce instability unless locally controlled. This system closes that loop.</div>
             </div>
         </div>
 

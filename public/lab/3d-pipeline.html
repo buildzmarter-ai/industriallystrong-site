@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Integrated Multi-Head Writer Platform</title>
+    <title>Implementation Detail — 3D Optical Pipeline</title>
     <script src="plotly.min.js"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #fafafa; }
@@ -32,17 +32,18 @@
 </head>
 <body>
     <div class="nav">
-        <a href="2d-process.html">2D Process Sim</a>
-        <a href="3d-pipeline.html" class="active">3D Pipeline</a>
-        <a href="fleet-economics.html">Platform Economics</a>
-        <a href="multihead.html">Multi-Head Array</a>
-        <a href="psf-synthesis.html">PSF Synthesis</a>
-        <a href="writer-head.html">11-DOF Head</a>
-    <a href="alab.html">ALab</a>
+        <a href="multihead.html">Distributed Writer Array</a>
+        <a href="phoenix-state.html">Closed-Loop Control</a>
+        <a href="writer-head.html">11-DOF Actuation</a>
+        <a href="psf-synthesis.html">PSF Physics</a>
+        <a href="fleet-economics.html">Why This Wins</a>
+        <a href="3d-pipeline.html" class="active">Implementation Detail</a>
+        <a href="2d-process.html">Validation</a>
     </div>
 
     <div class="hero">
-        <h2>Integrated Multi-Head Writer Platform</h2>
+        <h2>Implementation Detail: 3D Optical Pipeline</h2>
+        <div style="font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Deep dive — not required to understand the system</div>
         <p>
             Not a single beam path — a <b>semiconductor-replicated array</b> of 11-DOF writer heads.
             Each ~2×2 mm die contains the full optical pipeline (VCSEL → HHG → focusing optic)
