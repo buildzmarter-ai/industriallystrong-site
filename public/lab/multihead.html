@@ -331,5 +331,199 @@ button:hover { background: #1d4ed8; }
         </a>
     </div>
 
+<script>
+// ── Read URL params and apply to page ────────────────────────
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.toString()) return; // No params, leave defaults
+
+  // Architecture data for each variant
+  const ARCH_DATA = {
+    A: {
+      name: 'Architecture A — NIR/Visible',
+      tile: 200, res: '500 nm', na: 0.3,
+      color: '#e63946',
+      callout: function(r, c, o, e) {
+        const total = r * c;
+        const tiled = Math.round(r * this.tile * (1 - o/100) + this.tile * o/100);
+        return `<b>Architecture A — NIR/Visible:</b> ${r}×${c} = ${total} writer heads, each covering a ${this.tile}×${this.tile} µm tile with ${o}% overlap stitch zones (yellow). Total tiled region: ${tiled}×${tiled} µm.`;
+      }
+    },
+    B: {
+      name: 'Architecture B — Deep UV',
+      tile: 100, res: '80 nm', na: 0.6,
+      color: '#457b9d',
+      callout: function(r, c, o, e) {
+        const total = r * c;
+        const tiled = Math.round(r * this.tile * (1 - o/100) + this.tile * o/100);
+        return `<b>Architecture B — Deep UV:</b> ${r}×${c} = ${total} writer heads, each covering a ${this.tile}×${this.tile} µm tile with ${o}% overlap stitch zones (yellow). Total tiled region: ${tiled}×${tiled} µm.`;
+      }
+    },
+    C: {
+      name: 'Architecture C — EUV (Rydberg HHG)',
+      tile: 100, res: '7 nm', na: 0.33,
+      color: '#6a0dad',
+      callout: function(r, c, o, e) {
+        const total = r * c;
+        const tiled = Math.round(r * this.tile * (1 - o/100) + this.tile * o/100);
+        return `<b>Architecture C — EUV (Rydberg HHG):</b> ${r}×${c} = ${total} writer heads, each covering a ${this.tile}×${this.tile} µm tile with ${o}% overlap stitch zones (yellow). Total tiled region: ${tiled}×${tiled} µm.`;
+      }
+    }
+  };
+
+  // 1. Set form values from URL params
+  const archVal = params.get('arch') || 'A';
+  const nRows = params.get('n_rows') || '4';
+  const nCols = params.get('n_cols') || '4';
+  const overlap = params.get('overlap_pct') || '5.0';
+  const emitters = params.get('emitters_per_side') || '16';
+  const power = params.get('source_power_mw') || '10.0';
+  const dose = params.get('dose_mj_cm2') || '15.0';
+
+  const archSelect = document.querySelector('select[name="arch"]');
+  if (archSelect) archSelect.value = archVal;
+
+  const fields = {n_rows: nRows, n_cols: nCols, overlap_pct: overlap,
+                  emitters_per_side: emitters, source_power_mw: power, dose_mj_cm2: dose};
+  Object.entries(fields).forEach(([name, val]) => {
+    const input = document.querySelector(`input[name="${name}"]`);
+    if (input) input.value = val;
+  });
+
+  // 2. Update architecture card selection
+  const cards = document.querySelectorAll('.arch-card');
+  const archMap = ['A', 'B', 'C'];
+  const archInfo = ARCH_DATA[archVal] || ARCH_DATA.A;
+
+  cards.forEach((card, i) => {
+    if (archMap[i] === archVal) {
+      card.classList.add('selected');
+      card.style.borderColor = archInfo.color;
+    } else {
+      card.classList.remove('selected');
+      card.style.borderColor = '#e2e8f0';
+    }
+  });
+
+  // 3. Fix card links to use form submission instead of API calls
+  cards.forEach((card, i) => {
+    card.href = '#';
+    card.addEventListener('click', function(e) {
+      e.preventDefault();
+      archSelect.value = archMap[i];
+      document.querySelector('form.controls').submit();
+    });
+  });
+
+  // 4. Update callout text for Writer Head Array section
+  const callouts = document.querySelectorAll('.callout');
+  callouts.forEach(callout => {
+    const bold = callout.querySelector('b');
+    if (bold && bold.textContent.includes('Architecture')) {
+      callout.innerHTML = archInfo.callout(
+        parseInt(nRows), parseInt(nCols), parseFloat(overlap), parseInt(emitters)
+      );
+    }
+  });
+
+  // 5. Regenerate the top-down array plot with correct parameters
+  const plotDiv = document.querySelector('.plot-container .plotly-graph-div');
+  if (plotDiv && typeof Plotly !== 'undefined') {
+    const rows = parseInt(nRows);
+    const cols = parseInt(nCols);
+    const tile = archInfo.tile;
+    const overlapFrac = parseFloat(overlap) / 100;
+    const step = tile * (1 - overlapFrac);
+    const emit = parseInt(emitters);
+    const pw = parseFloat(power);
+    const traces = [];
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const idx = r * cols + c;
+        const x0 = c * step;
+        const y0 = r * step;
+        const x1 = x0 + tile;
+        const y1 = y0 + tile;
+        const totalEmitters = emit * emit;
+        const headPower = (pw * totalEmitters / 1000).toFixed(1);
+
+        // Tile outline
+        traces.push({
+          x: [x0, x1, x1, x0, x0],
+          y: [y0, y0, y1, y1, y0],
+          fill: 'toself',
+          fillcolor: archInfo.color + '22',
+          line: {color: archInfo.color, width: 2},
+          hoverinfo: 'text',
+          hovertext: `<b>Head ${idx}</b> (row ${r}, col ${c})<br>Tile: ${tile}×${tile} µm<br>Emitters: ${totalEmitters} (${emit}×${emit})<br>Power: ${headPower} mW`,
+          showlegend: false,
+          type: 'scatter'
+        });
+
+        // Label
+        traces.push({
+          x: [(x0 + x1) / 2],
+          y: [(y0 + y1) / 2],
+          mode: 'text',
+          text: [`H${idx}`],
+          textfont: {color: archInfo.color, size: Math.max(8, Math.min(12, 200 / rows))},
+          hoverinfo: 'skip',
+          showlegend: false,
+          type: 'scatter'
+        });
+
+        // Overlap zones (vertical)
+        if (c > 0) {
+          const ox0 = c * step;
+          const ox1 = ox0 + tile * overlapFrac;
+          traces.push({
+            x: [ox0, ox1, ox1, ox0, ox0],
+            y: [y0, y0, y1, y1, y0],
+            fill: 'toself',
+            fillcolor: 'rgba(255,193,7,0.25)',
+            line: {color: '#ffc107', width: 1, dash: 'dot'},
+            hoverinfo: 'text',
+            hovertext: `Stitch zone: ${(tile * overlapFrac).toFixed(0)} µm overlap`,
+            showlegend: false,
+            type: 'scatter'
+          });
+        }
+
+        // Overlap zones (horizontal)
+        if (r > 0) {
+          const oy0 = r * step;
+          const oy1 = oy0 + tile * overlapFrac;
+          traces.push({
+            x: [x0, x1, x1, x0, x0],
+            y: [oy0, oy0, oy1, oy1, oy0],
+            fill: 'toself',
+            fillcolor: 'rgba(255,193,7,0.25)',
+            line: {color: '#ffc107', width: 1, dash: 'dot'},
+            hoverinfo: 'text',
+            hovertext: `Stitch zone: ${(tile * overlapFrac).toFixed(0)} µm overlap`,
+            showlegend: false,
+            type: 'scatter'
+          });
+        }
+      }
+    }
+
+    const totalSize = Math.round(cols * step + tile * overlapFrac);
+    const layout = {
+      title: {text: `Multi-Head Writer Array — ${archInfo.name}`, font: {size: 16}},
+      xaxis: {title: 'µm', range: [-20, totalSize + 20], scaleanchor: 'y'},
+      yaxis: {title: 'µm', range: [-20, totalSize + 20]},
+      width: 700, height: 600,
+      margin: {l: 60, r: 20, t: 50, b: 50},
+      plot_bgcolor: '#fff',
+      paper_bgcolor: '#fff'
+    };
+
+    Plotly.react(plotDiv.id, traces, layout, {responsive: true});
+  }
+})();
+</script>
+
 </body>
 </html>
