@@ -491,15 +491,15 @@ export default function Lab() {
         </ChartBox>
 
         {/* Baseline Comparison */}
-        <SectionTitle n={2}>Baseline Comparison — Single Path vs Parallel Persistence</SectionTitle>
+        <SectionTitle n={2}>Baseline Comparison — Early Commitment vs Parallel Persistence</SectionTitle>
 
         <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 20px" }}>
-          Single-path collapses on regime shift. Parallel persistence adapts through maintained alternatives.
+          Early commitment collapses on regime shift. Parallel persistence adapts through maintained alternatives.
         </p>
 
         <Callout color={T.amber}>Shaded regions = regime shift events</Callout>
 
-        <ChartBox title="System Response Under Regime Shift — Single Path (Red) vs Parallel Persistence (Blue)">
+        <ChartBox title="Capital Path — Early Commitment (Red) vs Parallel Persistence (Blue)">
           <div style={{ height: 240 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={baselineData}>
@@ -507,7 +507,7 @@ export default function Lab() {
                 <XAxis dataKey="t" tick={{ fill: T.textFaint, fontSize: 10, fontFamily: T.mono }} stroke={T.border} />
                 <YAxis tick={{ fill: T.textFaint, fontSize: 10, fontFamily: T.mono }} stroke={T.border} domain={[0, 1]} />
                 <Tooltip contentStyle={{ background: T.bg, border: `1px solid ${T.border}`, borderRadius: 4, fontSize: 12, fontFamily: T.mono }} />
-                <Line type="monotone" dataKey="single" stroke={T.red} strokeWidth={2} dot={false} name="Single Path" />
+                <Line type="monotone" dataKey="single" stroke={T.red} strokeWidth={2} dot={false} name="Early Commitment" />
                 <Line type="monotone" dataKey="parallel" stroke={T.blue} strokeWidth={2} dot={false} name="Parallel Persistence" />
                 <Legend wrapperStyle={{ fontSize: 11, fontFamily: T.mono }} />
               </LineChart>
@@ -521,7 +521,7 @@ export default function Lab() {
         </ChartBox>
 
         <div style={{ display: "flex", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
-          <CompareCard title="Single Path" color={T.red} items={[
+          <CompareCard title="Early Commitment" color={T.red} items={[
             "Commits to one interpretation",
             "Collapses on regime shift",
             "Recovery requires full re-estimation",
