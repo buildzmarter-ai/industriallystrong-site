@@ -146,6 +146,18 @@ function EvidenceBox({ mechanism, controlledVar, measuredOutput, significance })
   );
 }
 
+function ClaimTag({ children }) {
+  return (
+    <span style={{
+      display: "inline-block", padding: "2px 8px", borderRadius: 3,
+      background: T.surfaceAlt, border: `1px solid ${T.border}`,
+      fontFamily: T.mono, fontSize: 9, fontWeight: 600,
+      letterSpacing: "0.08em", textTransform: "uppercase",
+      color: T.textFaint, marginLeft: 12, verticalAlign: "middle",
+    }}>{children}</span>
+  );
+}
+
 function Callout({ children, color = T.red }) {
   return (
     <div style={{
@@ -329,6 +341,31 @@ export default function Lab() {
         across multiple technical contexts.
       </p>
 
+      {/* Patent Alignment */}
+      <div style={{
+        margin: "0 0 32px", padding: "16px 20px", borderRadius: T.radius,
+        border: `1px solid ${T.border}`, background: T.surface,
+      }}>
+        <div style={{
+          fontFamily: T.mono, fontSize: 10, fontWeight: 700,
+          letterSpacing: "0.1em", textTransform: "uppercase",
+          color: T.textFaint, marginBottom: 10,
+        }}>Patent Alignment</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 8 }}>
+          {[
+            { label: "Core System Architecture", ref: "Patent #3", desc: "Parallel state persistence and controlled resolution" },
+            { label: "Signal Interpretation", ref: "Patent #1", desc: "Multi-hypothesis signal decomposition" },
+            { label: "Process Stability", ref: "Patent #2", desc: "Adaptive control under perturbation" },
+          ].map((p, i) => (
+            <div key={i} style={{ padding: "10px 14px", borderRadius: T.radius, background: T.bg, border: `1px solid ${T.border}` }}>
+              <div style={{ fontFamily: T.mono, fontSize: 10, color: T.blue, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>{p.ref}</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 2 }}>{p.label}</div>
+              <div style={{ fontSize: 12, color: T.textFaint, lineHeight: 1.5 }}>{p.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Nav anchors */}
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
         {[
@@ -375,7 +412,7 @@ export default function Lab() {
           LAYER 2 — CORE SYSTEM
           ═══════════════════════════════════════════════════════════════ */}
       <section id="core-system">
-        <SectionTitle n={1}>Core System: Parallel State Evolution</SectionTitle>
+        <SectionTitle n={1}>Core System: Parallel State Evolution<ClaimTag>Patent #3 — Architecture</ClaimTag></SectionTitle>
 
         <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 28px" }}>
           Candidate states evolve in parallel. States are created, evaluated,
@@ -397,6 +434,22 @@ export default function Lab() {
             "Tolerates ambiguity through transitions",
             "Resolves after evidence accumulates",
           ]} />
+        </div>
+
+        {/* Formal State Definition */}
+        <div style={{
+          margin: "0 0 20px", padding: "14px 20px", borderRadius: T.radius,
+          background: T.surfaceAlt, border: `1px solid ${T.border}`,
+          fontFamily: T.mono, fontSize: 13, color: T.textDim, lineHeight: 1.8,
+        }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: T.textFaint, marginBottom: 8 }}>Formal Definition</div>
+          <div>S<sub>i</sub> = ( <strong style={{ color: T.text }}>v</strong><sub>i</sub> , <strong style={{ color: T.text }}>w</strong><sub>i</sub> , <strong style={{ color: T.text }}>τ</strong><sub>i</sub> )</div>
+          <div style={{ fontSize: 12, marginTop: 6 }}>
+            <span style={{ color: T.text }}>v<sub>i</sub></span> = state vector &nbsp;|&nbsp; <span style={{ color: T.text }}>w<sub>i</sub></span> = confidence weight &nbsp;|&nbsp; <span style={{ color: T.text }}>τ<sub>i</sub></span> = persistence duration
+          </div>
+          <div style={{ fontSize: 11, marginTop: 6, color: T.textFaint, fontStyle: "italic" }}>
+            Each candidate state carries its own trajectory. Resolution occurs when evidence accumulates — not before.
+          </div>
         </div>
 
         {/* State Formalization Table */}
@@ -476,6 +529,17 @@ export default function Lab() {
           }}>
             Compression Ratio = raw_states / retained_states = {coreSim.totalCreated} / {activeStates.length} = <strong style={{ color: T.blue }}>{compressionRatio}</strong>
           </div>
+          <div style={{
+            marginTop: 12, padding: "10px 16px", borderRadius: T.radius,
+            background: T.bg, border: `1px solid ${T.border}`,
+            fontFamily: T.mono, fontSize: 12, color: T.textDim, lineHeight: 1.7,
+          }}>
+            <span style={{ fontWeight: 700, color: T.textFaint, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>Merge Criterion: </span>
+            States merge when <strong style={{ color: T.text }}>d(S<sub>i</sub>, S<sub>j</sub>) {"<"} ε</strong> and both <strong style={{ color: T.text }}>w<sub>i</sub>, w<sub>j</sub> {">"} w<sub>min</sub></strong>.
+            <span style={{ display: "block", marginTop: 4, fontSize: 11, color: T.textFaint, fontStyle: "italic" }}>
+              Distance threshold ε and confidence floor w<sub>min</sub> prevent premature or low-quality merges.
+            </span>
+          </div>
           {coreSim.mergeLog.length > 0 && (
             <div style={{ marginTop: 12, fontSize: 12, color: T.textFaint, fontFamily: T.mono }}>
               {coreSim.mergeLog.slice(-5).map((m, i) => (
@@ -490,8 +554,19 @@ export default function Lab() {
           )}
         </ChartBox>
 
+        {/* Failure Mode */}
+        <div style={{
+          margin: "24px 0 28px", padding: "14px 20px", borderRadius: T.radius,
+          borderLeft: `3px solid ${T.red}`, background: T.redDim,
+          fontFamily: T.mono, fontSize: 13, color: T.textDim, lineHeight: 1.7,
+        }}>
+          <span style={{ fontWeight: 700, color: T.red, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em" }}>Failure Mode: </span>
+          Premature hypothesis collapse. When a system commits to a single state before sufficient evidence accumulates,
+          it loses the ability to recover from misclassification. This is the core failure the architecture is designed to prevent.
+        </div>
+
         {/* Baseline Comparison */}
-        <SectionTitle n={2}>Baseline Comparison — Early Commitment vs Parallel Persistence</SectionTitle>
+        <SectionTitle n={2}>Baseline Comparison — Early Commitment vs Parallel Persistence<ClaimTag>Patent #1 — Signal</ClaimTag></SectionTitle>
 
         <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 20px" }}>
           Early commitment collapses on regime shift. Parallel persistence adapts through maintained alternatives.
@@ -539,7 +614,7 @@ export default function Lab() {
             LAYER 3 — DOMAIN MODULES
             ═══════════════════════════════════════════════════════════════ */}
         <section id="domain-modules">
-          <SectionTitle n={3}>Domain Module — Dynamic Decision System Under Regime Change</SectionTitle>
+          <SectionTitle n={3}>Domain Module — Dynamic Decision System Under Regime Change<ClaimTag>Patent #1 — Application</ClaimTag></SectionTitle>
 
           <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 12px" }}>
             Portfolio-level comparison of strategy persistence under simulated market regime transitions.
@@ -597,7 +672,7 @@ export default function Lab() {
 
           <Divider />
 
-          <SectionTitle n={4}>Domain Module — Process Stability Under Perturbation</SectionTitle>
+          <SectionTitle n={4}>Domain Module — Process Stability Under Perturbation<ClaimTag>Patent #2 — Process</ClaimTag></SectionTitle>
 
           <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 12px" }}>
             Comparison of rigid vs. adaptive process control under parameter perturbation events.
@@ -661,6 +736,16 @@ export default function Lab() {
             Identical structural pattern examined across domains. Each module follows the same
             experimental framework: controlled variable, observed behavior, measured outputs, baseline comparison.
           </p>
+
+          <div style={{
+            margin: "0 0 20px", padding: "12px 20px", borderRadius: T.radius,
+            background: T.surfaceAlt, border: `1px solid ${T.border}`,
+            fontFamily: T.mono, fontSize: 12, color: T.textDim, lineHeight: 1.6,
+          }}>
+            <strong style={{ color: T.text }}>Methodological constraint:</strong>{" "}
+            Every claim in this table maps to a controlled variable, a measured output, and a baseline comparison. No entry is
+            assertion-only. Each domain module produces its own falsifiable evidence under the same structural framework.
+          </div>
 
           <div style={{ overflowX: "auto", border: `1px solid ${T.border}`, borderRadius: T.radius }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
