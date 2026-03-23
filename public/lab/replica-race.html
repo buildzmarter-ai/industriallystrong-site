@@ -449,8 +449,7 @@ function App() {
                 {naiveHedgeViolated && <div className="mono" style={{fontSize:14,color:'var(--danger)',marginTop:2}}>✗ Hedge ratio violated: {naiveExp.hedgeRatio.toFixed(3)} &lt; {stateA._intent.hedgeRatioMin}</div>}
                 <div className="mono" style={{fontSize:13,color:'var(--textMuted)',marginTop:4}}>Hidden errors: {metrics.hiddenErrors} | Net exposure: {naiveExp.net}</div>
               </div>;
-            })()
-            ) : (
+            })() : (
               <div className="mono" style={{fontSize:14,color:'var(--textMuted)'}}>{step===0 ? "Press Play to begin" : `Step ${step}/${maxSteps}...`}</div>
             )}
           </div>
