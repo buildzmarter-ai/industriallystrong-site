@@ -517,7 +517,7 @@ const SCENARIOS = {
   },
   fill_before_cancel: {
     label: "Fill Before Cancel",
-    desc: "Replica B fills L2 before L3 cancel, changing net exposure before hedge reduction.",
+    desc: "Replica B fills L2 before cancel applies, locking primary exposure before hedge adjustment on L3.",
     replicaA: ["E1", "E2", "E3", "E4", "E5"],
     replicaB: ["E1", "E2", "E5", "E3", "E4"]
   }
@@ -901,7 +901,7 @@ function App() {
     const done = step >= maxSteps;
     const arbNeeded = done && Math.abs(scoreA.overall - scoreB.overall) < 0.15 ? 1 : 0;
     // Manual intervention likely if: wrong branch selected OR hedge violated OR arbitration needed
-    const manualIntervention = done ? (naiveWrong ? 1 : 0) + (naiveHedgeViolated ? 1 : 0) + arbNeeded > 0 ? 1 : 0 : 0;
+    const manualIntervention = done && ((naiveWrong ? 1 : 0) + (naiveHedgeViolated ? 1 : 0) + arbNeeded > 0) ? 1 : 0;
     return {
       prematureCollapse: done && statesDiffer ? 1 : 0,
       wrongHedge: naiveHedgeViolated ? 1 : 0,
@@ -1014,7 +1014,15 @@ function App() {
       style: {
         color: 'var(--textMuted)'
       }
-    }, "(", naivePolicy.replace('_', ' '), " \u2014 committed at ", winTs, "ms vs ", loseTs, "ms)")), statesDiffer && /*#__PURE__*/React.createElement("div", {
+    }, "(", naivePolicy.replace('_', ' '), " \u2014 committed at ", winTs, "ms vs ", loseTs, "ms)")), /*#__PURE__*/React.createElement("div", {
+      className: "mono",
+      style: {
+        fontSize: 13,
+        color: 'var(--textMuted)',
+        marginTop: 3,
+        fontStyle: 'italic'
+      }
+    }, "Selected state: ", naiveResult._src, " because its resolved state reached DB commit first (", winTs, "ms). Alternative discarded."), statesDiffer && /*#__PURE__*/React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
@@ -1723,7 +1731,7 @@ function App() {
     const missing = [];
     if (scoreA.eventCompleteness < 1 || scoreB.eventCompleteness < 1) missing.push('Not all events fully propagated to both replicas');
     missing.push('No operator confirmation of intended final leg structure');
-    missing.push('No explicit desk decision on whether L3 cancel should apply before or after L2 amend');
+    missing.push('No explicit desk decision on L2 primary exposure: cancel applied to pre-amend (200) or post-amend (240) qty');
     if (hedgeConflict) missing.push('Hedge ratio intent may depend on post-amend or pre-amend L2 qty — ambiguous');
     const actions = [{
       id: 'retain_l2_amend',
