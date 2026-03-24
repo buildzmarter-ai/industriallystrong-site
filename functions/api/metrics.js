@@ -1,13 +1,11 @@
 /**
  * Cloudflare Pages Function — /api/metrics
  *
- * Queries the Cloudflare GraphQL Analytics API for today's visitor
- * and pageview data, then returns it as JSON for the LiveMetricsCard
- * component on the homepage.
+ * Queries the D1 telemetry database for today's visitor and pageview data,
+ * then returns it as JSON for the LiveMetricsCard component on the homepage.
  *
- * Required environment variables (set in Cloudflare Pages dashboard):
- *   CF_API_TOKEN  – API token with Zone.Analytics:Read permission
- *   CF_ZONE_ID    – Zone ID for industriallystrong.com
+ * Required binding (set in Cloudflare Pages dashboard → Settings → Bindings):
+ *   DB  –  D1 database "is-telemetry"
  */
 
 const ALLOWED_ORIGINS = [
@@ -18,164 +16,81 @@ const ALLOWED_ORIGINS = [
 export async function onRequest(context) {
   const { env, request } = context;
 
-  // --- guard: reject non-GET and bot/scraper requests ----------------------
+  // --- guard: reject non-GET requests --------------------------------------
   if (request.method !== "GET") {
     return new Response("Method not allowed", { status: 405 });
   }
 
   const origin = request.headers.get("Origin") || "";
-  const referer = request.headers.get("Referer") || "";
-  const isBrowser =
-    ALLOWED_ORIGINS.some((o) => origin.startsWith(o)) ||
-    ALLOWED_ORIGINS.some((o) => referer.startsWith(o));
+  const isBrowser = ALLOWED_ORIGINS.some((o) => origin.startsWith(o));
 
   // Allow same-origin requests (no Origin header) but block foreign origins
   if (origin && !isBrowser) {
-    return Response.json(
-      { error: "Forbidden" },
-      { status: 403 }
-    );
+    return Response.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const token = env.CF_API_TOKEN;
-  const zoneId = env.CF_ZONE_ID;
-
-  // --- guard: missing credentials ----------------------------------------
-  if (!token || !zoneId) {
+  // --- guard: missing D1 binding -------------------------------------------
+  if (!env.DB) {
     return Response.json(
       {
         visitors_today: "—",
         pageviews_today: "—",
         first_time_visits: "—",
         returning_visits: "—",
-        note: "Analytics credentials not configured.",
+        note: "D1 database not bound.",
       },
-      {
-        status: 200,
-        headers: { "Cache-Control": "no-store" },
-      }
+      { status: 200, headers: { "Cache-Control": "no-store" } }
     );
   }
 
-  // --- build datetime range for "today" in UTC -----------------------------
+  // --- build start-of-day timestamp in ms (UTC) ----------------------------
   const now = new Date();
-  const todayStr = now.toISOString().slice(0, 10); // "2026-03-15"
-  const startOfDay = `${todayStr}T00:00:00Z`;
-  const nowISO = now.toISOString();
-
-  // --- Cloudflare GraphQL Analytics query ---------------------------------
-  // Uses httpRequestsAdaptiveGroups for near-real-time data (minutes delay)
-  // instead of httpRequests1dGroups which has a ~24h delay.
-  const query = `
-    query SiteMetrics($zoneTag: String!, $since: DateTime!, $until: DateTime!) {
-      viewer {
-        zones(filter: { zoneTag: $zoneTag }) {
-          httpRequestsAdaptiveGroups(
-            filter: {
-              datetime_geq: $since
-              datetime_leq: $until
-              requestSource: "eyeball"
-            }
-            limit: 10000
-          ) {
-            count
-            sum {
-              visits
-              edgeResponseBytes
-            }
-            dimensions {
-              clientIP
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const variables = {
-    zoneTag: zoneId,
-    since: startOfDay,
-    until: nowISO,
-  };
+  const startOfDay = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
+  ).getTime();
 
   try {
-    const cfRes = await fetch("https://api.cloudflare.com/client/v4/graphql", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query, variables }),
-    });
+    // All three queries run against the same D1 database in one batch.
+    const [visitorsResult, pageviewsResult, returningResult] =
+      await env.DB.batch([
+        // Unique visitors today
+        env.DB.prepare(
+          `SELECT COUNT(DISTINCT visitor_id) AS cnt
+             FROM pageviews
+            WHERE ts >= ?`
+        ).bind(startOfDay),
 
-    if (!cfRes.ok) {
-      const text = await cfRes.text();
-      console.error("CF Analytics API error:", cfRes.status, text);
-      throw new Error(`Cloudflare API returned ${cfRes.status}`);
-    }
+        // Pageviews today (only type = 'pageview', not engagement/event)
+        env.DB.prepare(
+          `SELECT COUNT(*) AS cnt
+             FROM pageviews
+            WHERE ts >= ? AND type = 'pageview'`
+        ).bind(startOfDay),
 
-    const json = await cfRes.json();
+        // Returning visitors: seen today AND have at least one record before today
+        env.DB.prepare(
+          `SELECT COUNT(DISTINCT visitor_id) AS cnt
+             FROM pageviews
+            WHERE ts >= ?
+              AND visitor_id IN (
+                SELECT DISTINCT visitor_id
+                  FROM pageviews
+                 WHERE ts < ?
+              )`
+        ).bind(startOfDay, startOfDay),
+      ]);
 
-    // Aggregate adaptive groups — each row is grouped by clientIP
-    const zones = json?.data?.viewer?.zones;
-    const groups =
-      zones && zones.length > 0
-        ? zones[0].httpRequestsAdaptiveGroups ?? []
-        : [];
-
-    if (groups.length === 0) {
-      return Response.json(
-        {
-          visitors_today: 0,
-          pageviews_today: 0,
-          first_time_visits: 0,
-          returning_visits: 0,
-        },
-        {
-          headers: {
-            "Cache-Control": "public, max-age=120",
-            "Access-Control-Allow-Origin": "https://industriallystrong.com",
-          },
-        }
-      );
-    }
-
-    // Sum across all groups
-    // In adaptive groups: count = total requests, sum.visits = visit count
-    let totalRequests = 0;
-    let totalVisits = 0;
-    const uniqueIPs = new Set();
-
-    for (const g of groups) {
-      totalRequests += g.count ?? 0;
-      totalVisits += g.sum?.visits ?? 0;
-      if (g.dimensions?.clientIP) {
-        uniqueIPs.add(g.dimensions.clientIP);
-      }
-    }
-
-    const uniqueVisitors = uniqueIPs.size;
-
-    // Estimate new vs returning: visitors with multiple visits are returning
-    const ipVisitCounts = {};
-    for (const g of groups) {
-      const ip = g.dimensions?.clientIP;
-      if (ip) {
-        ipVisitCounts[ip] = (ipVisitCounts[ip] || 0) + (g.sum?.visits ?? 0);
-      }
-    }
-    let returningCount = 0;
-    for (const ip in ipVisitCounts) {
-      if (ipVisitCounts[ip] > 1) returningCount++;
-    }
-    const firstTimeCount = Math.max(0, uniqueVisitors - returningCount);
+    const visitorsToday = visitorsResult.results[0]?.cnt ?? 0;
+    const pageviewsToday = pageviewsResult.results[0]?.cnt ?? 0;
+    const returningVisits = returningResult.results[0]?.cnt ?? 0;
+    const firstTimeVisits = Math.max(0, visitorsToday - returningVisits);
 
     return Response.json(
       {
-        visitors_today: uniqueVisitors,
-        pageviews_today: totalVisits,
-        first_time_visits: firstTimeCount,
-        returning_visits: returningCount,
+        visitors_today: visitorsToday,
+        pageviews_today: pageviewsToday,
+        first_time_visits: firstTimeVisits,
+        returning_visits: returningVisits,
       },
       {
         headers: {
@@ -185,7 +100,7 @@ export async function onRequest(context) {
       }
     );
   } catch (err) {
-    console.error("Metrics fetch failed:", err);
+    console.error("D1 metrics query failed:", err);
 
     return Response.json(
       {
@@ -195,10 +110,7 @@ export async function onRequest(context) {
         returning_visits: "—",
         note: "Analytics temporarily unavailable.",
       },
-      {
-        status: 200,
-        headers: { "Cache-Control": "no-store" },
-      }
+      { status: 200, headers: { "Cache-Control": "no-store" } }
     );
   }
 }
