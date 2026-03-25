@@ -19,6 +19,7 @@ import { useLocation, Navigate } from "react-router-dom";
 import { trackStatcounterPageView } from "./utils/statcounter";
 import Lithography from "./pages/Lithography";
 import Lab from "./pages/Lab";
+import CorrectnessArbitration from "./pages/CorrectnessArbitration";
 
 // External redirect component for /z
 function ExternalRedirect({ to }) {
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="/programs" element={<Programs />} />
         <Route path="/lithography" element={<Lithography />} />
         <Route path="/lab" element={<Lab />} />
+        <Route path="/correctness" element={<CorrectnessArbitration />} />
         <Route path="/z" element={<ExternalRedirect to="https://z.industriallystrong.com" />} />
       </Routes>
 
