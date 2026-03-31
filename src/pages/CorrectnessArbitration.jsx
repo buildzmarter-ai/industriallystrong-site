@@ -445,7 +445,7 @@ export default function CorrectnessArbitration() {
       <section style={S.sectionCard}>
         <div style={S.label}>Evidence baseline</div>
         <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "16px", maxWidth: "940px" }}>
-          112 / 112 PASS · 16 claims PROVEN
+          122 / 122 PASS · 17 claims PROVEN
         </h2>
 
         <div
@@ -456,12 +456,13 @@ export default function CorrectnessArbitration() {
           }}
         >
           {[
-            ["Challenge Lab", "36 / 36 PASS"],
+            ["Challenge Lab", "56 / 56 PASS"],
             ["A2 Content-Addressing", "35 / 35 PASS"],
             ["Merkle Tree", "7 / 7 PASS"],
             ["A5 Composite Reconstruction", "24 / 24 PASS"],
             ["A6 Multi-Controller", "10 / 10 PASS"],
-            ["Claims PROVEN", "16"],
+            ["A7 Cold Start", "10 / 10 PASS"],
+            ["Claims PROVEN", "17"],
           ].map(([label, value]) => (
             <div
               key={label}
@@ -621,6 +622,64 @@ export default function CorrectnessArbitration() {
         </div>
       </section>
 
+      {/* ─── A7: COLD START AUTHORITY ─── */}
+      <section style={S.sectionCard}>
+        <div style={S.label}>A7 — Proven</div>
+        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "18px", maxWidth: "940px" }}>
+          Substrate-Only Cold Start Authority
+        </h2>
+        <p style={{ fontSize: "17px", lineHeight: 1.75, maxWidth: "940px", opacity: 0.9, marginBottom: "18px" }}>
+          A cold-start controller with no prior system knowledge can derive full
+          committed-data correctness authority directly from the substrate. This
+          demonstrates that correctness is not controller-resident metadata, but an
+          inherent structural property of the storage substrate itself.
+        </p>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "16px",
+          }}
+        >
+          <div style={S.sectionCard}>
+            <div style={{ fontWeight: 700, marginBottom: "6px" }}>
+              Authority Derivation
+            </div>
+            <div style={{ opacity: 0.8 }}>
+              Cold-start controllers derive identical state from substrate structure
+              alone.
+            </div>
+          </div>
+          <div style={S.sectionCard}>
+            <div style={{ fontWeight: 700, marginBottom: "6px" }}>
+              Reconstruction Without History
+            </div>
+            <div style={{ opacity: 0.8 }}>
+              Reconstruction succeeds without controller-resident metadata.
+            </div>
+          </div>
+          <div style={S.sectionCard}>
+            <div style={{ fontWeight: 700, marginBottom: "6px" }}>
+              Independent Agreement
+            </div>
+            <div style={{ opacity: 0.8 }}>
+              Multiple cold-start controllers independently agree on substrate state.
+            </div>
+          </div>
+          <div style={S.sectionCard}>
+            <div style={{ fontWeight: 700, marginBottom: "6px" }}>
+              Provenance From Structure
+            </div>
+            <div style={{ opacity: 0.8 }}>
+              Full provenance derived directly from structural encoding.
+            </div>
+          </div>
+        </div>
+        <p style={{ marginTop: "16px", opacity: 0.7 }}>
+          Category 8 challenge lab: 10/10 PASS — A7 PROVEN
+        </p>
+      </section>
+
       {/* ─── QUADRANT CHART ─── */}
       <section style={{ marginBottom: "52px" }}>
         <div style={S.label}>Orthogonal positioning</div>
@@ -632,10 +691,11 @@ export default function CorrectnessArbitration() {
           This architecture still operates on the Y-axis: structural correctness.
           But the Y-axis is now richer than arbitration speed alone. It includes
           authoritative divergence classification, deterministic reconstruction,
-          explicit refusal under ambiguity, provenance tracking, and
-          multi-controller correctness for committed data. The opportunity is not
-          just fast and correct storage. It is storage whose correctness authority
-          is structurally grounded.
+          explicit refusal under ambiguity, provenance tracking,
+          multi-controller correctness for committed data, and substrate-only
+          cold start authority. The opportunity is not just fast and correct
+          storage. It is storage whose correctness authority is structurally
+          grounded.
         </p>
         <QuadrantChart />
       </section>
@@ -849,7 +909,7 @@ export default function CorrectnessArbitration() {
         >
           <div style={S.label}>Evidence</div>
           <h3 style={{ fontSize: "22px", marginBottom: "12px" }}>
-            112 / 112 total checks pass
+            122 / 122 total checks pass
           </h3>
           <p style={{ fontSize: "16px", lineHeight: 1.7, opacity: 0.85, marginBottom: "18px", maxWidth: "920px" }}>
             Every PROVEN claim on this page is backed by reproducible evidence:
