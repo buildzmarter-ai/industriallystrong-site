@@ -13,7 +13,7 @@ const spc1Data = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════
-   ASA CORRECTNESS ARBITRATION PERFORMANCE (challenge lab validated)
+   ASA / LAYERED CORRECTNESS EVIDENCE (challenge lab validated)
    ═══════════════════════════════════════════════════════════════════════ */
 const asaData = [
   {
@@ -60,15 +60,21 @@ const asaData = [
   },
   {
     metric: "Structural deduplication",
-    result: "—",
-    complexity: "Requires content-addressing",
-    status: "DESIGN GOAL",
+    result: "97.2% payload reduction · 36.5:1 ratio",
+    complexity: "Content-addressed reuse",
+    status: "PROVEN",
   },
   {
     metric: "Composite reconstruction",
-    result: "—",
-    complexity: "Requires cross-replica merging",
-    status: "DESIGN GOAL",
+    result: "24/24 unit + 10/10 Cat 6",
+    complexity: "Verified fragment merge + structural refusal",
+    status: "PROVEN",
+  },
+  {
+    metric: "Multi-controller correctness",
+    result: "10/10 Cat 7",
+    complexity: "Committed-data truth from substrate structure",
+    status: "PROVEN",
   },
 ];
 
@@ -182,12 +188,10 @@ function QuadrantChart() {
         viewBox={`0 0 ${w} ${h}`}
         style={{ width: "100%", height: "auto", maxWidth: 600 }}
       >
-        {/* grid */}
         <rect
           x={pad.left} y={pad.top} width={pw} height={ph}
           fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)"
         />
-        {/* quadrant dividers */}
         <line
           x1={pad.left + pw / 2} y1={pad.top}
           x2={pad.left + pw / 2} y2={pad.top + ph}
@@ -199,15 +203,27 @@ function QuadrantChart() {
           stroke="rgba(255,255,255,0.06)" strokeDasharray="6,4"
         />
 
-        {/* quadrant labels */}
-        <text x={pad.left + pw * 0.75} y={pad.top + 18} fill="rgba(255,255,255,0.18)" fontSize="11" textAnchor="middle" fontWeight="600">
+        <text
+          x={pad.left + pw * 0.75}
+          y={pad.top + 18}
+          fill="rgba(255,255,255,0.18)"
+          fontSize="11"
+          textAnchor="middle"
+          fontWeight="600"
+        >
           HIGH PERF / HIGH CORRECT
         </text>
-        <text x={pad.left + pw * 0.25} y={pad.top + ph - 8} fill="rgba(255,255,255,0.18)" fontSize="11" textAnchor="middle" fontWeight="600">
+        <text
+          x={pad.left + pw * 0.25}
+          y={pad.top + ph - 8}
+          fill="rgba(255,255,255,0.18)"
+          fontSize="11"
+          textAnchor="middle"
+          fontWeight="600"
+        >
           LOW PERF / LOW CORRECT
         </text>
 
-        {/* ASA target zone */}
         <rect
           x={pad.left + pw * 0.4} y={pad.top + ph * 0.02}
           width={pw * 0.35} height={ph * 0.22}
@@ -223,7 +239,6 @@ function QuadrantChart() {
           ASA OPPORTUNITY
         </text>
 
-        {/* data points */}
         {quadrantPoints.map((p, i) => {
           const cx = pad.left + (p.x / 100) * pw;
           const cy = pad.top + ph - (p.y / 100) * ph;
@@ -255,7 +270,6 @@ function QuadrantChart() {
           );
         })}
 
-        {/* axes labels */}
         <text
           x={pad.left + pw / 2} y={h - 8}
           fill="rgba(255,255,255,0.5)" fontSize="12" textAnchor="middle"
@@ -284,36 +298,189 @@ export default function CorrectnessArbitration() {
     <PageShell>
       {/* ─── HERO ─── */}
       <section style={{ marginBottom: "60px" }}>
-        <div style={S.label}>New metric</div>
+        <div style={S.label}>Layered correctness architecture</div>
         <h1 style={{ fontSize: "42px", marginBottom: "10px", lineHeight: 1.1 }}>
-          Correctness Arbitration Performance
+          Correctness Without Controller Primacy
         </h1>
-        <p style={{ fontSize: "20px", maxWidth: "860px", opacity: 0.9, lineHeight: 1.7 }}>
-          SPC-1 measures how fast a storage system moves data.
-          ASA measures how fast it proves which copy is structurally correct.
-          These are orthogonal axes — and only one of them is being benchmarked today.
+        <p style={{ fontSize: "20px", maxWidth: "940px", opacity: 0.9, lineHeight: 1.7 }}>
+          This work treats correctness as a structural property of storage systems,
+          not a behavioral property of controllers. The architecture now has
+          four proven layers: content-addressing, structural arbitration,
+          composite reconstruction, and multi-controller correctness. The result
+          is a stronger claim than faster detection alone: for committed data,
+          correctness authority can be derived from substrate-level structural
+          properties plus the commit boundary definition, without inter-controller
+          coordination.
         </p>
       </section>
 
       {/* ─── THE ARGUMENT ─── */}
       <section style={S.sectionCard}>
         <div style={S.label}>Why this matters</div>
-        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "14px", maxWidth: "900px" }}>
-          Performance benchmarks assume correctness. ASA measures it.
+        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "14px", maxWidth: "940px" }}>
+          Performance assumes correctness. This architecture proves more of it.
         </h2>
-        <p style={{ fontSize: "17px", lineHeight: 1.75, maxWidth: "900px", opacity: 0.9, marginBottom: "18px" }}>
-          Every SPC-1 result implicitly assumes the data being moved is the right data.
-          No performance benchmark measures what happens when a replica diverges,
-          when a bit-flip corrupts a block mid-chain, or when two copies of the
-          same object disagree. That's not a gap in testing — it's a gap in the
-          metric itself. ASA introduces a second axis: how quickly a system can
-          determine which replica is structurally authoritative, without quorum,
-          without external coordination, and with cryptographic proof.
+        <p style={{ fontSize: "17px", lineHeight: 1.75, maxWidth: "940px", opacity: 0.9, marginBottom: "18px" }}>
+          Every storage benchmark assumes the data being moved is already the right
+          data. That leaves a deeper question mostly unmeasured: what happens when
+          replicas diverge, when committed state conflicts, or when a controller
+          fails and a surviving process must determine what is structurally true.
+          This work began by introducing correctness arbitration as a missing axis.
+          It now extends further: composite reconstruction and multi-controller
+          correctness are proven, which means correctness is no longer just a
+          detection problem. It becomes a layered architectural property.
         </p>
-        <p style={{ fontSize: "15px", opacity: 0.6 }}>
-          This page presents both axes side by side — not as competition, but as
-          complementary dimensions of storage system quality.
+        <p style={{ fontSize: "15px", opacity: 0.6, maxWidth: "920px" }}>
+          The comparison to SPC-1 still matters, but the larger point is now
+          architectural: correctness authority can move downward into the
+          substrate rather than remaining primarily controller-resident.
         </p>
+      </section>
+
+      {/* ─── LAYERED ARCHITECTURE ─── */}
+      <section style={{ marginBottom: "52px" }}>
+        <div style={S.label}>Architecture</div>
+        <h2 style={{ fontSize: "26px", marginBottom: "16px" }}>
+          Layered Correctness Architecture
+        </h2>
+        <p style={{ maxWidth: "920px", opacity: 0.82, marginBottom: "24px", lineHeight: 1.7 }}>
+          The work is no longer just an arbitration primitive. It is a layered
+          correctness stack that starts at payload identity and extends upward to
+          controller-level truth determination for committed data.
+        </p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "16px",
+          }}
+        >
+          <div
+            style={{
+              border: "1px solid rgba(16,185,129,0.18)",
+              borderRadius: "14px",
+              padding: "20px 18px",
+              background: "rgba(16,185,129,0.03)",
+            }}
+          >
+            <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "8px", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              A2 — Proven
+            </div>
+            <div style={{ fontSize: "17px", fontWeight: 700, marginBottom: "10px" }}>
+              Content Addressing
+            </div>
+            <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
+              Payload identity becomes structural, shared, and deduplicated.
+              Content-addressed reuse now measures 97.2% payload reduction.
+            </div>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid rgba(16,185,129,0.18)",
+              borderRadius: "14px",
+              padding: "20px 18px",
+              background: "rgba(16,185,129,0.03)",
+            }}
+          >
+            <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "8px", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              Core — Proven
+            </div>
+            <div style={{ fontSize: "17px", fontWeight: 700, marginBottom: "10px" }}>
+              Structural Arbitration
+            </div>
+            <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
+              Divergence is located and classified without quorum using
+              cryptographic lineage, five-outcome arbitration, and Merkle
+              positional narrowing.
+            </div>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid rgba(16,185,129,0.18)",
+              borderRadius: "14px",
+              padding: "20px 18px",
+              background: "rgba(16,185,129,0.03)",
+            }}
+          >
+            <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "8px", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              A5 — Proven
+            </div>
+            <div style={{ fontSize: "17px", fontWeight: 700, marginBottom: "10px" }}>
+              Composite Reconstruction
+            </div>
+            <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
+              Verified fragments reconstruct deterministically, ambiguity is
+              refused rather than guessed, and every reconstructed block carries
+              source provenance.
+            </div>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid rgba(16,185,129,0.18)",
+              borderRadius: "14px",
+              padding: "20px 18px",
+              background: "rgba(16,185,129,0.03)",
+            }}
+          >
+            <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "8px", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              A6 — Proven
+            </div>
+            <div style={{ fontSize: "17px", fontWeight: 700, marginBottom: "10px" }}>
+              Multi-Controller Correctness
+            </div>
+            <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
+              For committed data, independent controllers can derive correctness
+              from substrate structure plus commit boundary without
+              inter-controller coordination.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── EVIDENCE BASELINE ─── */}
+      <section style={S.sectionCard}>
+        <div style={S.label}>Evidence baseline</div>
+        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "16px", maxWidth: "940px" }}>
+          112 / 112 PASS · 16 claims PROVEN
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "14px",
+          }}
+        >
+          {[
+            ["Challenge Lab", "36 / 36 PASS"],
+            ["A2 Content-Addressing", "35 / 35 PASS"],
+            ["Merkle Tree", "7 / 7 PASS"],
+            ["A5 Composite Reconstruction", "24 / 24 PASS"],
+            ["A6 Multi-Controller", "10 / 10 PASS"],
+            ["Claims PROVEN", "16"],
+          ].map(([label, value]) => (
+            <div
+              key={label}
+              style={{
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: "14px",
+                padding: "18px 18px",
+                background: "rgba(255,255,255,0.02)",
+              }}
+            >
+              <div style={{ fontSize: "12px", opacity: 0.58, marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                {label}
+              </div>
+              <div style={{ fontSize: "20px", fontWeight: 700, color: "#6ee7b7" }}>
+                {value}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ─── TABLE 1: SPC-1 ─── */}
@@ -360,15 +527,17 @@ export default function CorrectnessArbitration() {
 
       {/* ─── TABLE 2: ASA ─── */}
       <section style={{ marginBottom: "52px" }}>
-        <div style={S.label}>Table 2 — New Metric</div>
+        <div style={S.label}>Table 2 — Evidence Layer</div>
         <h2 style={{ fontSize: "26px", marginBottom: "16px" }}>
-          ASA Correctness Arbitration Performance
+          Layered Correctness Evidence
         </h2>
-        <p style={{ maxWidth: "860px", opacity: 0.8, marginBottom: "20px", lineHeight: 1.7 }}>
-          No industry benchmark measures correctness arbitration speed. ASA
-          introduces this metric: how fast can a system determine which replica
-          is structurally correct? Results below are from a 30-scenario challenge
-          lab (29/30 PASS) running against the Python reference engine.
+        <p style={{ maxWidth: "920px", opacity: 0.8, marginBottom: "20px", lineHeight: 1.7 }}>
+          No industry benchmark measures correctness arbitration speed or the
+          broader layered correctness properties built on top of it. Results
+          below now reflect a larger evidence base: challenge lab,
+          content-addressing, Merkle positional encoding, composite
+          reconstruction, and multi-controller correctness. What began as a
+          missing metric has grown into a reproducible correctness architecture.
         </p>
         <div style={S.tableWrap}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -382,7 +551,7 @@ export default function CorrectnessArbitration() {
             </thead>
             <tbody>
               {asaData.map((row, i) => (
-                <tr key={i} style={row.status === "DESIGN GOAL" ? { opacity: 0.55 } : {}}>
+                <tr key={i}>
                   <td style={{ ...S.td, fontWeight: 600 }}>{row.metric}</td>
                   <td style={{ ...S.td, fontFamily: "'SF Mono', 'Fira Code', monospace", fontSize: "14px" }}>
                     {row.result}
@@ -397,9 +566,59 @@ export default function CorrectnessArbitration() {
           </table>
         </div>
         <p style={{ marginTop: "12px", fontSize: "13px", opacity: 0.45 }}>
-          Engine: dual_chain_engine.py (~800 lines). Challenge lab: 30 tests, 6 categories.
-          Merkle-tree positional encoding validated with 3 independent measurements.
+          Engine: dual_chain_engine.py. Evidence baseline now includes challenge lab,
+          A2 content-addressing, Merkle positional encoding, A5 composite
+          reconstruction, and A6 multi-controller correctness.
         </p>
+      </section>
+
+      {/* ─── A6 SECTION ─── */}
+      <section style={S.sectionCard}>
+        <div style={S.label}>A6 — Proven</div>
+        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "16px", maxWidth: "940px" }}>
+          Multi-Controller Correctness is now proven
+        </h2>
+        <p style={{ fontSize: "17px", lineHeight: 1.75, maxWidth: "940px", opacity: 0.9, marginBottom: "18px" }}>
+          Category 7 challenge lab confirms that correctness for committed data
+          can be derived from substrate structure plus commit boundary without
+          inter-controller coordination. Independent controllers reach identical
+          conclusions, controller crashes do not become committed-data correctness
+          events, divergent concurrent writes are detected rather than silently
+          merged, cold-start controllers recover state from structure alone, and
+          reconstruction provenance remains complete.
+        </p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "14px",
+          }}
+        >
+          {[
+            "Independent controllers reach identical conclusions",
+            "Controller crash is not a committed-data correctness event",
+            "Partial writes are classified structurally",
+            "Divergent concurrent writes are detected, not silently merged",
+            "Cold-start controllers recover state from structure alone",
+            "Reconstruction provenance remains complete",
+          ].map((item) => (
+            <div
+              key={item}
+              style={{
+                border: "1px solid rgba(16,185,129,0.2)",
+                borderRadius: "14px",
+                padding: "18px 18px",
+                background: "rgba(16,185,129,0.04)",
+                lineHeight: 1.65,
+                fontSize: "15px",
+                opacity: 0.88,
+              }}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ─── QUADRANT CHART ─── */}
@@ -408,22 +627,24 @@ export default function CorrectnessArbitration() {
         <h2 style={{ fontSize: "26px", marginBottom: "16px" }}>
           Two Axes, One System
         </h2>
-        <p style={{ maxWidth: "860px", opacity: 0.8, marginBottom: "24px", lineHeight: 1.7 }}>
-          Storage vendors compete on the X-axis: I/O throughput and latency.
-          ASA operates on the Y-axis: structural correctness verification speed.
-          These axes are independent — a system can be fast and still unable to
-          determine which replica is correct after a divergence event. The
-          opportunity is the upper-right quadrant: systems that are both fast
-          and provably correct.
+        <p style={{ maxWidth: "920px", opacity: 0.8, marginBottom: "24px", lineHeight: 1.7 }}>
+          Storage vendors still compete on the X-axis: I/O throughput and latency.
+          This architecture still operates on the Y-axis: structural correctness.
+          But the Y-axis is now richer than arbitration speed alone. It includes
+          authoritative divergence classification, deterministic reconstruction,
+          explicit refusal under ambiguity, provenance tracking, and
+          multi-controller correctness for committed data. The opportunity is not
+          just fast and correct storage. It is storage whose correctness authority
+          is structurally grounded.
         </p>
         <QuadrantChart />
       </section>
 
-      {/* ─── ORTHOGONAL EXPLANATION ─── */}
+      {/* ─── ARCHITECTURAL CONSEQUENCE ─── */}
       <section style={S.sectionCard}>
-        <div style={S.label}>Architectural insight</div>
-        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "18px", maxWidth: "900px" }}>
-          Why correctness is orthogonal to performance
+        <div style={S.label}>Architectural consequence</div>
+        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "18px", maxWidth: "940px" }}>
+          Why correctness is more than a benchmark axis
         </h2>
 
         <div
@@ -464,9 +685,9 @@ export default function CorrectnessArbitration() {
               Correctness axis (ASA)
             </div>
             <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
-              When replicas diverge, how fast can the system identify which copy
-              is structurally authoritative? Can it do so without quorum? Can it
-              cryptographically prove the result? This is the axis no one benchmarks.
+              When replicas diverge, how quickly can the system classify
+              authority, reconstruct committed truth, preserve provenance, and
+              recover controller-independent state from structure alone?
             </div>
           </div>
 
@@ -479,13 +700,13 @@ export default function CorrectnessArbitration() {
             }}
           >
             <div style={{ fontSize: "16px", fontWeight: 700, marginBottom: "8px" }}>
-              The gap
+              The shift
             </div>
             <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
-              RAID detects corruption but can't determine authority. Blockchain
-              consensus resolves forks but requires quorum overhead. ASA fills
-              the space between: storage-internal correctness arbitration with
-              cryptographic proof paths.
+              Traditional dual-active storage reduces controller availability risk,
+              but correctness authority still tends to live in controller
+              coordination logic. This architecture shifts that boundary
+              downward into the substrate for committed data.
             </div>
           </div>
         </div>
@@ -495,13 +716,14 @@ export default function CorrectnessArbitration() {
       <section style={{ marginBottom: "52px" }}>
         <div style={S.label}>Positioning</div>
         <h2 style={{ fontSize: "26px", marginBottom: "16px" }}>
-          Vendor-Friendly: ASA Complements, Not Competes
+          Vendor-Friendly: ASA Complements, Then Reshapes
         </h2>
-        <p style={{ maxWidth: "860px", opacity: 0.85, marginBottom: "24px", lineHeight: 1.7 }}>
-          ASA is not a storage product. It's a storage-internal primitive that
-          can be integrated into existing architectures. Every vendor listed in
-          Table 1 has the same correctness gap — and would benefit from the same
-          solution.
+        <p style={{ maxWidth: "920px", opacity: 0.85, marginBottom: "24px", lineHeight: 1.7 }}>
+          ASA is not a storage product. It begins as a storage-internal primitive
+          that can be integrated into existing architectures. But once
+          reconstruction and multi-controller correctness are proven, the
+          implication is larger: correctness authority can move downward into the
+          substrate while existing controller and replication designs remain in place.
         </p>
 
         <div
@@ -523,10 +745,10 @@ export default function CorrectnessArbitration() {
               For storage vendors
             </div>
             <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
-              ASA integrates below the API layer. It doesn't touch your data
-              path, your cache hierarchy, or your replication protocol. It adds
-              a structural verification layer that runs alongside existing
-              integrity checks — and provides a new metric to differentiate on.
+              ASA can begin below the API layer, alongside existing integrity
+              checks. But the longer-term implication is stronger: controllers
+              increasingly become execution engines over structurally verifiable
+              state rather than primary arbiters of committed-data truth.
             </div>
           </div>
 
@@ -543,9 +765,9 @@ export default function CorrectnessArbitration() {
             </div>
             <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
               At exabyte scale, silent data corruption and replica divergence are
-              statistical certainties. ASA provides sub-millisecond correctness
-              determination without consensus round-trips — a meaningful
-              reduction in repair latency for fleet-wide integrity operations.
+              statistical certainties. This work now supports not just faster
+              correctness determination, but controller-independent recovery of
+              committed state from substrate structure plus commit boundary.
             </div>
           </div>
 
@@ -562,11 +784,56 @@ export default function CorrectnessArbitration() {
             </div>
             <div style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.82 }}>
               Ledger correctness is non-negotiable. ASA's dual-chain architecture
-              was designed for exactly this: proving which version of a financial
-              record is structurally consistent, with an auditable proof path
-              from any block to the root.
+              now supports authoritative divergence classification, deterministic
+              reconstruction, and provenance-preserving recovery with controller
+              independence for committed records.
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ─── CLAIM BOUNDARY ─── */}
+      <section style={S.sectionCard}>
+        <div style={S.label}>Claim boundary</div>
+        <h2 style={{ fontSize: "28px", lineHeight: 1.2, marginBottom: "14px", maxWidth: "920px" }}>
+          What this does not claim
+        </h2>
+        <p style={{ fontSize: "17px", lineHeight: 1.75, maxWidth: "920px", opacity: 0.9, marginBottom: "18px" }}>
+          The controller-level result is intentionally narrow. It applies to
+          committed data only, and it does not claim that all coordination
+          problems disappear.
+        </p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: "14px",
+          }}
+        >
+          {[
+            "Not a replacement for distributed consensus",
+            "Not a claim about cache coherence",
+            "Not a claim about in-flight write safety beyond commit boundary",
+            "Not a claim about write ordering",
+            "Not a performance benchmark against vendor systems",
+            "Not a claim about geo-distributed correctness (yet)",
+          ].map((item) => (
+            <div
+              key={item}
+              style={{
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: "14px",
+                padding: "18px 18px",
+                background: "rgba(255,255,255,0.02)",
+                lineHeight: 1.65,
+                fontSize: "15px",
+                opacity: 0.82,
+              }}
+            >
+              {item}
+            </div>
+          ))}
         </div>
       </section>
 
@@ -582,12 +849,13 @@ export default function CorrectnessArbitration() {
         >
           <div style={S.label}>Evidence</div>
           <h3 style={{ fontSize: "22px", marginBottom: "12px" }}>
-            29/30 challenge lab scenarios pass
+            112 / 112 total checks pass
           </h3>
-          <p style={{ fontSize: "16px", lineHeight: 1.7, opacity: 0.85, marginBottom: "18px", maxWidth: "860px" }}>
-            Every PROVEN claim on this page is backed by a reproducible challenge
-            lab. The engine, test harness, and Merkle-tree implementation are
-            open for architectural review.
+          <p style={{ fontSize: "16px", lineHeight: 1.7, opacity: 0.85, marginBottom: "18px", maxWidth: "920px" }}>
+            Every PROVEN claim on this page is backed by reproducible evidence:
+            challenge lab, content-addressing tests, Merkle validation,
+            composite reconstruction, and multi-controller correctness. The engine,
+            test harness, and evidence surfaces are open for architectural review.
           </p>
           <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
             <a
@@ -624,9 +892,10 @@ export default function CorrectnessArbitration() {
 
       {/* ─── CTA ─── */}
       <section style={{ marginTop: "60px", marginBottom: "40px", textAlign: "center" }}>
-        <p style={{ fontSize: "18px", opacity: 0.7, maxWidth: "700px", margin: "0 auto", lineHeight: 1.7 }}>
-          If you work on storage correctness, replication, or data integrity at
-          scale — I'd value your architectural read on this.
+        <p style={{ fontSize: "18px", opacity: 0.7, maxWidth: "760px", margin: "0 auto", lineHeight: 1.7 }}>
+          If you work on storage correctness, controller architecture,
+          replication, or data integrity at scale — I'd value your architectural
+          read on this.
         </p>
         <div style={{ marginTop: "18px" }}>
           <a
