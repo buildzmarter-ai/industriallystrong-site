@@ -1,8 +1,8 @@
-# Serve all lab assets and lab HTML directly
-/lab/*  /lab/:splat  200
-
 # Phoenix Web redirect
 /phoenix  https://qrl-phoenix-web.pages.dev  301
 
-# SPA catch-all for React Router
-/*  /index.html  200
+# Serve lab subtree directly
+/lab/*  /lab/:splat  200
+
+# SPA fallback (must be last)
+/*  /index.html  200!
