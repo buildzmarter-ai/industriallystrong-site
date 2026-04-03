@@ -15,11 +15,12 @@ import Decks from "./pages/Decks";
 import Programs from "./pages/Programs";
 
 import { useEffect } from "react";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { trackStatcounterPageView } from "./utils/statcounter";
 import Lithography from "./pages/Lithography";
 import Lab from "./pages/Lab";
 import CorrectnessArbitration from "./pages/CorrectnessArbitration";
+import TelemetryPageView from "./components/TelemetryPageView";
 
 // External redirect component for /z
 function ExternalRedirect({ to }) {
@@ -38,6 +39,7 @@ export default function App() {
   return (
     <div>
       <SiteHeader />
+      <TelemetryPageView />
 
       <Routes>
         <Route path="/" element={<Home />} />

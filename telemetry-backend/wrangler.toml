@@ -16,5 +16,5 @@ database_id = "1d7ce7c3-98bc-4bd5-98b4-3d95870ac1dc"
 
 # Route through your main domain
 [[routes]]
-pattern = "industriallystrong.com/api/telemetry"
+pattern = "industriallystrong.com/api/telemetry*"
 zone_name = "industriallystrong.com"

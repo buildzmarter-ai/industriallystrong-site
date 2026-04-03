@@ -3,6 +3,7 @@ import CardLink from "../components/CardLink";
 import PrimaryButton from "../components/PrimaryButton";
 import LiveMetricsCard from "../components/LiveMetricsCard";
 import { trackEvent } from "../utils/analytics";
+import { sendTelemetry } from "../utils/telemetry";
 
 export default function Home() {
   return (
@@ -149,7 +150,20 @@ export default function Home() {
               <a
                 href="/research"
                 className="structure-link"
-                onClick={() => trackEvent("navigation", "open_research")}
+                onClick={() => {
+                  trackEvent("navigation", "open_research");
+                  sendTelemetry({
+                    app: "industriallystrong",
+                    lane: "general",
+                    eventType: "lab_card_click",
+                    route: "/research",
+                    metadata: {
+                      label: "view_research",
+                      href: "/research",
+                      section: "program_structure",
+                    },
+                  });
+                }}
               >
                 View Research →
               </a>
@@ -165,7 +179,20 @@ export default function Home() {
               <a
                 href="/systems"
                 className="structure-link"
-                onClick={() => trackEvent("navigation", "open_systems")}
+                onClick={() => {
+                  trackEvent("navigation", "open_systems");
+                  sendTelemetry({
+                    app: "industriallystrong",
+                    lane: "general",
+                    eventType: "lab_card_click",
+                    route: "/systems",
+                    metadata: {
+                      label: "view_systems",
+                      href: "/systems",
+                      section: "program_structure",
+                    },
+                  });
+                }}
               >
                 View Systems →
               </a>
@@ -183,7 +210,19 @@ export default function Home() {
                 className="structure-link"
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => trackEvent("navigation", "launch_live_demo")}
+                onClick={() => {
+                  trackEvent("navigation", "launch_live_demo");
+                  sendTelemetry({
+                    app: "industriallystrong",
+                    lane: "general",
+                    eventType: "outbound_click",
+                    metadata: {
+                      label: "launch_live_demo",
+                      href: "https://demomhtfaiss.industriallystrong.com",
+                      section: "program_structure",
+                    },
+                  });
+                }}
               >
                 Launch Demo →
               </a>
@@ -206,7 +245,19 @@ export default function Home() {
             href="https://demomhtfaiss.industriallystrong.com"
             target="_blank"
             rel="noreferrer"
-            onClick={() => trackEvent("navigation", "launch_live_demo")}
+            onClick={() => {
+              trackEvent("navigation", "launch_live_demo");
+              sendTelemetry({
+                app: "industriallystrong",
+                lane: "general",
+                eventType: "outbound_click",
+                metadata: {
+                  label: "state_resolution_demo",
+                  href: "https://demomhtfaiss.industriallystrong.com",
+                  section: "live_systems",
+                },
+              });
+            }}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <div className="structure-card">
@@ -222,7 +273,19 @@ export default function Home() {
             href="/decks/mht"
             target="_blank"
             rel="noreferrer"
-            onClick={() => trackEvent("navigation", "open_mht_deck")}
+            onClick={() => {
+              trackEvent("navigation", "open_mht_deck");
+              sendTelemetry({
+                app: "industriallystrong",
+                lane: "general",
+                eventType: "outbound_click",
+                metadata: {
+                  label: "open_mht_deck",
+                  href: "/decks/mht",
+                  section: "live_systems",
+                },
+              });
+            }}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <div className="structure-card">

@@ -1,9 +1,24 @@
 import { Link } from "react-router-dom";
+import { sendTelemetry } from "../utils/telemetry";
 
 export default function CardLink({ to, title, children }) {
+  const handleClick = () => {
+    sendTelemetry({
+      app: "industriallystrong",
+      lane: to === "/correctness" ? "storage" : "general",
+      eventType: "lab_card_click",
+      route: to,
+      metadata: {
+        label: title,
+        href: to,
+      },
+    });
+  };
+
   return (
     <Link
       to={to}
+      onClick={handleClick}
       style={{
         textDecoration: "none",
         color: "inherit",

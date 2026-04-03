@@ -1,3 +1,5 @@
+import { sendTelemetry } from "../utils/telemetry";
+
 export default function SiteFooter() {
   return (
     <footer
@@ -40,6 +42,18 @@ export default function SiteFooter() {
               paddingBottom: "1px",
               transition: "opacity 0.3s",
             }}
+            onClick={() =>
+              sendTelemetry({
+                app: "industriallystrong",
+                lane: window.location.pathname === "/correctness" ? "storage" : "general",
+                eventType: "outbound_click",
+                metadata: {
+                  label: "about_the_builder",
+                  href: "https://z.industriallystrong.com",
+                  section: "site_footer",
+                },
+              })
+            }
             onMouseOver={(e) => (e.currentTarget.style.opacity = "1")}
             onMouseOut={(e) => (e.currentTarget.style.opacity = "inherit")}
           >
