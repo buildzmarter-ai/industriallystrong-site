@@ -311,42 +311,50 @@ export default function Lab() {
       }}>
 
         {/* ═══════════════════════════════════════════════════════════════
-            LAYER 1 — SYSTEM OVERVIEW
+            SECTION: LabHero
+            Title, subtitle, thesis statement, and introductory context.
             ═══════════════════════════════════════════════════════════════ */}
-        <div style={{
-          fontFamily: T.mono, fontSize: 11, letterSpacing: "0.12em",
-          textTransform: "uppercase", color: T.textFaint, marginBottom: 20,
-        }}>
-          Lab / Artifact Series / Controlled Systems Under Uncertainty
-        </div>
+        <section id="lab-hero">
+          <div style={{
+            fontFamily: T.mono, fontSize: 11, letterSpacing: "0.12em",
+            textTransform: "uppercase", color: T.textFaint, marginBottom: 20,
+          }}>
+            Lab / Artifact Series / Controlled Systems Under Uncertainty
+          </div>
 
-        <h1 style={{
-          fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2,
-          fontWeight: 700, margin: "0 0 8px", color: T.text,
-        }}>
-          Systems that commit early collapse.
-        </h1>
-        <h1 style={{
-          fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2,
-          fontWeight: 700, margin: "0 0 24px", color: T.blue,
-        }}>
-          Systems that preserve alternatives adapt.
-        </h1>
+          <h1 style={{
+            fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2,
+            fontWeight: 700, margin: "0 0 8px", color: T.text,
+          }}>
+            Systems that commit early collapse.
+          </h1>
+          <h1 style={{
+            fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2,
+            fontWeight: 700, margin: "0 0 24px", color: T.blue,
+          }}>
+            Systems that preserve alternatives adapt.
+          </h1>
 
-        <p style={{ fontSize: 17, color: T.textDim, lineHeight: 1.65, maxWidth: 700, margin: "0 0 12px" }}>
-          A technical artifact demonstrating persistence, divergence, and controlled adaptation across domains.
-        </p>
+          <p style={{ fontSize: 17, color: T.textDim, lineHeight: 1.65, maxWidth: 700, margin: "0 0 12px" }}>
+            A technical artifact demonstrating persistence, divergence, and controlled adaptation across domains.
+          </p>
 
-        <p style={{
-          fontFamily: T.mono, fontSize: 13, color: T.textFaint, lineHeight: 1.7,
-          maxWidth: 700, margin: "0 0 32px", fontStyle: "italic",
-        }}>
-          This lab presents a series of controlled system experiments designed to explore how
-          complex systems behave under uncertainty. The same structural principles are examined
-          across multiple technical contexts.
-        </p>
+          <p style={{
+            fontFamily: T.mono, fontSize: 13, color: T.textFaint, lineHeight: 1.7,
+            maxWidth: 700, margin: "0 0 32px", fontStyle: "italic",
+          }}>
+            This lab presents a series of controlled system experiments designed to explore how
+            complex systems behave under uncertainty. The same structural principles are examined
+            across multiple technical contexts.
+          </p>
+        </section>
 
-        {/* Patent Alignment */}
+        {/* ═══════════════════════════════════════════════════════════════
+            SECTION: FeaturedLabs
+            Patent alignment cards, navigation anchors, and evidence toggle.
+            ═══════════════════════════════════════════════════════════════ */}
+        <section id="featured-labs">
+          {/* Patent Alignment */}
         <div style={{
           margin: "0 0 32px", padding: "16px 20px", borderRadius: T.radius,
           border: `1px solid ${T.border}`, background: T.surface,
@@ -377,6 +385,9 @@ export default function Lab() {
             { label: "Core System", target: "core-system" },
             { label: "Domain Modules", target: "domain-modules" },
             { label: "Evidence", target: "evidence-summary" },
+            { label: "Latest", target: "latest-labs" },
+            { label: "All Labs", target: "all-labs" },
+            { label: "About", target: "about-labs" },
           ].map(btn => (
             <button
               key={btn.target}
@@ -410,13 +421,20 @@ export default function Lab() {
           </label>
           {showEvidence && <span style={{ fontFamily: T.mono, fontSize: 11, color: T.blue }}>Evidence annotations visible</span>}
         </div>
+        </section>
+        {/* End FeaturedLabs */}
 
         <Divider />
 
         {/* ═══════════════════════════════════════════════════════════════
-            LAYER 2 — CORE SYSTEM
+            SECTION: BrowseByDomain
+            Domain-organized content: Core System, Financial, Process.
+            Each domain's full content preserved within its subsection.
             ═══════════════════════════════════════════════════════════════ */}
-        <section id="core-system">
+        <section id="browse-by-domain">
+
+          {/* ── Domain 1: Core System ────────────────────────────────── */}
+          <section id="core-system">
           <SectionTitle n={1}>Core System: Parallel State Evolution<ClaimTag>Patent #3 — Architecture</ClaimTag></SectionTitle>
 
           <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 28px" }}>
@@ -613,11 +631,12 @@ export default function Lab() {
             ]} />
           </div>
 
+          </section>
+          {/* End Domain 1: Core System */}
+
           <Divider />
 
-          {/* ═══════════════════════════════════════════════════════════════
-              LAYER 3 — DOMAIN MODULES
-              ═══════════════════════════════════════════════════════════════ */}
+          {/* ── Domain 2: Financial — Dynamic Decision System ─────────── */}
           <section id="domain-modules">
             <SectionTitle n={3}>Domain Module — Dynamic Decision System Under Regime Change<ClaimTag>Patent #1 — Application</ClaimTag></SectionTitle>
 
@@ -675,8 +694,13 @@ export default function Lab() {
               <CompareCard title="Persistent System" color={T.blue} items={["Parallel candidate states", "Pre-positioned", "Reduced recovery time"]} />
             </div>
 
+          </section>
+          {/* End Domain 2: Financial */}
+
             <Divider />
 
+          {/* ── Domain 3: Process Stability ───────────────────────────── */}
+          <section id="domain-process">
             <SectionTitle n={4}>Domain Module — Process Stability Under Perturbation<ClaimTag>Patent #2 — Process</ClaimTag></SectionTitle>
 
             <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 12px" }}>
@@ -728,12 +752,11 @@ export default function Lab() {
               <CompareCard title="Adaptive Process" color={T.blue} items={["Maintains response alternatives", "Stability through perturbation", "Recovery without reset"]} />
             </div>
           </section>
+          {/* End Domain 3: Process Stability */}
 
           <Divider />
 
-          {/* ═══════════════════════════════════════════════════════════════
-              EVIDENCE SUMMARY
-              ═══════════════════════════════════════════════════════════════ */}
+          {/* ── Cross-Domain Evidence Summary (within BrowseByDomain) ─── */}
           <section id="evidence-summary">
             <SectionTitle n={5}>Cross-Domain Evidence Summary</SectionTitle>
 
@@ -781,10 +804,17 @@ export default function Lab() {
             </div>
           </section>
 
+        </section>
+        {/* End BrowseByDomain */}
+
           <Divider />
 
-          {/* Extended Technical Detail links */}
-          <SectionTitle n={6}>Extended Technical Detail</SectionTitle>
+        {/* ═══════════════════════════════════════════════════════════════
+            SECTION: LatestLabs
+            Links to the most recent / featured technical detail pages.
+            ═══════════════════════════════════════════════════════════════ */}
+        <section id="latest-labs">
+          <SectionTitle n={6}>Latest Labs</SectionTitle>
 
           <p style={{ fontSize: 14, color: T.textFaint, marginBottom: 20, lineHeight: 1.6 }}>
             Supporting implementations and detailed system explorations.
@@ -813,10 +843,65 @@ export default function Lab() {
               </a>
             ))}
           </div>
+        </section>
+        {/* End LatestLabs */}
 
-          {/* Methodology note */}
+          <Divider />
+
+        {/* ═══════════════════════════════════════════════════════════════
+            SECTION: AllLabs
+            Complete grid of all lab artifacts and explorations.
+            ═══════════════════════════════════════════════════════════════ */}
+        <section id="all-labs">
+          <SectionTitle n={7}>All Labs</SectionTitle>
+
+          <p style={{ fontSize: 14, color: T.textFaint, marginBottom: 20, lineHeight: 1.6 }}>
+            Browse every lab artifact — simulations, visualizations, and technical deep-dives.
+          </p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 12 }}>
+            {[
+              { href: "/lab/alab.html", title: "Architecture Lab (ALab)", desc: "Architecture → Constraint → Implementation. MoS₂ ALD / Tier-1 path.", domain: "Architecture" },
+              { href: "/lab/phoenix-state.html", title: "Closed-Loop Control", desc: "Live state tracking with competing causal candidate states.", domain: "Core System" },
+              { href: "/lab/multihead.html", title: "Distributed Writer Array", desc: "Parallel control architecture demonstration.", domain: "Hardware" },
+              { href: "/lab/psf-synthesis.html", title: "PSF Physics", desc: "Coupled spatial-temporal optimization.", domain: "Optics" },
+              { href: "/lab/cta-evaluation.html", title: "CTA Evaluation Engine", desc: "Multi-state decision architecture.", domain: "Decision" },
+              { href: "/lab/replica-race.html", title: "Replica Race Resolution", desc: "Distributed state convergence under ordering ambiguity.", domain: "Distributed" },
+            ].map(card => (
+              <a key={card.href} href={card.href} target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+                <div style={{
+                  padding: "16px 20px", border: `1px solid ${T.border}`, borderRadius: T.radius,
+                  borderTop: `3px solid ${T.blue}`, background: T.bg,
+                  transition: "border-color 0.15s ease",
+                }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = T.blue}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
+                >
+                  <div style={{
+                    fontFamily: T.mono, fontSize: 9, fontWeight: 700,
+                    letterSpacing: "0.1em", textTransform: "uppercase",
+                    color: T.textFaint, marginBottom: 6,
+                  }}>{card.domain}</div>
+                  <h4 style={{ margin: "0 0 6px", fontSize: 14, color: T.text, fontWeight: 600 }}>{card.title}</h4>
+                  <p style={{ margin: 0, fontSize: 12, color: T.textFaint, lineHeight: 1.5 }}>{card.desc}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+        {/* End AllLabs */}
+
+          <Divider />
+
+        {/* ═══════════════════════════════════════════════════════════════
+            SECTION: AboutLabs
+            Methodology note and contextual footer for the lab page.
+            ═══════════════════════════════════════════════════════════════ */}
+        <section id="about-labs">
+          <SectionTitle n={8}>About the Lab</SectionTitle>
+
           <div style={{
-            marginTop: 48, padding: "16px 20px", borderRadius: T.radius,
+            padding: "16px 20px", borderRadius: T.radius,
             borderLeft: `3px solid ${T.border}`, background: T.surfaceAlt,
             fontFamily: T.mono, fontSize: 12, color: T.textFaint, lineHeight: 1.7,
           }}>
@@ -825,7 +910,21 @@ export default function Lab() {
             Stochastic elements are bounded and labeled. No claims of production-grade fidelity are made.
             This artifact presents controlled system experiments — not predictions.
           </div>
+
+          <div style={{
+            marginTop: 20, padding: "16px 20px", borderRadius: T.radius,
+            border: `1px solid ${T.border}`, background: T.bg,
+            fontSize: 13, color: T.textDim, lineHeight: 1.7,
+          }}>
+            <strong style={{ color: T.text }}>What is the Lab?</strong>{" "}
+            The Lab is a collection of technical artifacts exploring how controlled systems behave
+            under uncertainty. Each experiment isolates a structural principle — persistence, divergence,
+            adaptation — and examines it across multiple domains with consistent methodology.
+            The same framework applies whether the domain is process control, signal interpretation,
+            or decision architecture.
+          </div>
         </section>
+        {/* End AboutLabs */}
       </div>
     </PageShell>
   );
