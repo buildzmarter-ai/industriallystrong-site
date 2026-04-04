@@ -312,14 +312,14 @@ export default function Lab() {
 
         {/* ═══════════════════════════════════════════════════════════════
             SECTION: LabHero
-            Title, subtitle, thesis statement, and introductory context.
+            Compressed: headline, one-liner, quick-jump anchors.
             ═══════════════════════════════════════════════════════════════ */}
         <section id="lab-hero">
           <div style={{
             fontFamily: T.mono, fontSize: 11, letterSpacing: "0.12em",
-            textTransform: "uppercase", color: T.textFaint, marginBottom: 20,
+            textTransform: "uppercase", color: T.textFaint, marginBottom: 16,
           }}>
-            Lab / Artifact Series / Controlled Systems Under Uncertainty
+            Lab
           </div>
 
           <h1 style={{
@@ -330,97 +330,73 @@ export default function Lab() {
           </h1>
           <h1 style={{
             fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2,
-            fontWeight: 700, margin: "0 0 24px", color: T.blue,
+            fontWeight: 700, margin: "0 0 16px", color: T.blue,
           }}>
             Systems that preserve alternatives adapt.
           </h1>
 
-          <p style={{ fontSize: 17, color: T.textDim, lineHeight: 1.65, maxWidth: 700, margin: "0 0 12px" }}>
-            A technical artifact demonstrating persistence, divergence, and controlled adaptation across domains.
+          <p style={{ fontSize: 16, color: T.textDim, lineHeight: 1.6, maxWidth: 700, margin: "0 0 24px" }}>
+            Controlled experiments in persistence, divergence, and adaptive control — examined across process, signal, and decision domains.
           </p>
 
-          <p style={{
-            fontFamily: T.mono, fontSize: 13, color: T.textFaint, lineHeight: 1.7,
-            maxWidth: 700, margin: "0 0 32px", fontStyle: "italic",
-          }}>
-            This lab presents a series of controlled system experiments designed to explore how
-            complex systems behave under uncertainty. The same structural principles are examined
-            across multiple technical contexts.
-          </p>
+          {/* Quick-jump anchors — visible on first screen */}
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 0 }}>
+            {[
+              { label: "Featured", target: "featured-labs" },
+              { label: "By Domain", target: "browse-by-domain" },
+              { label: "All Labs", target: "all-labs" },
+            ].map(btn => (
+              <button
+                key={btn.target}
+                onClick={() => document.getElementById(btn.target)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                style={{
+                  padding: "6px 16px", border: `1px solid ${T.border}`,
+                  borderRadius: T.radius, background: T.bg, color: T.text,
+                  fontSize: 12, fontWeight: 500, cursor: "pointer",
+                  fontFamily: T.mono,
+                }}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
         </section>
 
         {/* ═══════════════════════════════════════════════════════════════
             SECTION: FeaturedLabs
-            Patent alignment cards, navigation anchors, and evidence toggle.
+            Primary entry path — 4 strongest labs as clickable cards.
             ═══════════════════════════════════════════════════════════════ */}
         <section id="featured-labs">
-          {/* Patent Alignment */}
-        <div style={{
-          margin: "0 0 32px", padding: "16px 20px", borderRadius: T.radius,
-          border: `1px solid ${T.border}`, background: T.surface,
-        }}>
-          <div style={{
-            fontFamily: T.mono, fontSize: 10, fontWeight: 700,
-            letterSpacing: "0.1em", textTransform: "uppercase",
-            color: T.textFaint, marginBottom: 10,
-          }}>Patent Alignment</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 8 }}>
+          <SectionTitle n={1}>Featured</SectionTitle>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14 }}>
             {[
-              { label: "Core System Architecture", ref: "Patent #3", desc: "Parallel state persistence and controlled resolution" },
-              { label: "Signal Interpretation", ref: "Patent #1", desc: "Multi-hypothesis signal decomposition" },
-              { label: "Process Stability", ref: "Patent #2", desc: "Adaptive control under perturbation" },
-            ].map((p, i) => (
-              <div key={i} style={{ padding: "10px 14px", borderRadius: T.radius, background: T.bg, border: `1px solid ${T.border}` }}>
-                <div style={{ fontFamily: T.mono, fontSize: 10, color: T.blue, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>{p.ref}</div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 2 }}>{p.label}</div>
-                <div style={{ fontSize: 12, color: T.textFaint, lineHeight: 1.5 }}>{p.desc}</div>
-              </div>
+              { href: "/lab/alab.html", title: "Architecture Lab", desc: "MoS₂ ALD on Tier-1 tools — constraint-driven VCSEL write-head insertion.", color: T.blue },
+              { href: "/lab/phoenix-state.html", title: "Closed-Loop Control", desc: "Live state tracking with competing causal candidate states.", color: T.green },
+              { href: "/lab/multihead.html", title: "Distributed Writer Array", desc: "12,000-emitter parallel control architecture.", color: T.purple },
+              { href: "#core-system", title: "Core System Simulation", desc: "Parallel state evolution, compression, and baseline comparison.", color: T.amber, internal: true },
+            ].map(card => (
+              <a
+                key={card.href}
+                href={card.href}
+                {...(!card.internal ? { target: "_blank", rel: "noreferrer" } : {})}
+                onClick={card.internal ? (e) => { e.preventDefault(); document.getElementById("core-system")?.scrollIntoView({ behavior: "smooth", block: "start" }); } : undefined}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <div style={{
+                  padding: "18px 20px", border: `1px solid ${T.border}`, borderRadius: T.radius,
+                  borderTop: `3px solid ${card.color}`, background: T.bg,
+                  transition: "border-color 0.15s ease", height: "100%",
+                }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = card.color}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.borderTopColor = card.color; }}
+                >
+                  <h4 style={{ margin: "0 0 6px", fontSize: 14, color: T.text, fontWeight: 600 }}>{card.title}</h4>
+                  <p style={{ margin: 0, fontSize: 12, color: T.textFaint, lineHeight: 1.5 }}>{card.desc}</p>
+                </div>
+              </a>
             ))}
           </div>
-        </div>
-
-        {/* Nav anchors */}
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
-          {[
-            { label: "Core System", target: "core-system" },
-            { label: "Domain Modules", target: "domain-modules" },
-            { label: "Evidence", target: "evidence-summary" },
-            { label: "Latest", target: "latest-labs" },
-            { label: "All Labs", target: "all-labs" },
-            { label: "About", target: "about-labs" },
-          ].map(btn => (
-            <button
-              key={btn.target}
-              onClick={() => document.getElementById(btn.target)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-              style={{
-                padding: "8px 20px", border: `1px solid ${T.border}`,
-                borderRadius: T.radius, background: T.bg, color: T.text,
-                fontSize: 13, fontWeight: 500, cursor: "pointer",
-                fontFamily: T.mono,
-              }}
-            >
-              {btn.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Evidence toggle */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "24px 0 0" }}>
-          <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", fontSize: 13, color: T.textDim, userSelect: "none" }}>
-            <div onClick={() => setShowEvidence(!showEvidence)} style={{
-              width: 38, height: 20, borderRadius: 10, position: "relative",
-              background: showEvidence ? T.blue : T.border, cursor: "pointer", transition: "background 0.2s ease",
-            }}>
-              <div style={{
-                width: 16, height: 16, borderRadius: "50%", background: "#fff",
-                position: "absolute", top: 2, left: showEvidence ? 20 : 2,
-                transition: "left 0.2s ease", boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
-              }} />
-            </div>
-            Show Evidence Layer
-          </label>
-          {showEvidence && <span style={{ fontFamily: T.mono, fontSize: 11, color: T.blue }}>Evidence annotations visible</span>}
-        </div>
         </section>
         {/* End FeaturedLabs */}
 
@@ -432,10 +408,92 @@ export default function Lab() {
             Each domain's full content preserved within its subsection.
             ═══════════════════════════════════════════════════════════════ */}
         <section id="browse-by-domain">
+          <SectionTitle n={2}>Browse by Domain</SectionTitle>
+
+          {/* Domain index — three clickable pills */}
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 16 }}>
+            {[
+              { label: "Core System", target: "core-system", color: T.blue },
+              { label: "Financial", target: "domain-modules", color: T.amber },
+              { label: "Process", target: "domain-process", color: T.green },
+              { label: "Evidence", target: "evidence-summary", color: T.purple },
+            ].map(d => (
+              <button
+                key={d.target}
+                onClick={() => document.getElementById(d.target)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                style={{
+                  padding: "5px 14px", border: `1.5px solid ${d.color}`,
+                  borderRadius: 20, background: T.bg, color: d.color,
+                  fontSize: 12, fontWeight: 600, cursor: "pointer",
+                  fontFamily: T.mono, letterSpacing: "0.04em",
+                }}
+              >
+                {d.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Patent alignment — moved down from hero */}
+          <div style={{
+            margin: "0 0 16px", padding: "12px 16px", borderRadius: T.radius,
+            border: `1px solid ${T.border}`, background: T.surface,
+          }}>
+            <div style={{
+              fontFamily: T.mono, fontSize: 10, fontWeight: 700,
+              letterSpacing: "0.1em", textTransform: "uppercase",
+              color: T.textFaint, marginBottom: 8,
+            }}>Patent Alignment</div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {[
+                { label: "Core System Architecture", ref: "Patent #3" },
+                { label: "Signal Interpretation", ref: "Patent #1" },
+                { label: "Process Stability", ref: "Patent #2" },
+              ].map((p, i) => (
+                <div key={i} style={{
+                  padding: "6px 12px", borderRadius: T.radius, background: T.bg,
+                  border: `1px solid ${T.border}`, fontSize: 12,
+                }}>
+                  <span style={{ fontFamily: T.mono, fontSize: 10, color: T.blue, fontWeight: 600, marginRight: 6 }}>{p.ref}</span>
+                  <span style={{ color: T.textDim }}>{p.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Evidence toggle — moved down from hero */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", fontSize: 13, color: T.textDim, userSelect: "none" }}>
+              <div onClick={() => setShowEvidence(!showEvidence)} style={{
+                width: 38, height: 20, borderRadius: 10, position: "relative",
+                background: showEvidence ? T.blue : T.border, cursor: "pointer", transition: "background 0.2s ease",
+              }}>
+                <div style={{
+                  width: 16, height: 16, borderRadius: "50%", background: "#fff",
+                  position: "absolute", top: 2, left: showEvidence ? 20 : 2,
+                  transition: "left 0.2s ease", boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                }} />
+              </div>
+              Show Evidence Layer
+            </label>
+            {showEvidence && <span style={{ fontFamily: T.mono, fontSize: 11, color: T.blue }}>Evidence annotations visible</span>}
+          </div>
+
+          <Divider />
 
           {/* ── Domain 1: Core System ────────────────────────────────── */}
           <section id="core-system">
-          <SectionTitle n={1}>Core System: Parallel State Evolution<ClaimTag>Patent #3 — Architecture</ClaimTag></SectionTitle>
+          {/* Domain header bar */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 10, marginBottom: 20,
+            padding: "8px 0", borderBottom: `2px solid ${T.blue}`,
+          }}>
+            <span style={{
+              fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", color: T.blue,
+            }}>Domain</span>
+            <span style={{ fontSize: 15, fontWeight: 700, color: T.text }}>Core System</span>
+          </div>
+          <SectionTitle n={3}>Parallel State Evolution<ClaimTag>Patent #3 — Architecture</ClaimTag></SectionTitle>
 
           <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 28px" }}>
             Candidate states evolve in parallel. States are created, evaluated,
@@ -443,8 +501,8 @@ export default function Lab() {
             is committed to prematurely.
           </p>
 
-          {/* Two-column compare cards */}
-          <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
+          {/* Two-column compare cards — scannable at a glance */}
+          <div style={{ display: "flex", gap: 16, marginBottom: 24, flexWrap: "wrap" }}>
             <CompareCard title="Early Commitment" color={T.red} items={[
               "One state selected at ingestion",
               "Commits before uncertainty resolves",
@@ -459,23 +517,7 @@ export default function Lab() {
             ]} />
           </div>
 
-          {/* Formal State Definition */}
-          <div style={{
-            margin: "0 0 20px", padding: "14px 20px", borderRadius: T.radius,
-            background: T.surfaceAlt, border: `1px solid ${T.border}`,
-            fontFamily: T.mono, fontSize: 13, color: T.textDim, lineHeight: 1.8,
-          }}>
-            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: T.textFaint, marginBottom: 8 }}>Formal Definition</div>
-            <div>S<sub>i</sub> = ( <strong style={{ color: T.text }}>v</strong><sub>i</sub> , <strong style={{ color: T.text }}>w</strong><sub>i</sub> , <strong style={{ color: T.text }}>τ</strong><sub>i</sub> )</div>
-            <div style={{ fontSize: 12, marginTop: 6 }}>
-              <span style={{ color: T.text }}>v<sub>i</sub></span> = state vector &nbsp;|&nbsp; <span style={{ color: T.text }}>w<sub>i</sub></span> = confidence weight &nbsp;|&nbsp; <span style={{ color: T.text }}>τ<sub>i</sub></span> = persistence duration
-            </div>
-            <div style={{ fontSize: 11, marginTop: 6, color: T.textFaint, fontStyle: "italic" }}>
-              Each candidate state carries its own trajectory. Resolution occurs when evidence accumulates — not before.
-            </div>
-          </div>
-
-          {/* State Formalization Table */}
+          {/* State Formalization Table — data first, definition after */}
           <ChartBox title="State Formalization — Abstracted Representation">
             <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: T.mono }}>
@@ -577,6 +619,22 @@ export default function Lab() {
             )}
           </ChartBox>
 
+          {/* Formal State Definition — pushed below data for reduced top density */}
+          <div style={{
+            margin: "0 0 20px", padding: "14px 20px", borderRadius: T.radius,
+            background: T.surfaceAlt, border: `1px solid ${T.border}`,
+            fontFamily: T.mono, fontSize: 13, color: T.textDim, lineHeight: 1.8,
+          }}>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: T.textFaint, marginBottom: 8 }}>Formal Definition</div>
+            <div>S<sub>i</sub> = ( <strong style={{ color: T.text }}>v</strong><sub>i</sub> , <strong style={{ color: T.text }}>w</strong><sub>i</sub> , <strong style={{ color: T.text }}>τ</strong><sub>i</sub> )</div>
+            <div style={{ fontSize: 12, marginTop: 6 }}>
+              <span style={{ color: T.text }}>v<sub>i</sub></span> = state vector &nbsp;|&nbsp; <span style={{ color: T.text }}>w<sub>i</sub></span> = confidence weight &nbsp;|&nbsp; <span style={{ color: T.text }}>τ<sub>i</sub></span> = persistence duration
+            </div>
+            <div style={{ fontSize: 11, marginTop: 6, color: T.textFaint, fontStyle: "italic" }}>
+              Each candidate state carries its own trajectory. Resolution occurs when evidence accumulates — not before.
+            </div>
+          </div>
+
           {/* Failure Mode */}
           <div style={{
             margin: "24px 0 28px", padding: "14px 20px", borderRadius: T.radius,
@@ -589,7 +647,7 @@ export default function Lab() {
           </div>
 
           {/* Baseline Comparison */}
-          <SectionTitle n={2}>Baseline Comparison — Early Commitment vs Parallel Persistence<ClaimTag>Patent #1 — Signal</ClaimTag></SectionTitle>
+          <SectionTitle n={3}>Baseline Comparison — Early Commitment vs Parallel Persistence<ClaimTag>Patent #1 — Signal</ClaimTag></SectionTitle>
 
           <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 20px" }}>
             Early commitment collapses on regime shift. Parallel persistence adapts through maintained alternatives.
@@ -638,7 +696,18 @@ export default function Lab() {
 
           {/* ── Domain 2: Financial — Dynamic Decision System ─────────── */}
           <section id="domain-modules">
-            <SectionTitle n={3}>Domain Module — Dynamic Decision System Under Regime Change<ClaimTag>Patent #1 — Application</ClaimTag></SectionTitle>
+            {/* Domain header bar */}
+            <div style={{
+              display: "flex", alignItems: "center", gap: 10, marginBottom: 20,
+              padding: "8px 0", borderBottom: `2px solid ${T.amber}`,
+            }}>
+              <span style={{
+                fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+                textTransform: "uppercase", color: T.amber,
+              }}>Domain</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: T.text }}>Financial</span>
+            </div>
+            <SectionTitle n={4}>Dynamic Decision System Under Regime Change<ClaimTag>Patent #1 — Application</ClaimTag></SectionTitle>
 
             <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 12px" }}>
               Portfolio-level comparison of strategy persistence under simulated market regime transitions.
@@ -701,7 +770,18 @@ export default function Lab() {
 
           {/* ── Domain 3: Process Stability ───────────────────────────── */}
           <section id="domain-process">
-            <SectionTitle n={4}>Domain Module — Process Stability Under Perturbation<ClaimTag>Patent #2 — Process</ClaimTag></SectionTitle>
+            {/* Domain header bar */}
+            <div style={{
+              display: "flex", alignItems: "center", gap: 10, marginBottom: 20,
+              padding: "8px 0", borderBottom: `2px solid ${T.green}`,
+            }}>
+              <span style={{
+                fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+                textTransform: "uppercase", color: T.green,
+              }}>Domain</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: T.text }}>Process</span>
+            </div>
+            <SectionTitle n={5}>Process Stability Under Perturbation<ClaimTag>Patent #2 — Process</ClaimTag></SectionTitle>
 
             <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 12px" }}>
               Comparison of rigid vs. adaptive process control under parameter perturbation events.
@@ -758,7 +838,7 @@ export default function Lab() {
 
           {/* ── Cross-Domain Evidence Summary (within BrowseByDomain) ─── */}
           <section id="evidence-summary">
-            <SectionTitle n={5}>Cross-Domain Evidence Summary</SectionTitle>
+            <SectionTitle n={6}>Cross-Domain Evidence Summary</SectionTitle>
 
             <p style={{ fontSize: 15, color: T.textDim, lineHeight: 1.7, maxWidth: 700, margin: "0 0 24px" }}>
               Identical structural pattern examined across domains. Each module follows the same
@@ -814,7 +894,7 @@ export default function Lab() {
             Links to the most recent / featured technical detail pages.
             ═══════════════════════════════════════════════════════════════ */}
         <section id="latest-labs">
-          <SectionTitle n={6}>Latest Labs</SectionTitle>
+          <SectionTitle n={7}>Latest Labs</SectionTitle>
 
           <p style={{ fontSize: 14, color: T.textFaint, marginBottom: 20, lineHeight: 1.6 }}>
             Supporting implementations and detailed system explorations.
@@ -853,7 +933,7 @@ export default function Lab() {
             Complete grid of all lab artifacts and explorations.
             ═══════════════════════════════════════════════════════════════ */}
         <section id="all-labs">
-          <SectionTitle n={7}>All Labs</SectionTitle>
+          <SectionTitle n={8}>All Labs</SectionTitle>
 
           <p style={{ fontSize: 14, color: T.textFaint, marginBottom: 20, lineHeight: 1.6 }}>
             Browse every lab artifact — simulations, visualizations, and technical deep-dives.
@@ -898,7 +978,7 @@ export default function Lab() {
             Methodology note and contextual footer for the lab page.
             ═══════════════════════════════════════════════════════════════ */}
         <section id="about-labs">
-          <SectionTitle n={8}>About the Lab</SectionTitle>
+          <SectionTitle n={9}>About the Lab</SectionTitle>
 
           <div style={{
             padding: "16px 20px", borderRadius: T.radius,
@@ -923,6 +1003,15 @@ export default function Lab() {
             The same framework applies whether the domain is process control, signal interpretation,
             or decision architecture.
           </div>
+
+          <p style={{
+            fontFamily: T.mono, fontSize: 12, color: T.textFaint, lineHeight: 1.7,
+            maxWidth: 700, margin: "20px 0 0", fontStyle: "italic",
+          }}>
+            This lab presents a series of controlled system experiments designed to explore how
+            complex systems behave under uncertainty. The same structural principles are examined
+            across multiple technical contexts.
+          </p>
         </section>
         {/* End AboutLabs */}
       </div>
