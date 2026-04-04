@@ -995,28 +995,28 @@
           <p style="font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:14px;">
             Actions are ranked continuously instead of flipping between labels.
           </p>
-          <!-- Bar-style decision ranking -->
+          <!-- Bar-style decision ranking — wide, breathable, instant read -->
           <div style="margin-bottom:10px;">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-              <span style="font-family:var(--mono); font-size:12px; font-weight:700; color:var(--navy); width:50px;">LONG</span>
-              <div style="flex:1; height:14px; background:#f1f5f9; border-radius:4px; overflow:hidden;">
-                <div style="width:85%; height:100%; background:var(--green); border-radius:4px;"></div>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <span style="font-family:var(--mono); font-size:13px; font-weight:700; color:var(--navy); width:56px; letter-spacing:0.5px;">LONG</span>
+              <div style="flex:1; height:20px; background:#f1f5f9; border-radius:6px; overflow:hidden;">
+                <div style="width:85%; height:100%; background:var(--green); border-radius:6px; transition:width 0.8s ease;"></div>
               </div>
-              <span style="font-family:var(--mono); font-size:13px; font-weight:700; color:var(--green); width:36px; text-align:right;">0.85</span>
+              <span style="font-family:var(--mono); font-size:15px; font-weight:800; color:var(--green); width:40px; text-align:right;">0.85</span>
             </div>
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-              <span style="font-family:var(--mono); font-size:12px; font-weight:700; color:var(--navy); width:50px;">FLAT</span>
-              <div style="flex:1; height:14px; background:#f1f5f9; border-radius:4px; overflow:hidden;">
-                <div style="width:8%; height:100%; background:var(--amber); border-radius:4px;"></div>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <span style="font-family:var(--mono); font-size:13px; font-weight:700; color:var(--navy); width:56px; letter-spacing:0.5px;">FLAT</span>
+              <div style="flex:1; height:20px; background:#f1f5f9; border-radius:6px; overflow:hidden;">
+                <div style="width:8%; height:100%; background:var(--amber); border-radius:6px; min-width:8px;"></div>
               </div>
-              <span style="font-family:var(--mono); font-size:13px; font-weight:700; color:var(--amber); width:36px; text-align:right;">0.08</span>
+              <span style="font-family:var(--mono); font-size:15px; font-weight:800; color:var(--amber); width:40px; text-align:right;">0.08</span>
             </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="font-family:var(--mono); font-size:12px; font-weight:700; color:var(--navy); width:50px;">HEDGE</span>
-              <div style="flex:1; height:14px; background:#f1f5f9; border-radius:4px; overflow:hidden;">
-                <div style="width:3%; height:100%; background:var(--red); border-radius:4px;"></div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-family:var(--mono); font-size:13px; font-weight:700; color:var(--navy); width:56px; letter-spacing:0.5px;">HEDGE</span>
+              <div style="flex:1; height:20px; background:#f1f5f9; border-radius:6px; overflow:hidden;">
+                <div style="width:3%; height:100%; background:var(--red); border-radius:6px; min-width:6px;"></div>
               </div>
-              <span style="font-family:var(--mono); font-size:13px; font-weight:700; color:var(--red); width:36px; text-align:right;">0.03</span>
+              <span style="font-family:var(--mono); font-size:15px; font-weight:800; color:var(--red); width:40px; text-align:right;">0.03</span>
             </div>
           </div>
         </div>
@@ -1122,39 +1122,77 @@
       </p>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <!-- Left: LLM-Only Behavior -->
-        <div style="background: white; border: 1px solid var(--border); border-top: 3px solid var(--red); border-radius: 10px; padding: 20px;">
+        <!-- Left: LLM-Only Behavior — brittle, discrete, jarring -->
+        <div style="background: #fffbfb; border: 1px solid #fecaca; border-top: 3px solid var(--red); border-radius: 10px; padding: 20px;">
           <div style="font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--red); margin-bottom: 14px;">LLM-Only Behavior</div>
-          <div style="font-family: var(--mono); font-size: 13px; line-height: 2.2; color: var(--text);">
-            <div><span style="color: var(--muted); font-size: 11px;">00:00</span> &nbsp;<span style="background: #dcfce7; color: var(--green); padding: 2px 10px; border-radius: 4px; font-weight: 600;">BULLISH</span></div>
-            <div><span style="color: var(--muted); font-size: 11px;">00:04</span> &nbsp;<span style="background: #dcfce7; color: var(--green); padding: 2px 10px; border-radius: 4px; font-weight: 600;">BULLISH</span></div>
-            <div><span style="color: var(--muted); font-size: 11px;">00:07</span> &nbsp;<span style="background: #fee2e2; color: var(--red); padding: 2px 10px; border-radius: 4px; font-weight: 600;">BEARISH</span></div>
-            <div><span style="color: var(--muted); font-size: 11px;">00:10</span> &nbsp;<span style="background: #dcfce7; color: var(--green); padding: 2px 10px; border-radius: 4px; font-weight: 600;">BULLISH</span></div>
+          <div style="font-family: var(--mono); font-size: 13px; color: var(--text);">
+            <div style="display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px dashed #fecaca;">
+              <span style="color: var(--muted); font-size: 11px; width:36px;">00:00</span>
+              <span style="background: #dcfce7; color: var(--green); padding: 3px 12px; border-radius: 4px; font-weight: 700; font-size:12px;">BULLISH</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px dashed #fecaca;">
+              <span style="color: var(--muted); font-size: 11px; width:36px;">00:04</span>
+              <span style="background: #dcfce7; color: var(--green); padding: 3px 12px; border-radius: 4px; font-weight: 700; font-size:12px;">BULLISH</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px dashed #fecaca; background:#fef2f2; margin:0 -8px; padding-left:8px; border-radius:4px;">
+              <span style="color: var(--muted); font-size: 11px; width:36px;">00:07</span>
+              <span style="background: #fee2e2; color: var(--red); padding: 3px 12px; border-radius: 4px; font-weight: 700; font-size:12px;">BEARISH</span>
+              <span style="font-size:9px; color:var(--red); font-weight:700; letter-spacing:0.5px;">← FLIP</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; padding:6px 0; background:#f0fdf4; margin:0 -8px; padding-left:8px; border-radius:4px;">
+              <span style="color: var(--muted); font-size: 11px; width:36px;">00:10</span>
+              <span style="background: #dcfce7; color: var(--green); padding: 3px 12px; border-radius: 4px; font-weight: 700; font-size:12px;">BULLISH</span>
+              <span style="font-size:9px; color:var(--red); font-weight:700; letter-spacing:0.5px;">← FLIP</span>
+            </div>
           </div>
-          <div style="font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.5; font-style: italic;">
-            One-shot inference appears as abrupt answer flips.
+          <div style="font-size: 12px; color: #991b1b; margin-top: 14px; line-height: 1.5; font-style: italic; border-top:1px solid #fecaca; padding-top:10px;">
+            One-shot inference produces abrupt answer flips. No memory between cycles.
           </div>
         </div>
 
-        <!-- Right: Tracked System Behavior -->
-        <div style="background: white; border: 1px solid var(--border); border-top: 3px solid var(--blue); border-radius: 10px; padding: 20px;">
+        <!-- Right: Tracked System Behavior — continuous, flowing, stateful -->
+        <div style="background: #f8fcff; border: 1px solid #bfdbfe; border-top: 3px solid var(--blue); border-radius: 10px; padding: 20px;">
           <div style="font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); margin-bottom: 14px;">Tracked System Behavior</div>
-          <div style="font-size: 13px; line-height: 1.8; color: var(--text);">
-            <div style="margin-bottom: 6px;">
-              <span style="font-size: 12px; color: var(--muted); display: inline-block; width: 130px;">Trend continuation</span>
-              <span style="font-family: var(--mono); color: var(--blue); font-weight: 600;">0.60 → 0.45 → 0.30</span>
+          <div style="font-size: 13px; color: var(--text);">
+            <!-- Trend continuation — mini bar progression -->
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--muted); margin-bottom: 4px;">Trend continuation</div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <div style="height:10px; width:60%; background:var(--blue); border-radius:4px; opacity:0.9;"></div>
+                <span style="color:var(--muted); font-size:10px;">→</span>
+                <div style="height:10px; width:45%; background:var(--blue); border-radius:4px; opacity:0.65;"></div>
+                <span style="color:var(--muted); font-size:10px;">→</span>
+                <div style="height:10px; width:30%; background:var(--blue); border-radius:4px; opacity:0.4;"></div>
+              </div>
+              <div style="font-family:var(--mono); font-size:11px; color:var(--blue); margin-top:3px; font-weight:600;">0.60 → 0.45 → 0.30</div>
             </div>
-            <div style="margin-bottom: 6px;">
-              <span style="font-size: 12px; color: var(--muted); display: inline-block; width: 130px;">Volatility spike</span>
-              <span style="font-family: var(--mono); color: var(--orange); font-weight: 600;">0.20 → 0.35 → 0.50</span>
+            <!-- Volatility spike — growing -->
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 11px; color: var(--muted); margin-bottom: 4px;">Volatility spike</div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <div style="height:10px; width:20%; background:var(--orange); border-radius:4px; opacity:0.5;"></div>
+                <span style="color:var(--muted); font-size:10px;">→</span>
+                <div style="height:10px; width:35%; background:var(--orange); border-radius:4px; opacity:0.7;"></div>
+                <span style="color:var(--muted); font-size:10px;">→</span>
+                <div style="height:10px; width:50%; background:var(--orange); border-radius:4px; opacity:0.9;"></div>
+              </div>
+              <div style="font-family:var(--mono); font-size:11px; color:var(--orange); margin-top:3px; font-weight:600;">0.20 → 0.35 → 0.50</div>
             </div>
+            <!-- Mean reversion — growing -->
             <div>
-              <span style="font-size: 12px; color: var(--muted); display: inline-block; width: 130px;">Mean reversion</span>
-              <span style="font-family: var(--mono); color: var(--green); font-weight: 600;">0.10 → 0.20 → 0.40</span>
+              <div style="font-size: 11px; color: var(--muted); margin-bottom: 4px;">Mean reversion</div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <div style="height:10px; width:10%; background:var(--green); border-radius:4px; opacity:0.4;"></div>
+                <span style="color:var(--muted); font-size:10px;">→</span>
+                <div style="height:10px; width:20%; background:var(--green); border-radius:4px; opacity:0.6;"></div>
+                <span style="color:var(--muted); font-size:10px;">→</span>
+                <div style="height:10px; width:40%; background:var(--green); border-radius:4px; opacity:0.9;"></div>
+              </div>
+              <div style="font-family:var(--mono); font-size:11px; color:var(--green); margin-top:3px; font-weight:600;">0.10 → 0.20 → 0.40</div>
             </div>
           </div>
-          <div style="font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.5; font-style: italic;">
-            Tracked hypotheses evolve smoothly as evidence accumulates.
+          <div style="font-size: 12px; color: #1e40af; margin-top: 14px; line-height: 1.5; font-style: italic; border-top:1px solid #bfdbfe; padding-top:10px;">
+            Tracked hypotheses evolve smoothly. Probabilities shift — they don't flip.
           </div>
         </div>
       </div>
