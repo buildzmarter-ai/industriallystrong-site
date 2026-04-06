@@ -103,9 +103,9 @@ export default function Systems() {
             <div className="systems-grid">
               <SystemCard
                 title="QRLPhoenix"
-                subtitle="AI-assisted strategy discovery platform"
-                description="A working platform focused on strategy discovery, evaluation, and decision-support workflows. It reflects the site’s interest in transparent intelligence, structured reasoning, and practical system usability."
-                evidence="Deployed platform for strategy discovery and analysis"
+                subtitle="Multi-vertical trading intelligence platform"
+                description="A multi-data-source platform spanning AI coaching, strategy discovery, IASG CTA rankings, MRCI seasonal spreads, CFTC COT positioning, and blockchain-verified decision audit trails — deployed across iOS, web, and a production API."
+                evidence="Deployed across iOS, web, and Railway backend — 278+ tests, CI/CD green"
                 to="/systems/qrlphoenix"
               />
 
