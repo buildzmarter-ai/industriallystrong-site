@@ -30,7 +30,7 @@
         </svg>
         <div class="logo-text">
           <span class="logo-title">RAID·ASA</span>
-          <span class="logo-subtitle">Performance Calculator</span>
+          <span class="logo-subtitle">Distributed Correctness Lab</span>
         </div>
       </div>
       <div class="header-actions">
@@ -41,6 +41,44 @@
       </div>
     </div>
   </header>
+
+  <!-- ── LAB HERO ── -->
+  <section class="lab-hero">
+    <div class="lab-hero-inner">
+      <div class="lab-hero-head">
+        <h1 class="lab-title">Software RAID vs ASA — Distributed Correctness Performance Lab</h1>
+        <p class="lab-descriptor">Modeled comparison of structural correctness versus coordination-based recovery across modern storage deployment profiles.</p>
+        <div class="lab-posture-row">
+          <span class="ep-badge">MODELED</span>
+          <span class="ep-badge">ARCHITECTURE-LEVEL</span>
+          <span class="ep-badge">PARAMETERIZED</span>
+        </div>
+      </div>
+
+      <div class="lab-hero-framing">
+        <p><strong>RAID solved redundancy. It did not solve distributed correctness.</strong> Any modern storage stack that prevents split-brain, reconciles divergence, or enforces deterministic recovery already carries metadata, coordination, reconciliation, and scrub overhead — whether it is framed as RAID + cluster manager, a distributed filesystem, or ASA. This lab compares three tracks — <em>bare SW RAID</em>, <em>SW RAID + correctness overhead</em>, and <em>ASA</em> — across realistic deployment profiles. The goal is decision support, not benchmark theater.</p>
+      </div>
+
+      <div class="lab-hero-meta">
+        <div class="how-to-read">
+          <div class="htr-title">How to read this lab</div>
+          <ol class="htr-list">
+            <li>Start with a deployment profile below.</li>
+            <li>Compare RAID bare vs RAID + correctness vs ASA.</li>
+            <li>Focus on vulnerability window, operational complexity, and reconciliation cost.</li>
+          </ol>
+        </div>
+        <div class="limits-box">
+          <div class="lb-title">Limits</div>
+          <ul class="lb-list">
+            <li>Not a benchmark.</li>
+            <li>Not measured hardware data.</li>
+            <li>Intended to compare correctness cost structures.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ── DEPLOYMENT PROFILES BAR ── -->
   <div class="profiles-bar">
@@ -291,17 +329,34 @@
       <!-- ── TAB: PERFORMANCE ── -->
       <div class="tab-content" id="tab-perf">
 
-        <!-- Why This Matters Now -->
-        <div class="why-matters-bar">
-          <div class="evidence-posture">
-            <span class="ep-badge">MODELED</span>
-            <span class="ep-badge">ARCHITECTURE-LEVEL</span>
-            <span class="ep-badge">PARAMETERIZED</span>
-          </div>
-          <div class="why-points">
-            <div class="why-point"><span class="why-num">01</span>RAID solved redundancy — it did not solve distributed correctness.</div>
-            <div class="why-point"><span class="why-num">02</span>Distributed systems create divergence, split-brain, and reconciliation debt at scale.</div>
-            <div class="why-point"><span class="why-num">03</span>ASA addresses divergence deterministically — shifting overhead into a simpler, more auditable form.</div>
+        <!-- Decision Metrics — headline band, elevated above charts -->
+        <div class="decision-metrics-panel decision-metrics-headline">
+          <div class="section-label">DECISION METRICS — headline outcomes for the current scenario</div>
+          <div class="decision-metrics-grid">
+            <div class="dm-card">
+              <div class="dm-label">Recovery Risk Score</div>
+              <div class="dm-value" id="dmRecoveryRisk">—</div>
+              <div class="dm-bar-wrap"><div class="dm-bar" id="dmRecoveryRiskBar"></div></div>
+              <div class="dm-note" id="dmRecoveryRiskNote">double-fault × URE exposure × rebuild window</div>
+            </div>
+            <div class="dm-card">
+              <div class="dm-label">Operational Complexity</div>
+              <div class="dm-value" id="dmOpsComplexity">—</div>
+              <div class="dm-bar-wrap"><div class="dm-bar" id="dmOpsComplexityBar"></div></div>
+              <div class="dm-note" id="dmOpsComplexityNote">write amp × correctness overhead × scrub cost</div>
+            </div>
+            <div class="dm-card">
+              <div class="dm-label">Rebuild Vulnerability Window</div>
+              <div class="dm-value" id="dmVulnerability">—</div>
+              <div class="dm-bar-wrap"><div class="dm-bar" id="dmVulnerabilityBar"></div></div>
+              <div class="dm-note" id="dmVulnerabilityNote">hours exposed during single-disk rebuild</div>
+            </div>
+            <div class="dm-card dm-card-asa">
+              <div class="dm-label">Reconciliation Time Model</div>
+              <div class="dm-value" id="dmDivergence">—</div>
+              <div class="dm-bar-wrap"><div class="dm-bar dm-bar-asa" id="dmDivergenceBar"></div></div>
+              <div class="dm-note" id="dmDivergenceNote">reconcile scan cost model: RAID O(data) vs ASA O(index)</div>
+            </div>
           </div>
         </div>
 
@@ -388,41 +443,8 @@
           </div>
         </div>
 
-        <!-- Decision Metrics + Stack Diagram + Customer Questions -->
+        <!-- Stack Diagram + Customer Questions -->
         <div class="decision-layer">
-
-          <!-- Decision Metrics -->
-          <div class="decision-metrics-panel">
-            <div class="section-label">DECISION METRICS</div>
-            <div class="decision-metrics-grid">
-              <div class="dm-card">
-                <div class="dm-label">Recovery Risk Score</div>
-                <div class="dm-value" id="dmRecoveryRisk">—</div>
-                <div class="dm-bar-wrap"><div class="dm-bar" id="dmRecoveryRiskBar"></div></div>
-                <div class="dm-note" id="dmRecoveryRiskNote">double-fault × URE exposure × rebuild window</div>
-              </div>
-              <div class="dm-card">
-                <div class="dm-label">Operational Complexity</div>
-                <div class="dm-value" id="dmOpsComplexity">—</div>
-                <div class="dm-bar-wrap"><div class="dm-bar" id="dmOpsComplexityBar"></div></div>
-                <div class="dm-note" id="dmOpsComplexityNote">write amp × correctness overhead × scrub cost</div>
-              </div>
-              <div class="dm-card">
-                <div class="dm-label">Rebuild Vulnerability Window</div>
-                <div class="dm-value" id="dmVulnerability">—</div>
-                <div class="dm-bar-wrap"><div class="dm-bar" id="dmVulnerabilityBar"></div></div>
-                <div class="dm-note" id="dmVulnerabilityNote">hours exposed during single-disk rebuild</div>
-              </div>
-              <div class="dm-card dm-card-asa">
-                <div class="dm-label">Divergence Resolution Time</div>
-                <div class="dm-value" id="dmDivergence">—</div>
-                <div class="dm-bar-wrap"><div class="dm-bar dm-bar-asa" id="dmDivergenceBar"></div></div>
-                <div class="dm-note" id="dmDivergenceNote">reconcile scan time: RAID O(data) vs ASA O(index)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stack Diagram + Customer Questions -->
           <div class="stack-questions-row">
 
             <!-- Stack Diagram -->

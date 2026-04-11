@@ -401,7 +401,7 @@ export default function Lab() {
               { href: "/lab/alab.html", title: "Architecture Lab", desc: "How distributed control inserts into existing fab tools without modifying them.", color: T.blue, posture: "architecture-level" },
               { href: "/lab/phoenix-state.html", title: "Closed-Loop State Tracking", desc: "Competing hypotheses scored and updated in real time — live control loop.", color: T.green, posture: "simulated" },
               { href: "/lab/multihead.html", title: "Distributed Writer Array", desc: "12,000 parallel emitters with per-site dose calibration.", color: T.purple, posture: "derived" },
-              { href: "/lab/sw-raid-asa/", title: "SW RAID vs ASA — Distributed Correctness Performance Lab", desc: "Modeled comparison of structural correctness versus coordination-based recovery across modern storage deployment profiles.", color: T.amber, posture: "modeled" },
+              { href: "/lab/sw-raid-asa/index.html", title: "SW RAID vs ASA — Distributed Correctness Performance Lab", desc: "Modeled comparison of structural correctness versus coordination-based recovery across modern storage deployment profiles.", color: T.amber, posture: "modeled" },
               { href: "#core-system", title: "State Evolution Simulator", desc: "Watch candidate states spawn, merge, retire, and survive regime shifts.", color: T.amber, internal: true, posture: "simulated" },
             ].map(card => (
               <a
@@ -969,7 +969,7 @@ export default function Lab() {
               { href: "/lab/psf-synthesis.html", title: "PSF Synthesis", desc: "Coupled spatial-temporal point spread function optimization.", domain: "Optics" },
               { href: "/lab/cta-evaluation.html", title: "CTA Evaluation Engine", desc: "Portfolio evaluation using state resolution — preserved alternatives, not collapsed answers.", domain: "Decision" },
               { href: "/lab/replica-race.html", title: "Replica Race Resolution", desc: "How distributed replicas converge when event ordering is ambiguous.", domain: "Distributed" },
-              { href: "/lab/sw-raid-asa/", title: "SW RAID vs ASA", desc: "Modeled comparison of structural correctness vs coordination-based recovery across storage deployment profiles. Modeled · derived · architecture-level.", domain: "Storage" },
+              { href: "/lab/sw-raid-asa/index.html", title: "SW RAID vs ASA", desc: "Modeled comparison of structural correctness vs coordination-based recovery across storage deployment profiles. Modeled · derived · architecture-level.", domain: "Storage" },
             ].map(card => (
               <a key={card.href} href={card.href} target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
                 <div style={{

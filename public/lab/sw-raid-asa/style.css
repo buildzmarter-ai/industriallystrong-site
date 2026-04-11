@@ -1063,3 +1063,128 @@ button { cursor: pointer; background: none; border: none; font: inherit; color: 
 .q-link:hover {
   color: var(--color-accent);
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   LAB HERO — title, descriptor, evidence posture, executive framing,
+   how-to-read, and limits. Sits between the site header and the deployment
+   profiles bar so the full above-the-fold order is:
+
+     title → descriptor → posture badges → framing → profiles → decision metrics
+   ════════════════════════════════════════════════════════════════════════════ */
+.lab-hero {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.lab-hero-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 28px 32px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.lab-hero-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lab-title {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.lab-descriptor {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  max-width: 960px;
+}
+.lab-posture-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.lab-hero-framing {
+  padding: 14px 18px;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-surface-2);
+  border-radius: 0 4px 4px 0;
+  max-width: 1100px;
+}
+.lab-hero-framing p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+.lab-hero-framing strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.lab-hero-framing em {
+  font-style: normal;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: var(--color-surface-offset);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--color-text);
+}
+.lab-hero-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 1100px;
+}
+@media (max-width: 760px) {
+  .lab-hero-meta { grid-template-columns: 1fr; }
+}
+.how-to-read,
+.limits-box {
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface-2);
+}
+.htr-title,
+.lb-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-bottom: 8px;
+}
+.lb-title {
+  color: #d97757;
+}
+.htr-list,
+.lb-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+.htr-list li + li,
+.lb-list li + li { margin-top: 2px; }
+
+/* Elevated decision-metrics band above the KPI strip and charts */
+.decision-metrics-headline {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 4px;
+  background: var(--color-surface);
+}
+.decision-metrics-headline .section-label {
+  margin-bottom: 12px;
+}

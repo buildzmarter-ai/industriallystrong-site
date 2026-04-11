@@ -3001,7 +3001,7 @@ function computeDecisionMetrics(s) {
   // Rebuild Vulnerability Window — just rebuild time in hours (already computed)
   const vulnHours = tRebuild;
 
-  // Divergence Resolution Time — ratio RAID:ASA scan time
+  // Reconciliation Time Model — ratio RAID:ASA scan time
   const { raidGB, asaGB } = reconcileScanGB(s);
   // Assume 200 MB/s scan rate
   const scanRateMBs = 200;
@@ -3062,7 +3062,7 @@ function updateDecisionMetrics(s) {
   if (vulnNote) vulnNote.textContent =
     `Single-disk rebuild at ${(s.rebuildBWFraction*100).toFixed(0)}% BW · ${s.diskSizeTB}TB drives · RAID-${s.raidLevel}`;
 
-  // Divergence Resolution Time
+  // Reconciliation Time Model
   const divEl   = document.getElementById('dmDivergence');
   const divBar  = document.getElementById('dmDivergenceBar');
   const divNote = document.getElementById('dmDivergenceNote');
