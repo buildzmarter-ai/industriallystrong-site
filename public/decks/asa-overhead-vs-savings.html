@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASA: Overhead vs. Savings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── Design Tokens ── */
+    :root,
+    [data-theme='light'] {
+      --color-bg: #f4f3ef;
+      --color-surface: #f9f8f5;
+      --color-surface-2: #ffffff;
+      --color-surface-offset: #edeae5;
+      --color-divider: #dcd9d5;
+      --color-border: #d0cdc7;
+      --color-text: #1e1c17;
+      --color-text-muted: #72706b;
+      --color-text-faint: #b0aea9;
+      --color-primary: #01696f;
+      --color-primary-hover: #0c4e54;
+      --color-primary-highlight: #cddcda;
+      --color-red: #c0392b;
+      --color-red-highlight: #f5d5d2;
+      --color-orange: #c96a00;
+      --color-orange-highlight: #faebd4;
+      --color-green: #3a7318;
+      --color-green-highlight: #d8eacd;
+      --color-blue: #1d5fa8;
+      --color-blue-highlight: #d1e3f5;
+      --color-gold: #c08c00;
+      --color-gold-highlight: #f3e5c0;
+      --color-purple: #6a36b0;
+      --color-purple-highlight: #e0d5f5;
+
+      --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3rem);
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
+      --shadow-md: 0 4px 14px rgba(0,0,0,0.09);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* chart palette */
+      --chart-cost: #c0392b;
+      --chart-cost-bg: rgba(192, 57, 43, 0.18);
+      --chart-save-1: #01696f;
+      --chart-save-1-bg: rgba(1, 105, 111, 0.18);
+      --chart-save-2: #3a7318;
+      --chart-save-2-bg: rgba(58, 115, 24, 0.18);
+      --chart-save-3: #1d5fa8;
+      --chart-save-3-bg: rgba(29, 95, 168, 0.18);
+      --chart-save-4: #c08c00;
+      --chart-save-4-bg: rgba(192, 140, 0, 0.18);
+      --chart-neutral: #b0aea9;
+    }
+
+    [data-theme='dark'] {
+      --color-bg: #161512;
+      --color-surface: #1c1b18;
+      --color-surface-2: #212019;
+      --color-surface-offset: #1a1916;
+      --color-divider: #2a2925;
+      --color-border: #383631;
+      --color-text: #d0cfc9;
+      --color-text-muted: #7a7872;
+      --color-text-faint: #55534e;
+      --color-primary: #4fa3ad;
+      --color-primary-hover: #28879a;
+      --color-primary-highlight: #243639;
+      --color-red: #e05a4a;
+      --color-red-highlight: #3d2520;
+      --color-orange: #f0a040;
+      --color-orange-highlight: #3c2e1a;
+      --color-green: #7ec250;
+      --color-green-highlight: #233318;
+      --color-blue: #5b96d8;
+      --color-blue-highlight: #1c3050;
+      --color-gold: #e0b840;
+      --color-gold-highlight: #3a2e10;
+      --color-purple: #a87ae0;
+      --color-purple-highlight: #32265a;
+
+      --chart-cost: #e05a4a;
+      --chart-cost-bg: rgba(224, 90, 74, 0.2);
+      --chart-save-1: #4fa3ad;
+      --chart-save-1-bg: rgba(79, 163, 173, 0.2);
+      --chart-save-2: #7ec250;
+      --chart-save-2-bg: rgba(126, 194, 80, 0.2);
+      --chart-save-3: #5b96d8;
+      --chart-save-3-bg: rgba(91, 150, 216, 0.2);
+      --chart-save-4: #e0b840;
+      --chart-save-4-bg: rgba(224, 184, 64, 0.2);
+      --chart-neutral: #55534e;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --color-bg: #161512;
+        --color-surface: #1c1b18;
+        --color-surface-2: #212019;
+        --color-surface-offset: #1a1916;
+        --color-divider: #2a2925;
+        --color-border: #383631;
+        --color-text: #d0cfc9;
+        --color-text-muted: #7a7872;
+        --color-text-faint: #55534e;
+        --color-primary: #4fa3ad;
+        --color-primary-hover: #28879a;
+        --color-primary-highlight: #243639;
+        --color-red: #e05a4a;
+        --color-red-highlight: #3d2520;
+        --color-orange: #f0a040;
+        --color-orange-highlight: #3c2e1a;
+        --color-green: #7ec250;
+        --color-green-highlight: #233318;
+        --color-blue: #5b96d8;
+        --color-blue-highlight: #1c3050;
+        --color-gold: #e0b840;
+        --color-gold-highlight: #3a2e10;
+        --color-purple: #a87ae0;
+        --color-purple-highlight: #32265a;
+        --chart-cost: #e05a4a;
+        --chart-cost-bg: rgba(224, 90, 74, 0.2);
+        --chart-save-1: #4fa3ad;
+        --chart-save-1-bg: rgba(79, 163, 173, 0.2);
+        --chart-save-2: #7ec250;
+        --chart-save-2-bg: rgba(126, 194, 80, 0.2);
+        --chart-save-3: #5b96d8;
+        --chart-save-3-bg: rgba(91, 150, 216, 0.2);
+        --chart-save-4: #e0b840;
+        --chart-save-4-bg: rgba(224, 184, 64, 0.2);
+        --chart-neutral: #55534e;
+      }
+    }
+
+    /* ── Base Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--space-16);
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      background: var(--color-bg);
+      min-height: 100dvh;
+      line-height: 1.65;
+      transition: background var(--transition), color var(--transition);
+    }
+    h1, h2, h3, h4 { text-wrap: balance; line-height: 1.15; }
+    p, li { text-wrap: pretty; max-width: 72ch; }
+    img, canvas, svg { display: block; max-width: 100%; height: auto; }
+
+    /* ── Layout ── */
+    .page-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-divider);
+      padding: var(--space-4) var(--space-6);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .logo-wrap svg { flex-shrink: 0; }
+    .site-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-text);
+    }
+    .site-subtitle {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      font-weight: 400;
+    }
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .nav-btn {
+      font-size: var(--text-xs);
+      font-family: var(--font-body);
+      color: var(--color-text-muted);
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-1) var(--space-3);
+      cursor: pointer;
+      transition: color var(--transition), background var(--transition), border-color var(--transition);
+    }
+    .nav-btn:hover { color: var(--color-text); background: var(--color-surface-offset); }
+    .theme-toggle {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--color-border);
+      background: none;
+      color: var(--color-text-muted);
+      transition: color var(--transition), background var(--transition);
+    }
+    .theme-toggle:hover { background: var(--color-surface-offset); color: var(--color-text); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: clamp(var(--space-10), 6vw, var(--space-16)) 0 var(--space-12);
+    }
+    .hero-eyebrow {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-3);
+      font-family: var(--font-mono);
+    }
+    .hero-title {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--color-text);
+      margin-bottom: var(--space-5);
+    }
+    .hero-title span {
+      color: var(--color-primary);
+    }
+    .hero-desc {
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      max-width: 68ch;
+      line-height: 1.75;
+    }
+
+    /* ── Section Headings ── */
+    .section {
+      padding: clamp(var(--space-10), 5vw, var(--space-16)) 0;
+      border-top: 1px solid var(--color-divider);
+    }
+    .section-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+      font-family: var(--font-mono);
+      margin-bottom: var(--space-2);
+    }
+    .section-heading {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+    .section-sub {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      max-width: 65ch;
+      margin-bottom: var(--space-8);
+    }
+
+    /* ── KPI Cards ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-10);
+    }
+    .kpi-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      box-shadow: var(--shadow-sm);
+    }
+    .kpi-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .kpi-value {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums lining-nums;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .kpi-detail {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+    .kpi-cost .kpi-value { color: var(--color-red); }
+    .kpi-save .kpi-value { color: var(--color-green); }
+    .kpi-neutral .kpi-value { color: var(--color-primary); }
+
+    /* ── Charts ── */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+    @media (max-width: 720px) {
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+    .chart-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm);
+    }
+    .chart-card.full-width {
+      grid-column: 1 / -1;
+    }
+    .chart-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-1);
+    }
+    .chart-caption {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-5);
+    }
+    .chart-canvas-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    /* ── Cost vs Savings Summary Table ── */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-8);
+    }
+    .summary-table thead th {
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      border-bottom: 2px solid var(--color-divider);
+      background: var(--color-surface);
+    }
+    .summary-table tbody td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-divider);
+      vertical-align: top;
+      font-variant-numeric: tabular-nums;
+    }
+    .summary-table tbody tr:last-child td { border-bottom: none; }
+    .summary-table tbody tr:hover td { background: var(--color-surface-offset); }
+    .tag {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.03em;
+    }
+    .tag-cost { background: var(--color-red-highlight); color: var(--color-red); }
+    .tag-save { background: var(--color-green-highlight); color: var(--color-green); }
+    .tag-mixed { background: var(--color-gold-highlight); color: var(--color-gold); }
+    .tag-system {
+      display: inline-block;
+      font-size: var(--text-xs);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-full);
+      background: var(--color-surface-offset);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Tradeoffs ── */
+    .tradeoffs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+    @media (max-width: 640px) {
+      .tradeoffs-grid { grid-template-columns: 1fr; }
+    }
+    .tradeoff-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm);
+    }
+    .tradeoff-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    .tradeoff-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-cost { background: var(--color-red-highlight); color: var(--color-red); }
+    .icon-save { background: var(--color-green-highlight); color: var(--color-green); }
+    .tradeoff-card-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .bullet-list li {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      padding-left: var(--space-5);
+      position: relative;
+      line-height: 1.55;
+      max-width: none;
+    }
+    .bullet-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .bullet-list.cost li::before { background: var(--color-red); }
+    .bullet-list.save li::before { background: var(--color-green); }
+    .bullet-list li strong { color: var(--color-text); font-weight: 600; }
+
+    /* ── Benchmark Scenario ── */
+    .benchmark-panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .benchmark-header {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #0c5055 100%);
+      padding: var(--space-6) var(--space-8);
+      color: white;
+    }
+    .benchmark-eyebrow {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-bottom: var(--space-2);
+      font-family: var(--font-mono);
+    }
+    .benchmark-title {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .benchmark-body {
+      padding: var(--space-8);
+    }
+    .bench-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+    @media (max-width: 640px) {
+      .bench-grid { grid-template-columns: 1fr; }
+    }
+    .bench-block-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 2px solid var(--color-divider);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .bench-block-title::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .bench-baseline::before { background: var(--color-red); }
+    .bench-asa::before { background: var(--color-green); }
+    .bench-stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-4);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .bench-stat:last-child { border-bottom: none; }
+    .bench-stat-label {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+    .bench-stat-value {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text);
+      text-align: right;
+    }
+    .bench-stat-value.highlight-cost { color: var(--color-red); }
+    .bench-stat-value.highlight-save { color: var(--color-green); }
+
+    .net-box {
+      background: var(--color-primary-highlight);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--space-4);
+    }
+    .net-item {}
+    .net-item-label {
+      font-size: var(--text-xs);
+      color: var(--color-primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-1);
+    }
+    .net-item-value {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      color: var(--color-primary);
+    }
+    .net-item-detail {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+
+    /* ── Timeline ── */
+    .timeline-wrap {
+      position: relative;
+      margin-bottom: var(--space-8);
+    }
+    .timeline-track {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      left: 99px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--color-divider);
+    }
+    .tl-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      padding: var(--space-4) 0;
+    }
+    .tl-time {
+      width: 90px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: var(--text-xs);
+      font-family: var(--font-mono);
+      font-weight: 500;
+      color: var(--color-text-faint);
+      padding-top: 0.2rem;
+      padding-right: var(--space-4);
+    }
+    .tl-dot-wrap {
+      width: 22px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 0.25rem;
+    }
+    .tl-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--color-surface);
+      flex-shrink: 0;
+    }
+    .tl-cost .tl-dot { background: var(--color-red); box-shadow: 0 0 0 2px var(--color-red-highlight); }
+    .tl-save .tl-dot { background: var(--color-green); box-shadow: 0 0 0 2px var(--color-green-highlight); }
+    .tl-neutral .tl-dot { background: var(--color-primary); box-shadow: 0 0 0 2px var(--color-primary-highlight); }
+    .tl-content {
+      flex: 1;
+      padding-left: var(--space-5);
+    }
+    .tl-title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-1);
+    }
+    .tl-desc {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      max-width: none;
+      line-height: 1.55;
+    }
+    .tl-quant {
+      display: inline-block;
+      margin-top: var(--space-1);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+    }
+    .tl-cost .tl-quant { background: var(--color-red-highlight); color: var(--color-red); }
+    .tl-save .tl-quant { background: var(--color-green-highlight); color: var(--color-green); }
+    .tl-neutral .tl-quant { background: var(--color-primary-highlight); color: var(--color-primary); }
+
+    /* ── Footer ── */
+    footer {
+      padding: var(--space-10) 0;
+      border-top: 1px solid var(--color-divider);
+      margin-top: var(--space-16);
+    }
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+    .footer-text {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+    }
+    .footer-note {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .timeline-track::before { left: 79px; }
+      .tl-time { width: 70px; font-size: 0.65rem; }
+      .bench-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <!-- Custom inline SVG logo -->
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="ASA Logo">
+          <rect x="2" y="2" width="24" height="24" rx="5" fill="var(--color-primary)" opacity="0.15"/>
+          <rect x="4" y="13" width="6" height="12" rx="1.5" fill="var(--color-primary)"/>
+          <rect x="11" y="8" width="6" height="17" rx="1.5" fill="var(--color-primary)" opacity="0.7"/>
+          <rect x="18" y="4" width="6" height="21" rx="1.5" fill="var(--color-green)"/>
+          <path d="M2 11 L14 5 L26 3" stroke="var(--color-red)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2" opacity="0.6"/>
+        </svg>
+        <div>
+          <div class="site-title">ASA Analysis</div>
+          <div class="site-subtitle">Overhead vs. Savings</div>
+        </div>
+      </div>
+      <div class="header-nav">
+        <a href="#overhead" class="nav-btn">Overhead</a>
+        <a href="#savings" class="nav-btn">Savings</a>
+        <a href="#tradeoffs" class="nav-btn">Tradeoffs</a>
+        <a href="#benchmark" class="nav-btn">Benchmark</a>
+        <button class="theme-toggle" data-theme-toggle aria-label="Switch theme">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="page-wrap">
+    <section class="hero">
+      <div class="hero-eyebrow">Distributed Systems · ASA Cost Model</div>
+      <h1 class="hero-title">
+        ASA Overhead vs. Coordination<br />
+        <span>Cost Savings</span>
+      </h1>
+      <p class="hero-desc">
+        Automatic Storage Administration (ASA) introduces measurable setup and monitoring costs, but displaces substantially larger coordination expenses in split-brain prevention, quorum voting, network partition recovery, and reconciliation — as observed in Gluster and Ceph deployments.
+      </p>
+    </section>
+
+    <!-- ── Section: Overhead ── -->
+    <section class="section" id="overhead">
+      <div class="section-label">§1 — Setup &amp; Ongoing Overhead</div>
+      <h2 class="section-heading">Where ASA Adds Cost</h2>
+      <p class="section-sub">
+        ASA requires upfront configuration, persistent monitoring daemons, and periodic metadata reconciliation. These are real operational costs that must be weighed against coordination reduction.
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-cost">
+          <div class="kpi-label">Initial Config</div>
+          <div class="kpi-value">~40 h</div>
+          <div class="kpi-detail">Policy authoring, cluster quorum tuning, fencing agent setup per 12-node Ceph/Gluster cluster</div>
+        </div>
+        <div class="kpi-card kpi-cost">
+          <div class="kpi-label">Monitor Overhead</div>
+          <div class="kpi-value">2–4%</div>
+          <div class="kpi-detail">CPU/mem overhead for OSDs + Gluster daemon health polling at 10 s interval</div>
+        </div>
+        <div class="kpi-card kpi-cost">
+          <div class="kpi-label">Metadata Sync</div>
+          <div class="kpi-value">8–15 ms</div>
+          <div class="kpi-detail">Additional latency per transaction for distributed metadata lock acquisition (CephFS MDS)</div>
+        </div>
+        <div class="kpi-card kpi-cost">
+          <div class="kpi-label">Audit / Log Vol</div>
+          <div class="kpi-value">+18 GB/mo</div>
+          <div class="kpi-detail">Estimated audit log growth per node for quorum state changes and replication events</div>
+        </div>
+        <div class="kpi-card kpi-neutral">
+          <div class="kpi-label">Training Cost</div>
+          <div class="kpi-value">~24 h</div>
+          <div class="kpi-detail">Operator ramp-up for ASA policy language + cluster event triage procedures</div>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-title">Overhead by Category (Normalized Units)</div>
+          <div class="chart-caption">Setup labor, monitoring burden, and recurring operational costs on a common 0–100 scale</div>
+          <div class="chart-canvas-wrap" style="height:280px;">
+            <canvas id="overheadChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Overhead Distribution (% of Total ASA Cost)</div>
+          <div class="chart-caption">Relative share of each overhead category over a 12-month horizon</div>
+          <div class="chart-canvas-wrap" style="height:280px;">
+            <canvas id="overheadPieChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section: Savings ── -->
+    <section class="section" id="savings">
+      <div class="section-label">§2 — Coordination Cost Reductions</div>
+      <h2 class="section-heading">Where ASA Saves</h2>
+      <p class="section-sub">
+        The dominant savings come from eliminating per-incident human coordination: split-brain adjudication, partition recovery scripts, quorum voting overhead, and reconciliation engineer-hours.
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-save">
+          <div class="kpi-label">Split-Brain</div>
+          <div class="kpi-value">−87%</div>
+          <div class="kpi-detail">Reduction in manual split-brain adjudication events (Gluster arbiter node eliminates most cases)</div>
+        </div>
+        <div class="kpi-card kpi-save">
+          <div class="kpi-label">Partition Recovery</div>
+          <div class="kpi-value">−74%</div>
+          <div class="kpi-detail">Mean-time-to-recover for network partitions drops from ~45 min to ~12 min with automated fence + reintegration</div>
+        </div>
+        <div class="kpi-card kpi-save">
+          <div class="kpi-label">Quorum Voting</div>
+          <div class="kpi-value">−60%</div>
+          <div class="kpi-detail">Quorum messages per second reduced by replacing paxos round-trips with ASA lease tokens in Ceph Monitor</div>
+        </div>
+        <div class="kpi-card kpi-save">
+          <div class="kpi-label">Recovery Time</div>
+          <div class="kpi-value">−68%</div>
+          <div class="kpi-detail">Cluster MTTR from OSD failure — 38 min baseline (manual) → 12 min (ASA-automated heal)</div>
+        </div>
+        <div class="kpi-card kpi-save">
+          <div class="kpi-label">On-Call Burden</div>
+          <div class="kpi-value">−55%</div>
+          <div class="kpi-detail">Pager events requiring engineer response, per 90-day period across a 3-site Ceph cluster</div>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card full-width">
+          <div class="chart-title">Coordination Cost: Baseline vs. ASA (Engineer-Hours / Quarter)</div>
+          <div class="chart-caption">Grouped bar — representative 12-node cluster, 4 quarterly periods. Numbers are thought-experiment estimates calibrated to Ceph and Gluster documentation patterns.</div>
+          <div class="chart-canvas-wrap" style="height:320px;">
+            <canvas id="comparisonChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-title">MTTR: Baseline vs. ASA (minutes)</div>
+          <div class="chart-caption">Mean time to recover from common failure modes</div>
+          <div class="chart-canvas-wrap" style="height:280px;">
+            <canvas id="mttrChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Net Overhead vs. Savings Balance</div>
+          <div class="chart-caption">Annual cost delta normalized to engineering-hours equivalent (12-node cluster)</div>
+          <div class="chart-canvas-wrap" style="height:280px;">
+            <canvas id="netChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section: Tradeoffs ── -->
+    <section class="section" id="tradeoffs">
+      <div class="section-label">§3 — Key Tradeoffs</div>
+      <h2 class="section-heading">What You Trade</h2>
+      <p class="section-sub">
+        ASA is not a free lunch. The overhead is real but structurally bounded; the savings scale super-linearly with cluster size and incident frequency.
+      </p>
+
+      <div class="tradeoffs-grid">
+        <div class="tradeoff-card">
+          <div class="tradeoff-card-header">
+            <div class="tradeoff-icon icon-cost">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 5v14M5 12l7-7 7 7"/>
+              </svg>
+            </div>
+            <div class="tradeoff-card-title">Added Costs</div>
+          </div>
+          <ul class="bullet-list cost">
+            <li><strong>Setup complexity:</strong> Policy authoring for RAID-6 + Ceph pools requires expertise in both storage topology and ASA DSL — a non-trivial ramp</li>
+            <li><strong>Monitoring daemon footprint:</strong> Persistent processes consume 2–4% of node resources; on memory-constrained OSD nodes this compounds under rebuild load</li>
+            <li><strong>False-positive fencing:</strong> Overly aggressive ASA health policies can fence healthy nodes during transient network jitter — especially in 10GbE bonded setups</li>
+            <li><strong>Metadata write amplification:</strong> ASA lease tokens and state journals add write overhead on Ceph MDS and Gluster changelogs — measurable at &gt;50k IOPS</li>
+            <li><strong>Operational skill debt:</strong> Teams must maintain competency in ASA policy language; turnover can leave clusters with undocumented or mismatched policies</li>
+            <li><strong>Version coupling:</strong> ASA integrations tightly couple to specific Ceph or Gluster versions — upgrades require policy validation passes</li>
+          </ul>
+        </div>
+
+        <div class="tradeoff-card">
+          <div class="tradeoff-card-header">
+            <div class="tradeoff-icon icon-save">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 19V5M5 12l7 7 7-7"/>
+              </svg>
+            </div>
+            <div class="tradeoff-card-title">Coordination Reductions</div>
+          </div>
+          <ul class="bullet-list save">
+            <li><strong>Split-brain elimination:</strong> Gluster arbiter volumes + ASA quorum policy remove the largest class of data-loss-risk incidents; pager load drops sharply</li>
+            <li><strong>Automated partition recovery:</strong> Fencing + OSD reintegration scripts reduce 45-min manual recovery to ~12 min — reproducible across failure modes</li>
+            <li><strong>Quorum message reduction:</strong> Replacing Paxos round-trips with ASA lease tokens in Ceph Monitor cuts quorum traffic by 40–60% at scale</li>
+            <li><strong>Deterministic RAID rebuild prioritization:</strong> ASA schedules RAID-6 rebuild I/O to avoid contention with production workloads — eliminates manual throttle tuning</li>
+            <li><strong>Reconciliation elimination:</strong> Coordination-heavy read-repair cycles in Gluster DHT are replaced by ASA-driven consistency checks that run asynchronously</li>
+            <li><strong>On-call reduction:</strong> With automated self-healing, night/weekend pages for OSD failures drop by over 50% in mature ASA deployments</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Summary Table -->
+      <div class="section-label" style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Quantified Summary</div>
+      <div style="overflow-x:auto;">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Type</th>
+              <th>Baseline</th>
+              <th>With ASA</th>
+              <th>Delta</th>
+              <th>System</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Initial cluster configuration</td>
+              <td><span class="tag tag-cost">Overhead</span></td>
+              <td>~12 h</td>
+              <td>~40 h</td>
+              <td>+28 h (one-time)</td>
+              <td><span class="tag-system">Ceph / Gluster</span></td>
+            </tr>
+            <tr>
+              <td>Monitoring daemon CPU</td>
+              <td><span class="tag tag-cost">Overhead</span></td>
+              <td>~0.5%</td>
+              <td>2–4%</td>
+              <td>+1.5–3.5% per node</td>
+              <td><span class="tag-system">Both</span></td>
+            </tr>
+            <tr>
+              <td>Split-brain incidents / quarter</td>
+              <td><span class="tag tag-save">Savings</span></td>
+              <td>~8 events</td>
+              <td>~1 event</td>
+              <td>−87% (−56 h/yr adj.)</td>
+              <td><span class="tag-system">Gluster</span></td>
+            </tr>
+            <tr>
+              <td>Network partition MTTR</td>
+              <td><span class="tag tag-save">Savings</span></td>
+              <td>~45 min</td>
+              <td>~12 min</td>
+              <td>−74% per event</td>
+              <td><span class="tag-system">Both</span></td>
+            </tr>
+            <tr>
+              <td>Quorum messages / sec</td>
+              <td><span class="tag tag-save">Savings</span></td>
+              <td>~3,200 msg/s</td>
+              <td>~1,300 msg/s</td>
+              <td>−59% (12-node cluster)</td>
+              <td><span class="tag-system">Ceph Mon</span></td>
+            </tr>
+            <tr>
+              <td>OSD failure MTTR</td>
+              <td><span class="tag tag-save">Savings</span></td>
+              <td>~38 min</td>
+              <td>~12 min</td>
+              <td>−68% per event</td>
+              <td><span class="tag-system">Ceph</span></td>
+            </tr>
+            <tr>
+              <td>On-call pages / 90 days</td>
+              <td><span class="tag tag-save">Savings</span></td>
+              <td>~24 pages</td>
+              <td>~11 pages</td>
+              <td>−55%</td>
+              <td><span class="tag-system">Both</span></td>
+            </tr>
+            <tr>
+              <td>Metadata write amplification</td>
+              <td><span class="tag tag-cost">Overhead</span></td>
+              <td>baseline</td>
+              <td>+8–12%</td>
+              <td>+8–12% write amp</td>
+              <td><span class="tag-system">CephFS MDS</span></td>
+            </tr>
+            <tr>
+              <td>Reconciliation engineer-hours / quarter</td>
+              <td><span class="tag tag-save">Savings</span></td>
+              <td>~18 h</td>
+              <td>~4 h</td>
+              <td>−78%</td>
+              <td><span class="tag-system">Gluster DHT</span></td>
+            </tr>
+            <tr>
+              <td>RAID rebuild contention incidents</td>
+              <td><span class="tag tag-mixed">Mixed</span></td>
+              <td>~6 / yr</td>
+              <td>~1 / yr</td>
+              <td>−83% (monitoring adds overhead)</td>
+              <td><span class="tag-system">RAID-6</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Section: Benchmark ── -->
+    <section class="section" id="benchmark">
+      <div class="section-label">§4 — Benchmark Thought Experiment</div>
+      <h2 class="section-heading">Scenario: 12-Node Hybrid RAID + Ceph Cluster</h2>
+      <p class="section-sub">
+        A representative production cluster: 12 nodes, dual RAID-6 pools (8+2 each), Ceph RADOS with 3× replication, 10GbE bonded fabric, moderate failure rate assumptions. Numbers are calibrated estimates for comparative analysis.
+      </p>
+
+      <!-- Lifecycle Timeline -->
+      <div class="section-label" style="margin-bottom: var(--space-4);">Operational Lifecycle · Year 1</div>
+      <div class="timeline-wrap">
+        <div class="timeline-track">
+          <div class="tl-row tl-cost">
+            <div class="tl-time">Month 0–1</div>
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <div class="tl-title">ASA Setup &amp; Policy Authoring</div>
+              <div class="tl-desc">Quorum policy design, fencing agent integration, Ceph CRUSH map alignment with ASA placement groups. One-time investment.</div>
+              <span class="tl-quant">+40 h setup | +$3,200 labor (est. $80/h)</span>
+            </div>
+          </div>
+          <div class="tl-row tl-cost">
+            <div class="tl-time">Month 1–3</div>
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <div class="tl-title">Monitoring Overhead Begins</div>
+              <div class="tl-desc">ASA health daemons active. 3% CPU overhead across 12 nodes. First false-positive fencing event expected during tuning period — approximately 2 manual override interventions.</div>
+              <span class="tl-quant">+2–4% CPU | ~6 h tuning labor</span>
+            </div>
+          </div>
+          <div class="tl-row tl-save">
+            <div class="tl-time">Month 2</div>
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <div class="tl-title">First Split-Brain Event — ASA Resolves Automatically</div>
+              <div class="tl-desc">Gluster arbiter + ASA policy arbitrates write conflict without engineer escalation. Baseline scenario: 7 h triage + data comparison. ASA scenario: 0.3 h audit review.</div>
+              <span class="tl-quant">−6.7 h per event | −$536 per event</span>
+            </div>
+          </div>
+          <div class="tl-row tl-save">
+            <div class="tl-time">Month 3</div>
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <div class="tl-title">RAID-6 Rebuild — No I/O Contention</div>
+              <div class="tl-desc">ASA dynamically throttles rebuild I/O against production workload profile. Manual baseline required 2 h/incident of monitoring + throttle tuning. ASA: fully automatic.</div>
+              <span class="tl-quant">−2 h/event | 6 events/yr = −12 h/yr</span>
+            </div>
+          </div>
+          <div class="tl-row tl-save">
+            <div class="tl-time">Month 4–6</div>
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <div class="tl-title">Network Partition Events (×3)</div>
+              <div class="tl-desc">Automated fencing and OSD reintegration. Each baseline event: ~45 min MTTR, 2 engineers. ASA: ~12 min, 0 engineers for first 30 min. 3 events at −33 min each.</div>
+              <span class="tl-quant">−99 min recovery | −$396 engineer-time (est.)</span>
+            </div>
+          </div>
+          <div class="tl-row tl-neutral">
+            <div class="tl-time">Month 6</div>
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <div class="tl-title">Break-Even Point</div>
+              <div class="tl-desc">Cumulative coordination savings exceed setup + monitoring overhead. For a cluster with 2+ split-brain events per quarter and moderate partition frequency, this typically occurs at month 5–7.</div>
+              <span class="tl-quant">Cumulative savings ≈ cumulative overhead</span>
+            </div>
+          </div>
+          <div class="tl-row tl-save">
+            <div class="tl-time">Month 7–12</div>
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <div class="tl-title">Net Positive — On-Call &amp; Reconciliation Savings Compound</div>
+              <div class="tl-desc">Recurring savings from reduced pager load, eliminated quarterly reconciliation sprints, and stable quorum messaging dominate. Policy is stable; no new setup costs.</div>
+              <span class="tl-quant">~−82 h remaining overhead | ~+$6,560 net savings (H2)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benchmark Panel -->
+      <div class="benchmark-panel">
+        <div class="benchmark-header">
+          <div class="benchmark-eyebrow">Annual Totals · 12-Node Ceph + RAID-6 · Thought Experiment</div>
+          <div class="benchmark-title">Year 1 Engineering Cost Comparison</div>
+        </div>
+        <div class="benchmark-body">
+          <div class="bench-grid">
+            <div>
+              <div class="bench-block-title bench-baseline">Baseline (No ASA)</div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Split-brain resolution</span>
+                <span class="bench-stat-value highlight-cost">~56 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Network partition recovery</span>
+                <span class="bench-stat-value highlight-cost">~18 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Quorum voting overhead</span>
+                <span class="bench-stat-value highlight-cost">~12 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">OSD failure recovery</span>
+                <span class="bench-stat-value highlight-cost">~14 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Reconciliation sprints</span>
+                <span class="bench-stat-value highlight-cost">~72 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">RAID rebuild tuning</span>
+                <span class="bench-stat-value highlight-cost">~12 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">On-call response overhead</span>
+                <span class="bench-stat-value highlight-cost">~48 h / yr</span>
+              </div>
+              <div class="bench-stat" style="border-top: 2px solid var(--color-divider); padding-top: var(--space-3); margin-top: var(--space-2);">
+                <span class="bench-stat-label" style="font-weight:600; color: var(--color-text);">Total coordination labor</span>
+                <span class="bench-stat-value highlight-cost" style="font-size: var(--text-base);">~232 h / yr</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="bench-block-title bench-asa">With ASA</div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Initial setup + training</span>
+                <span class="bench-stat-value highlight-cost">+64 h (one-time)</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Monitoring daemon burden</span>
+                <span class="bench-stat-value highlight-cost">+18 h / yr equiv.</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Policy maintenance</span>
+                <span class="bench-stat-value highlight-cost">+8 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Residual coordination</span>
+                <span class="bench-stat-value">~46 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">False-positive remediation</span>
+                <span class="bench-stat-value highlight-cost">~6 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">Audit / review overhead</span>
+                <span class="bench-stat-value">~8 h / yr</span>
+              </div>
+              <div class="bench-stat">
+                <span class="bench-stat-label">&nbsp;</span>
+                <span class="bench-stat-value">&nbsp;</span>
+              </div>
+              <div class="bench-stat" style="border-top: 2px solid var(--color-divider); padding-top: var(--space-3); margin-top: var(--space-2);">
+                <span class="bench-stat-label" style="font-weight:600; color: var(--color-text);">Total all-in (Yr 1)</span>
+                <span class="bench-stat-value highlight-save" style="font-size: var(--text-base);">~150 h / yr</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="net-box">
+            <div class="net-item">
+              <div class="net-item-label">Net Savings (Yr 1)</div>
+              <div class="net-item-value">−82 h</div>
+              <div class="net-item-detail">232 h baseline → 150 h with ASA (35% reduction)</div>
+            </div>
+            <div class="net-item">
+              <div class="net-item-label">Net Savings (Yr 2+)</div>
+              <div class="net-item-value">−150 h / yr</div>
+              <div class="net-item-detail">Setup cost amortized; steady-state ~82 h vs. 232 h</div>
+            </div>
+            <div class="net-item">
+              <div class="net-item-label">Break-Even Point</div>
+              <div class="net-item-value">~Month 6</div>
+              <div class="net-item-detail">Assuming 2+ split-brain events per quarter</div>
+            </div>
+            <div class="net-item">
+              <div class="net-item-label">RAID-6 MTTR Gain</div>
+              <div class="net-item-value">−68%</div>
+              <div class="net-item-detail">38 min → 12 min per OSD failure event</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-text">ASA Overhead vs. Savings Analysis · Distributed Systems Reference</div>
+      <div class="footer-note">Ceph · Gluster · RAID-6 · Thought-Experiment Estimates</div>
+    </div>
+  </footer>
+
+  <!-- ── Chart.js Initialization ── -->
+  <script>
+    // Theme-aware chart colors pulled from CSS variables
+    function getCSSVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function chartDefaults() {
+      return {
+        color: getCSSVar('--color-text-muted'),
+        borderColor: getCSSVar('--color-divider'),
+        gridColor: getCSSVar('--color-divider'),
+      };
+    }
+
+    Chart.defaults.font.family = "'Inter', 'Helvetica Neue', sans-serif";
+    Chart.defaults.font.size = 12;
+
+    // ── 1. Overhead Bar Chart ──
+    const overheadCtx = document.getElementById('overheadChart').getContext('2d');
+    let overheadChart = new Chart(overheadCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Initial Config', 'Monitor CPU', 'Metadata Latency', 'Log Volume', 'Training', 'Policy Maint.'],
+        datasets: [{
+          label: 'Overhead (normalized)',
+          data: [72, 38, 28, 22, 45, 18],
+          backgroundColor: [
+            'rgba(192,57,43,0.75)',
+            'rgba(192,57,43,0.60)',
+            'rgba(192,57,43,0.50)',
+            'rgba(192,57,43,0.40)',
+            'rgba(192,100,0,0.60)',
+            'rgba(192,100,0,0.45)',
+          ],
+          borderColor: [
+            'rgba(192,57,43,1)',
+            'rgba(192,57,43,0.85)',
+            'rgba(192,57,43,0.75)',
+            'rgba(192,57,43,0.65)',
+            'rgba(192,100,0,0.85)',
+            'rgba(192,100,0,0.65)',
+          ],
+          borderWidth: 1.5,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => ` ${ctx.parsed.y}/100 normalized`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: getCSSVar('--color-text-muted') },
+            border: { color: getCSSVar('--color-border') }
+          },
+          y: {
+            max: 100,
+            grid: { color: getCSSVar('--color-divider') },
+            ticks: { color: getCSSVar('--color-text-muted') },
+            border: { color: getCSSVar('--color-border') },
+            title: { display: true, text: 'Normalized Cost Units', color: getCSSVar('--color-text-faint'), font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    // ── 2. Overhead Donut ──
+    const pieCtx = document.getElementById('overheadPieChart').getContext('2d');
+    let pieChart = new Chart(pieCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Initial Config', 'Monitor Burden', 'Metadata Overhead', 'Log Storage', 'Training', 'Policy Maint.'],
+        datasets: [{
+          data: [32, 17, 12, 10, 20, 9],
+          backgroundColor: [
+            'rgba(192,57,43,0.82)',
+            'rgba(192,57,43,0.65)',
+            'rgba(201,106,0,0.75)',
+            'rgba(201,106,0,0.55)',
+            'rgba(29,95,168,0.70)',
+            'rgba(29,95,168,0.50)',
+          ],
+          borderColor: getCSSVar('--color-surface'),
+          borderWidth: 3,
+          hoverOffset: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: getCSSVar('--color-text-muted'),
+              font: { size: 11 },
+              padding: 12,
+              boxWidth: 12,
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => ` ${ctx.parsed}% of overhead`
+            }
+          }
+        }
+      }
+    });
+
+    // ── 3. Comparison Grouped Bar ──
+    const compCtx = document.getElementById('comparisonChart').getContext('2d');
+    const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+    let compChart = new Chart(compCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Split-Brain', 'Partition Recovery', 'Quorum Overhead', 'OSD Recovery', 'Reconciliation', 'On-Call Response'],
+        datasets: [
+          {
+            label: 'Baseline (h/quarter)',
+            data: [14, 4.5, 3, 3.5, 18, 12],
+            backgroundColor: 'rgba(192,57,43,0.70)',
+            borderColor: 'rgba(192,57,43,1)',
+            borderWidth: 1.5,
+            borderRadius: 3,
+          },
+          {
+            label: 'With ASA (h/quarter)',
+            data: [1.8, 1.2, 1.2, 1.1, 4, 5.4],
+            backgroundColor: 'rgba(1,105,111,0.70)',
+            borderColor: 'rgba(1,105,111,1)',
+            borderWidth: 1.5,
+            borderRadius: 3,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'start',
+            labels: {
+              color: getCSSVar('--color-text-muted'),
+              font: { size: 12 },
+              padding: 16,
+              boxWidth: 14,
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} h/quarter`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: getCSSVar('--color-text-muted') },
+            border: { color: getCSSVar('--color-border') }
+          },
+          y: {
+            grid: { color: getCSSVar('--color-divider') },
+            ticks: { color: getCSSVar('--color-text-muted') },
+            border: { color: getCSSVar('--color-border') },
+            title: { display: true, text: 'Engineer-Hours / Quarter', color: getCSSVar('--color-text-faint'), font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    // ── 4. MTTR Chart ──
+    const mttrCtx = document.getElementById('mttrChart').getContext('2d');
+    let mttrChart = new Chart(mttrCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Split-Brain', 'Net Partition', 'OSD Failure', 'RAID-6 Rebuild', 'DHT Reconcile'],
+        datasets: [
+          {
+            label: 'Baseline MTTR (min)',
+            data: [420, 45, 38, 120, 60],
+            backgroundColor: 'rgba(192,57,43,0.70)',
+            borderColor: 'rgba(192,57,43,1)',
+            borderWidth: 1.5,
+            borderRadius: 4,
+          },
+          {
+            label: 'ASA MTTR (min)',
+            data: [55, 12, 12, 35, 14],
+            backgroundColor: 'rgba(1,105,111,0.70)',
+            borderColor: 'rgba(1,105,111,1)',
+            borderWidth: 1.5,
+            borderRadius: 4,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'start',
+            labels: {
+              color: getCSSVar('--color-text-muted'),
+              font: { size: 11 },
+              padding: 12,
+              boxWidth: 12,
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.x} min`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: getCSSVar('--color-divider') },
+            ticks: { color: getCSSVar('--color-text-muted') },
+            border: { color: getCSSVar('--color-border') },
+            title: { display: true, text: 'Minutes', color: getCSSVar('--color-text-faint'), font: { size: 11 } }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: getCSSVar('--color-text-muted') },
+            border: { color: getCSSVar('--color-border') }
+          }
+        }
+      }
+    });
+
+    // ── 5. Net Balance Chart ──
+    const netCtx = document.getElementById('netChart').getContext('2d');
+    let netChart = new Chart(netCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Setup (one-time)', 'Monitor Overhead', 'Policy Maint.', 'Split-Brain Saved', 'Partition Saved', 'Quorum Saved', 'Reconcile Saved', 'On-Call Saved'],
+        datasets: [{
+          label: 'Engineering Hours',
+          data: [-64, -18, -8, 56, 14, 12, 56, 26],
+          backgroundColor: ctx => ctx.raw < 0
+            ? 'rgba(192,57,43,0.70)'
+            : 'rgba(1,105,111,0.70)',
+          borderColor: ctx => ctx.raw < 0
+            ? 'rgba(192,57,43,1)'
+            : 'rgba(1,105,111,1)',
+          borderWidth: 1.5,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const v = ctx.parsed.y;
+                return v < 0 ? ` −${Math.abs(v)} h (overhead)` : ` +${v} h (saved)`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: getCSSVar('--color-text-muted'), font: { size: 10 }, maxRotation: 35 },
+            border: { color: getCSSVar('--color-border') }
+          },
+          y: {
+            grid: { color: getCSSVar('--color-divider') },
+            ticks: { color: getCSSVar('--color-text-muted') },
+            border: { color: getCSSVar('--color-border') },
+            title: { display: true, text: 'Hours (negative = cost)', color: getCSSVar('--color-text-faint'), font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    // ── Theme toggle ──
+    (function () {
+      const t = document.querySelector('[data-theme-toggle]');
+      const r = document.documentElement;
+      let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+      r.setAttribute('data-theme', d);
+      updateToggleIcon(t, d);
+
+      function updateToggleIcon(el, theme) {
+        if (!el) return;
+        el.innerHTML = theme === 'dark'
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+          : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      }
+
+      function rebuildCharts() {
+        // Destroy and recreate to pick up new CSS variable colors
+        [overheadChart, pieChart, compChart, mttrChart, netChart].forEach(c => c.destroy());
+
+        const cd = chartDefaults();
+
+        // Recreate overhead
+        overheadChart = new Chart(document.getElementById('overheadChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Initial Config', 'Monitor CPU', 'Metadata Latency', 'Log Volume', 'Training', 'Policy Maint.'],
+            datasets: [{
+              label: 'Overhead (normalized)',
+              data: [72, 38, 28, 22, 45, 18],
+              backgroundColor: ['rgba(192,57,43,0.75)','rgba(192,57,43,0.60)','rgba(192,57,43,0.50)','rgba(192,57,43,0.40)','rgba(192,100,0,0.60)','rgba(192,100,0,0.45)'],
+              borderColor: ['rgba(192,57,43,1)','rgba(192,57,43,0.85)','rgba(192,57,43,0.75)','rgba(192,57,43,0.65)','rgba(192,100,0,0.85)','rgba(192,100,0,0.65)'],
+              borderWidth: 1.5, borderRadius: 4
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: cd.color }, border: { color: cd.borderColor } }, y: { max: 100, grid: { color: cd.gridColor }, ticks: { color: cd.color }, border: { color: cd.borderColor } } } }
+        });
+
+        // Recreate pie
+        pieChart = new Chart(document.getElementById('overheadPieChart').getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Initial Config', 'Monitor Burden', 'Metadata Overhead', 'Log Storage', 'Training', 'Policy Maint.'],
+            datasets: [{ data: [32,17,12,10,20,9], backgroundColor: ['rgba(192,57,43,0.82)','rgba(192,57,43,0.65)','rgba(201,106,0,0.75)','rgba(201,106,0,0.55)','rgba(29,95,168,0.70)','rgba(29,95,168,0.50)'], borderColor: getCSSVar('--color-surface'), borderWidth: 3, hoverOffset: 6 }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'right', labels: { color: cd.color, font: { size: 11 }, padding: 12, boxWidth: 12 } } } }
+        });
+
+        // Recreate comparison
+        compChart = new Chart(document.getElementById('comparisonChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Split-Brain', 'Partition Recovery', 'Quorum Overhead', 'OSD Recovery', 'Reconciliation', 'On-Call Response'],
+            datasets: [
+              { label: 'Baseline (h/quarter)', data: [14,4.5,3,3.5,18,12], backgroundColor: 'rgba(192,57,43,0.70)', borderColor: 'rgba(192,57,43,1)', borderWidth: 1.5, borderRadius: 3 },
+              { label: 'With ASA (h/quarter)', data: [1.8,1.2,1.2,1.1,4,5.4], backgroundColor: 'rgba(1,105,111,0.70)', borderColor: 'rgba(1,105,111,1)', borderWidth: 1.5, borderRadius: 3 }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', align: 'start', labels: { color: cd.color, font: { size: 12 }, padding: 16, boxWidth: 14 } } }, scales: { x: { grid: { display: false }, ticks: { color: cd.color }, border: { color: cd.borderColor } }, y: { grid: { color: cd.gridColor }, ticks: { color: cd.color }, border: { color: cd.borderColor } } } }
+        });
+
+        // Recreate MTTR
+        mttrChart = new Chart(document.getElementById('mttrChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Split-Brain', 'Net Partition', 'OSD Failure', 'RAID-6 Rebuild', 'DHT Reconcile'],
+            datasets: [
+              { label: 'Baseline MTTR (min)', data: [420,45,38,120,60], backgroundColor: 'rgba(192,57,43,0.70)', borderColor: 'rgba(192,57,43,1)', borderWidth: 1.5, borderRadius: 4 },
+              { label: 'ASA MTTR (min)', data: [55,12,12,35,14], backgroundColor: 'rgba(1,105,111,0.70)', borderColor: 'rgba(1,105,111,1)', borderWidth: 1.5, borderRadius: 4 }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { position: 'top', align: 'start', labels: { color: cd.color, font: { size: 11 }, padding: 12, boxWidth: 12 } } }, scales: { x: { grid: { color: cd.gridColor }, ticks: { color: cd.color }, border: { color: cd.borderColor } }, y: { grid: { display: false }, ticks: { color: cd.color }, border: { color: cd.borderColor } } } }
+        });
+
+        // Recreate net
+        const netData = [-64,-18,-8,56,14,12,56,26];
+        netChart = new Chart(document.getElementById('netChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Setup (one-time)', 'Monitor Overhead', 'Policy Maint.', 'Split-Brain Saved', 'Partition Saved', 'Quorum Saved', 'Reconcile Saved', 'On-Call Saved'],
+            datasets: [{
+              label: 'Engineering Hours',
+              data: netData,
+              backgroundColor: netData.map(v => v < 0 ? 'rgba(192,57,43,0.70)' : 'rgba(1,105,111,0.70)'),
+              borderColor: netData.map(v => v < 0 ? 'rgba(192,57,43,1)' : 'rgba(1,105,111,1)'),
+              borderWidth: 1.5, borderRadius: 4
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: cd.color, font: { size: 10 }, maxRotation: 35 }, border: { color: cd.borderColor } }, y: { grid: { color: cd.gridColor }, ticks: { color: cd.color }, border: { color: cd.borderColor } } } }
+        });
+      }
+
+      if (t) {
+        t.addEventListener('click', () => {
+          d = d === 'dark' ? 'light' : 'dark';
+          r.setAttribute('data-theme', d);
+          updateToggleIcon(t, d);
+          setTimeout(rebuildCharts, 50);
+        });
+      }
+    })();
+  </script>
+<script data-pplx-inline-edit>
+(function(){
+  if(window===window.top)return;
+  function inlineAll(orig,clone){
+    if(orig.nodeType!==1)return;
+    try{
+      var cs=getComputedStyle(orig);
+      var t='';
+      for(var i=0;i<cs.length;i++){t+=cs[i]+':'+cs.getPropertyValue(cs[i])+';';}
+      clone.style.cssText=t;
+    }catch(e){}
+    var oc=orig.children,cc=clone.children;
+    for(var j=0;j<oc.length&&j<cc.length;j++){inlineAll(oc[j],cc[j]);}
+  }
+  function stripExternal(clone){
+    var imgs=clone.querySelectorAll('img');
+    for(var i=0;i<imgs.length;i++){
+      var s=imgs[i].getAttribute('src');
+      if(s&&!s.startsWith('data:'))imgs[i].removeAttribute('src');
+    }
+    var all=clone.querySelectorAll('*');
+    for(var i=0;i<all.length;i++){
+      var st=all[i].style.cssText;
+      if(st&&st.indexOf('url(')>=0){
+        all[i].style.cssText=st.replace(/url\(["']?(?!data:)[^)"']*["']?\)/gi,'none');
+      }
+    }
+  }
+  window.addEventListener('message',function(e){
+    if(!e.data||e.data.type!=='INLINE_EDIT_CAPTURE_REQUEST')return;
+    var scrollX=window.scrollX||window.pageXOffset||0;
+    var scrollY=window.scrollY||window.pageYOffset||0;
+    var w=window.innerWidth,h=window.innerHeight;
+    try{
+      var clone=document.documentElement.cloneNode(true);
+      var rm=clone.querySelectorAll('script,link[rel="stylesheet"],style');
+      for(var i=0;i<rm.length;i++){rm[i].remove();}
+      inlineAll(document.documentElement,clone);
+      stripExternal(clone);
+      var html=new XMLSerializer().serializeToString(clone);
+      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
+        +'<foreignObject width="100%" height="100%">'
+        +'<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+w+'px;height:'+h+'px;overflow:hidden">'
+        +'<div style="transform:translate(-'+scrollX+'px,-'+scrollY+'px);transform-origin:top left">'
+        +html+'</div></div></foreignObject></svg>';
+      var svgUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+      var img=new Image();
+      img.onload=function(){
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0);
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:c.toDataURL('image/png'),scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.onerror=function(){
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.src=svgUrl;
+    }catch(err){
+      window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+    }
+  });
+})();
+</script></body>
+</html>
