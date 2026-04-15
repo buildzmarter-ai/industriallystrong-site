@@ -162,7 +162,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; m
     <p class="subtitle">
         A DBR-bounded cavity integrating graphene, MoS&#8322;, and black phosphorus layers to provide
         phase, amplitude, and polarization modulation at DUV wavelengths — with every displayed value
-        classified against its evidence source.
+        classified against its evidence source. All intracavity values are simulation-backed (FDTD/TMM); no fabricated device has been measured.
     </p>
     <div class="hero-stats">
         <div class="hero-stat"><div class="val">7</div><div class="lbl">Functional Layers</div></div>
@@ -178,7 +178,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; m
 </div>
 
 <div class="thesis">
-    <p>248–365 nm is the only fully supported intracavity regime. 193 nm is absorption-limited and constrained to a hybrid path. EUV is explicitly forward-looking and routed through a separate HHG pipeline. No displayed quantity exceeds its evidence classification.</p>
+    <p>248–365 nm is the only fully supported intracavity regime (simulation-backed; no fabricated device exists). 193 nm is absorption-limited and constrained to a hybrid path requiring an external optical element. EUV is explicitly forward-looking and routed through a separate HHG generation pipeline; the vdW stack is not the EUV source. No displayed quantity exceeds its evidence classification.</p>
 </div>
 
 
@@ -189,29 +189,29 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; m
     <div class="section-num" style="color:#2563eb;">Section 1</div>
     <h2>Regime Architecture</h2>
     <p>
-        The cavity operates in one of three regimes. The evidence base, displayed quantities, and guardrail behavior change with each. Mode 1 is the only regime where intracavity layer-by-layer values are presented with confidence. Mode 2 and EUV forward explicitly constrain or disable these values.
+        The cavity operates in one of three regimes. The evidence base, displayed quantities, and guardrail behavior change with each. Mode 1 is the only regime where intracavity layer-by-layer values are presented with simulation-supported confidence; no measured device data exists. Mode 2 and EUV forward explicitly constrain or disable these values.
     </p>
 
     <div class="contrast">
         <div style="background:#f0fdf4; flex:1.3;">
             <div class="lbl" style="color:#16a34a;">Mode 1 · 248–365 nm</div>
             <div class="hl" style="color:#166534;">Full intracavity modulation</div>
-            <div class="dtl" style="color:#15803d;">Phase (graphene), amplitude (MoS&#8322;), polarization (BP) — all evidence-backed within the supported DUV range. Tolerable absorption (~32% <span class="badge b-derived" style="font-size:9px;vertical-align:middle;">DERIVED</span> <span class="badge b-mode1" style="font-size:9px;vertical-align:middle;">MODE-1 VALID</span>). Cavity viability demonstrated.</div>
+            <div class="dtl" style="color:#15803d;">Phase (graphene), amplitude (MoS&#8322;), polarization (BP) — all evidence-backed within the supported DUV range. Tolerable absorption (~32% <span class="badge b-derived" style="font-size:9px;vertical-align:middle;">DERIVED</span> <span class="badge b-mode1" style="font-size:9px;vertical-align:middle;">MODE-1 VALID</span>). Cavity viability supported by simulation.</div>
         </div>
         <div style="background:#f8f8f8; flex:0.85; opacity:0.72;">
             <div class="lbl" style="color:#94a3b8;">Mode 2 · 193 nm — non-viable intracavity</div>
             <div class="hl" style="color:#64748b;">Constrained fallback</div>
-            <div class="dtl" style="color:#94a3b8;">Intracavity modulation is not physically viable at 193 nm due to absorption constraints (~99% <span class="badge b-derived" style="font-size:9px;vertical-align:middle;">DERIVED</span> <span class="badge b-hybrid" style="font-size:9px;vertical-align:middle;">HYBRID-MODE</span>). Phase, amplitude, and polarization axes are disabled. Any useful 193 nm control requires an external hybrid stage downstream of the cavity.</div>
+            <div class="dtl" style="color:#94a3b8;">Intracavity modulation is not physically viable at 193 nm due to absorption constraints (~99% <span class="badge b-derived" style="font-size:9px;vertical-align:middle;">DERIVED</span> <span class="badge b-hybrid" style="font-size:9px;vertical-align:middle;">HYBRID-MODE</span>). Phase, amplitude, and polarization axes are disabled. Any useful 193 nm control requires a hybrid external stage — e.g., a metasurface, waveguide, or free-space optical element — physically outside the vdW cavity.</div>
         </div>
         <div style="background:#fef2f2; flex:1;">
             <div class="lbl" style="color:#dc2626;">EUV Forward</div>
             <div class="hl" style="color:#991b1b;">HHG pipeline</div>
-            <div class="dtl" style="color:#b91c1c;">Intracavity layer values are disabled. Focus shifts to HHG generation, propagation, dose, and resist interaction. The vdW cavity remains relevant as an upstream optical conditioning layer prior to HHG generation — spectral and polarization state preparation occurs at the cavity level before the nonlinear conversion stage.</div>
+            <div class="dtl" style="color:#b91c1c;">Intracavity layer values are disabled. HHG (high-harmonic generation) is the EUV source mechanism, driven by an ultrafast laser into a separate medium (e.g., gas jet); the vdW stack is not part of the HHG medium or EUV optical cavity. The vdW stack may condition upstream parameters but does not generate or resonate EUV light.</div>
         </div>
     </div>
 
     <div class="callout-warn">
-        <b>Regime guardrail.</b> Intracavity modulation is not physically viable at 193 nm — absorption at the vdW stack level eliminates useful field modulation before any control axis can act. This is not a tuning limitation; it is a physical constraint. EUV remains explicitly separated as a forward architecture supported by HHG system simulation, not the vdW cavity alone. Any displayed value outside Mode 1 is constrained, disabled, or tagged <span class="badge b-arch" style="font-size:9px;vertical-align:middle;">ARCHITECTURE-LEVEL</span>.
+        <b>Regime guardrail.</b> Intracavity modulation is not physically viable at 193 nm — absorption (>90% single-pass loss in vdW layers) eliminates useful field modulation before any control axis can act. This is not a tuning limitation; it is a physical constraint. Any useful 193 nm operation requires an external hybrid element (metasurface, waveguide, or free-space stage) outside the cavity. EUV remains explicitly separated: HHG is the EUV generation mechanism, and the vdW stack is not part of the HHG medium or EUV optical cavity. Any displayed value outside Mode 1 is constrained, disabled, or tagged <span class="badge b-arch" style="font-size:9px;vertical-align:middle;">ARCHITECTURE-LEVEL</span>.
     </div>
 </div>
 
@@ -282,7 +282,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; m
             <div class="l-loss">~2% <span class="badge b-derived" style="font-size:8px;">DERIVED</span></div>
         </div>
     </div>
-    <div class="note" style="margin-top:8px;">All per-layer loss values are derived estimates within the Mode 1 (248–365 nm) regime, not directly exported solver meters. Classification: DERIVED. MoS&#8322; loss is the dominant contributor and anchors the power budget.</div>
+    <div class="note" style="margin-top:8px;">All per-layer loss values are illustrative model-derived estimates within the Mode 1 (248–365 nm) regime, not directly exported solver meters or measured device values. Actual losses depend on film thickness, crystallinity, and cavity coupling. Classification: DERIVED. MoS&#8322; loss is the dominant contributor and anchors the power budget.</div>
 
     <div class="callout" style="margin-top:20px;">
         <b>Evidence classification.</b> Every displayed quantity is tagged: <span class="badge b-repo">REPO</span> = directly from repository evidence. <span class="badge b-derived">DERIVED</span> = computed from repository-backed inputs. <span class="badge b-proxy">PROXY</span> = illustrative only, not physically validated. The page never presents proxy values as if they were solver outputs.
@@ -413,7 +413,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; m
                 <span class="badge b-derived">DERIVED</span>
                 <span class="badge b-mode1">MODE-1 VALID</span>
             </div>
-            <p class="sub" style="margin:8px 0 0 0;">Graphene is the primary phase-control axis. Carrier-density tuning modulates the optical phase within the cavity. Phase magnitude is summarized conservatively rather than imported as a direct number.</p>
+            <p class="sub" style="margin:8px 0 0 0;">Graphene is the primary phase-control axis; modeled phase contribution is in the sub-radian regime (simulated). Carrier-density tuning modulates the optical phase within the cavity. Phase magnitude is summarized conservatively rather than imported as a direct number; no gate-tuning curve has been experimentally measured for this stack.</p>
         </div>
         <div class="card">
             <h3>Amplitude — MoS&#8322;</h3>
@@ -622,7 +622,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; m
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <div class="footer">
     <p>
-        <b>Evidence posture.</b> This page uses a three-tier classification: <span class="badge b-repo">REPO</span> for directly repository-bound evidence, <span class="badge b-derived">DERIVED</span> for quantities computed from repository inputs, and <span class="badge b-proxy">PROXY</span> for illustrative displays not physically validated. No proxy value is presented as if it were a solver output. 248–365 nm is the only fully supported intracavity regime. All claims are scoped to their declared mode.
+        <b>Evidence posture.</b> This page uses a three-tier classification: <span class="badge b-repo">REPO</span> for directly repository-bound evidence, <span class="badge b-derived">DERIVED</span> for quantities computed from repository inputs, and <span class="badge b-proxy">PROXY</span> for illustrative displays not physically validated. No proxy value is presented as if it were a solver output. 248–365 nm is the only fully supported intracavity regime (simulation-backed; no fabricated device has been measured). All numeric values are model-derived illustrative estimates unless explicitly marked REPO. All claims are scoped to their declared mode.
     </p>
 </div>
 
