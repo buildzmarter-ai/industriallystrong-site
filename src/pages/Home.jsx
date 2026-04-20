@@ -95,8 +95,8 @@ export default function Home() {
             marginBottom: "28px",
           }}
         >
-          This is systems architecture work — defining what holds under
-          failure, not just what works under normal conditions.
+          This defines the boundary where system correctness stops being an
+          implementation detail and becomes a platform-level responsibility.
         </p>
 
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
