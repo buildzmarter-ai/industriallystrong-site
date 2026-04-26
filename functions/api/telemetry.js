@@ -52,24 +52,49 @@ const ALLOWED_ORIGINS = [
   "https://www.industriallystrong.com",
 ];
 
-// Full column set, in INSERT order. The `type` column is mapped from
-// the frontend's `event_type` field. See normalizePayload below.
+// Full column set, in INSERT order. Aligned with the ACTUAL D1 schema
+// of the `pageviews` table (verified via wrangler `PRAGMA table_info`):
+//
+//   id (PK auto), type, site, ts, session_id, visitor_id, page_id,
+//   path, title, referrer, viewport_w, viewport_h, ua, meta, created_at
+//
+// Mappings from the frontend payload (src/utils/telemetry.js):
+//   event_type     → type         (matches metrics.js type='pageview' query)
+//   route          → path
+//   metadata       → meta         (JSON string; folds in orphan fields below)
+//   referrer       → referrer
+//   session_id     → session_id
+//   visitor_id     → visitor_id
+//   title          → title
+//
+// Server-side derived:
+//   ts          = Date.now()                    (ms epoch UTC)
+//   site        = new URL(request.url).hostname (e.g. "industriallystrong.com")
+//   page_id     = "p_" + crypto.randomUUID()    (per-event unique key)
+//   ua          = request.headers.get("User-Agent")
+//   viewport_w  = metadata.viewport_w (number) if present
+//   viewport_h  = metadata.viewport_h (number) if present
+//
+// Orphan frontend fields with no schema column (app, lane, referrer_source,
+// utm_source/medium/campaign/content) are folded into the `meta` JSON so
+// no telemetry data is lost.
+//
+// `id` and `created_at` are NOT in this list because D1 fills them
+// automatically (autoincrement PK + DEFAULT CURRENT_TIMESTAMP).
 const FULL_COLUMNS = [
-  "ts",
   "type",
-  "app",
-  "lane",
-  "route",
-  "title",
-  "referrer",
-  "referrer_source",
+  "site",
+  "ts",
   "session_id",
   "visitor_id",
-  "utm_source",
-  "utm_medium",
-  "utm_campaign",
-  "utm_content",
-  "metadata",
+  "page_id",
+  "path",
+  "title",
+  "referrer",
+  "viewport_w",
+  "viewport_h",
+  "ua",
+  "meta",
 ];
 
 function buildCorsHeaders(origin) {
@@ -96,35 +121,76 @@ function isOriginAllowed(origin) {
   return ALLOWED_ORIGINS.some((o) => origin.startsWith(o));
 }
 
-function normalizePayload(raw) {
+function normalizePayload(raw, request) {
   // All fields default to safe empty values so the INSERT never throws on
-  // missing keys. Numbers stay numeric; objects (metadata) become JSON
-  // strings; everything else is coerced to string.
+  // missing keys. Numbers stay numeric; objects become JSON strings;
+  // everything else is coerced to string.
   const safeStr = (v) => (v == null ? "" : String(v));
+  const safeNum = (v) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  };
 
-  const metadataValue =
-    raw.metadata == null
-      ? ""
-      : typeof raw.metadata === "string"
-      ? raw.metadata
-      : JSON.stringify(raw.metadata);
+  // Frontend metadata is an object: { ...userMetadata, viewport_w, viewport_h }.
+  // We extract viewport_w/h for first-class columns, then fold the orphan
+  // frontend fields (app, lane, referrer_source, utm_*) into the surviving
+  // `meta` JSON column so no data is silently dropped.
+  const fmeta = raw.metadata && typeof raw.metadata === "object" && !Array.isArray(raw.metadata)
+    ? raw.metadata
+    : {};
+
+  const viewport_w = safeNum(fmeta.viewport_w);
+  const viewport_h = safeNum(fmeta.viewport_h);
+
+  // Build the meta JSON: original frontend metadata (minus the viewport
+  // fields we promoted to columns) + orphan top-level fields that have no
+  // schema column.
+  const { viewport_w: _vw, viewport_h: _vh, ...metaRest } = fmeta;
+  const metaPayload = {
+    ...metaRest,
+    app: raw.app || undefined,
+    lane: raw.lane || undefined,
+    referrer_source: raw.referrer_source || undefined,
+    utm_source: raw.utm_source || undefined,
+    utm_medium: raw.utm_medium || undefined,
+    utm_campaign: raw.utm_campaign || undefined,
+    utm_content: raw.utm_content || undefined,
+  };
+  // Strip undefined keys so JSON.stringify produces clean output.
+  for (const k of Object.keys(metaPayload)) {
+    if (metaPayload[k] === undefined) delete metaPayload[k];
+  }
+
+  // Server-side derivations.
+  let site = "";
+  try {
+    site = new URL(request.url).hostname || "";
+  } catch {
+    site = "";
+  }
+  const ua = request.headers.get("User-Agent") || "";
+  const page_id = (() => {
+    try {
+      return "p_" + crypto.randomUUID();
+    } catch {
+      return "p_" + Math.random().toString(36).slice(2);
+    }
+  })();
 
   return {
-    ts: Date.now(),
     type: safeStr(raw.event_type || "pageview"),
-    app: safeStr(raw.app),
-    lane: safeStr(raw.lane),
-    route: safeStr(raw.route),
-    title: safeStr(raw.title),
-    referrer: safeStr(raw.referrer),
-    referrer_source: safeStr(raw.referrer_source),
+    site: safeStr(site),
+    ts: Date.now(),
     session_id: safeStr(raw.session_id),
     visitor_id: safeStr(raw.visitor_id),
-    utm_source: safeStr(raw.utm_source),
-    utm_medium: safeStr(raw.utm_medium),
-    utm_campaign: safeStr(raw.utm_campaign),
-    utm_content: safeStr(raw.utm_content),
-    metadata: metadataValue,
+    page_id,
+    path: safeStr(raw.route),
+    title: safeStr(raw.title),
+    referrer: safeStr(raw.referrer),
+    viewport_w,
+    viewport_h,
+    ua: safeStr(ua),
+    meta: JSON.stringify(metaPayload),
   };
 }
 
@@ -238,7 +304,7 @@ export async function onRequest(context) {
     );
   }
 
-  const normalized = normalizePayload(raw);
+  const normalized = normalizePayload(raw, request);
 
   // ─── POST: insert with PRAGMA-driven fallback ────────────────────────────
   try {
