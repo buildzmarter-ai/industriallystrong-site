@@ -139,8 +139,12 @@ function normalizePayload(raw, request) {
     ? raw.metadata
     : {};
 
-  const viewport_w = safeNum(fmeta.viewport_w);
-  const viewport_h = safeNum(fmeta.viewport_h);
+  // viewport_w / viewport_h are NOT NULL in the pageviews schema, so we
+  // default to 0 (sentinel "unknown") when the payload omits them — e.g.
+  // server-side calls, curl probes, non-browser clients. Browser pageviews
+  // always supply real values via window.innerWidth/innerHeight.
+  const viewport_w = safeNum(fmeta.viewport_w) ?? 0;
+  const viewport_h = safeNum(fmeta.viewport_h) ?? 0;
 
   // Build the meta JSON: original frontend metadata (minus the viewport
   // fields we promoted to columns) + orphan top-level fields that have no
