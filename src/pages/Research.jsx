@@ -20,13 +20,37 @@ export default function Research() {
           marginBottom: "40px",
         }}
       >
-        <h2 style={{ marginTop: 0 }}>State Resolution Engine</h2>
+        <div
+          style={{
+            display: "inline-block",
+            padding: "4px 10px",
+            borderRadius: "999px",
+            fontSize: "11px",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            background: "rgba(251, 191, 36, 0.12)",
+            color: "#fbbf24",
+            border: "1px solid rgba(251, 191, 36, 0.35)",
+            marginBottom: "12px",
+            fontWeight: 600,
+          }}
+        >
+          Evidence / Experimental — Synthetic Demo, Not Production System
+        </div>
+
+        <h2 style={{ marginTop: 0 }}>MHT/FAISS Decision Architecture Demo</h2>
 
         <p style={{ opacity: 0.88, maxWidth: "900px" }}>
-          A real-time research engine for exploring large candidate populations
-          of financial strategies using multi-state tracking and
-          FAISS-based vector search. The system supports interactive analysis of
-          strategies that have already been filtered or evaluated by pipeline agents.
+          Synthetic-data demonstration comparing LLM-only single-answer
+          inference against hypothesis-preserving decision architecture using
+          latent state encoding, similarity retrieval, and competing hypothesis
+          tracking.
+        </p>
+
+        <p style={{ opacity: 0.7, maxWidth: "900px", fontSize: "14px" }}>
+          Maturity: <strong>Synthetic Demo — Architecture Evidence, Not
+          Production System.</strong> Use it to read the architecture, not as
+          a deployed product.
         </p>
 
         <div
@@ -51,7 +75,7 @@ export default function Research() {
               background: "#111827",
             }}
           >
-            View live state resolution demo
+            Open architecture demo (synthetic data)
           </a>
 
           <a

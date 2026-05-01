@@ -472,34 +472,6 @@ export default function Home() {
           </a>
 
           <a
-            href="https://demomhtfaiss.industriallystrong.com"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => {
-              trackEvent("navigation", "launch_live_demo");
-              sendTelemetry({
-                app: "industriallystrong",
-                lane: "general",
-                eventType: "outbound_click",
-                metadata: {
-                  label: "state_resolution_demo",
-                  href: "https://demomhtfaiss.industriallystrong.com",
-                  section: "builder_layer",
-                },
-              });
-            }}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="structure-card">
-              <h3>State Resolution Demo</h3>
-              <p style={{ margin: 0 }}>
-                Interactive research surface exploring strategy candidate
-                populations using vector search and state tracking.
-              </p>
-            </div>
-          </a>
-
-          <a
             href="/decks/mht"
             target="_blank"
             rel="noreferrer"
@@ -550,9 +522,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. LABS / TECHNICAL ARTIFACTS */}
+      {/* 5. EVIDENCE / EXPERIMENTAL SYSTEMS */}
+      <section id="evidence" style={sectionWrap()}>
+        <div style={sectionEyebrowStyle}>04 — Evidence / Experimental Systems</div>
+        <h2 style={sectionHeadingStyle}>Architecture evidence — not production systems</h2>
+        <p style={sectionLeadStyle}>
+          These are synthetic-data demonstrations and architecture artifacts
+          that show how the underlying decision structures behave. They are
+          evidence of the architectural approach, not production systems.
+        </p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "22px",
+          }}
+        >
+          <a
+            href="https://demomhtfaiss.industriallystrong.com"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => {
+              trackEvent("navigation", "open_mht_faiss_decision_architecture_demo");
+              sendTelemetry({
+                app: "industriallystrong",
+                lane: "general",
+                eventType: "outbound_click",
+                metadata: {
+                  label: "mht_faiss_decision_architecture_demo",
+                  href: "https://demomhtfaiss.industriallystrong.com",
+                  section: "evidence_experimental",
+                  maturity: "synthetic_demo_architecture_evidence",
+                },
+              });
+            }}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="structure-card">
+              <div
+                style={{
+                  display: "inline-block",
+                  padding: "4px 10px",
+                  borderRadius: "999px",
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  background: "rgba(251, 191, 36, 0.12)",
+                  color: "#fbbf24",
+                  border: "1px solid rgba(251, 191, 36, 0.35)",
+                  marginBottom: "12px",
+                  fontWeight: 600,
+                }}
+              >
+                Synthetic Demo — Architecture Evidence, Not Production System
+              </div>
+              <h3 style={{ marginTop: 0 }}>MHT/FAISS Decision Architecture Demo</h3>
+              <p style={{ margin: 0 }}>
+                Synthetic-data demonstration comparing LLM-only single-answer
+                inference against hypothesis-preserving decision architecture
+                using latent state encoding, similarity retrieval, and
+                competing hypothesis tracking.
+              </p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      {/* 6. LABS / TECHNICAL ARTIFACTS */}
       <section id="labs" style={sectionWrap()}>
-        <div style={sectionEyebrowStyle}>04 — Labs &amp; Technical Artifacts</div>
+        <div style={sectionEyebrowStyle}>05 — Labs &amp; Technical Artifacts</div>
         <h2 style={sectionHeadingStyle}>Where the engineering judgment shows up</h2>
         <p style={sectionLeadStyle}>
           Architecture write-ups, research notes, and decks behind the active
@@ -607,7 +646,7 @@ export default function Home() {
 
       {/* 6. CONTACT / LINKEDIN */}
       <section id="contact" style={sectionWrap({ marginBottom: "48px" })}>
-        <div style={sectionEyebrowStyle}>05 — Contact</div>
+        <div style={sectionEyebrowStyle}>06 — Contact</div>
         <h2 style={sectionHeadingStyle}>Get in touch</h2>
         <p style={sectionLeadStyle}>
           For executive engineering leadership conversations, partnership

@@ -1,5 +1,5 @@
 # Phoenix Web redirect
-/phoenix  https://qrl-phoenix-web.pages.dev  301
+/phoenix  https://phoenix.industriallystrong.com  301
 
 # Serve lab subtree directly
 /lab/*  /lab/:splat  200

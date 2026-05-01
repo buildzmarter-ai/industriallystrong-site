@@ -26,50 +26,48 @@ export default function About() {
         <section className="about-hero">
           <div className="about-hero-inner">
             <div className="about-eyebrow">About IndustriallyStrong</div>
-            <h1>Industrial systems architecture and research platform</h1>
+            <h1>The working surface of an engineering leader.</h1>
             <p className="about-hero-copy">
-              IndustriallyStrong is a research platform exploring new technical
-              architectures — from AI systems to semiconductor fabrication
-              concepts.
+              IndustriallyStrong is the working surface of Z’s engineering
+              leadership — where complex systems are designed, executed, and
+              validated across real-world constraints.
             </p>
             <p className="about-hero-copy secondary">
-              The site connects ideas, systems, and working implementations,
-              showing how research directions evolve into deployable
-              technology.
+              This platform shows how leadership decisions, architecture, and
+              execution discipline translate into deployed systems.
             </p>
           </div>
         </section>
 
         <section className="about-section">
           <div className="about-section-inner">
-            <div className="about-eyebrow">What this platform does</div>
-            <h2>Architectural thinking, research systems, and concept-to-system demonstrations.</h2>
+            <div className="about-eyebrow">How I operate</div>
+            <h2>Engineering leadership across architecture, execution, and scale.</h2>
 
             <div className="about-pillars">
               <div className="about-pillar">
                 <div className="pillar-icon">01</div>
-                <h3>Technical architecture exploration</h3>
+                <h3>Engineering Leadership</h3>
                 <p>
-                  Framing and testing new systems-level directions across AI,
-                  software, and emerging technical platforms.
+                  Leading teams, programs, and systems under real-world
+                  constraints.
                 </p>
               </div>
 
               <div className="about-pillar">
                 <div className="pillar-icon">02</div>
-                <h3>Research system development</h3>
+                <h3>System Architecture</h3>
                 <p>
-                  Building experimental systems that move ideas beyond theory
-                  into functioning technical artifacts.
+                  Designing systems that hold under scale, ambiguity, and
+                  failure modes.
                 </p>
               </div>
 
               <div className="about-pillar">
                 <div className="pillar-icon">03</div>
-                <h3>Concept-to-system demonstrations</h3>
+                <h3>Execution Discipline</h3>
                 <p>
-                  Showing how concepts evolve into real architectures, tools,
-                  and operational systems.
+                  Turning complex initiatives into shipped, working systems.
                 </p>
               </div>
             </div>
@@ -78,29 +76,33 @@ export default function About() {
 
         <section className="about-section">
           <div className="about-section-inner">
-            <div className="about-eyebrow">Current focus areas</div>
-            <h2>Research directions across intelligent systems and new technical architectures.</h2>
+            <div className="about-eyebrow">Where the leadership shows up</div>
+            <h2>Architecture decisions, portfolio calls, and the systems they produce.</h2>
 
             <div className="about-card-grid">
-              <FocusCard title="AI System Architectures">
-                Designing decision systems built from coordinated agents,
-                structured reasoning, and real-world data pipelines.
+              <FocusCard title="Architecture Decisions">
+                System-level structure: where boundaries belong, what must be
+                deterministic, where to absorb risk, and where to push it back
+                on the organization.
               </FocusCard>
 
-              <FocusCard title="Strategy Discovery Platforms">
-                Research into automated discovery and evaluation of complex
-                strategies using statistical signal processing and
-                multi-state resolution frameworks.
+              <FocusCard title="Portfolio &amp; Program Calls">
+                Invest, pause, redirect, or kill. Aligning roadmaps, risks,
+                dependencies, and decisions across engineering, product, and
+                executive stakeholders.
               </FocusCard>
 
-              <FocusCard title="Multi-Agent Systems">
-                Experimental environments where specialized AI agents
-                collaborate to solve domain-specific problems.
+              <FocusCard title="AI Decision Systems">
+                Leading the design of decision systems built from coordinated
+                agents, structured reasoning, and real-world data pipelines —
+                with correctness owned at the architectural level.
               </FocusCard>
 
-              <FocusCard title="Emerging Computational Architectures">
-                Exploration of new system architectures, including programmable
-                semiconductor platforms and distributed computational models.
+              <FocusCard title="Supporting Research Layer">
+                Research lives here too — high-dimensional signal processing,
+                multi-state resolution, associative retrieval — but as a
+                supporting layer to leadership and execution, not the primary
+                identity.
               </FocusCard>
             </div>
           </div>
@@ -108,34 +110,35 @@ export default function About() {
 
         <section className="about-section">
           <div className="about-section-inner">
-            <div className="about-eyebrow">Platform model</div>
-            <h2>How the work moves from concept to system.</h2>
+            <div className="about-eyebrow">Operating model</div>
+            <h2>How leadership decisions become deployed systems.</h2>
 
             <div className="about-flow">
               <div className="about-flow-node">
-                <h3>Concepts</h3>
+                <h3>Leadership Decisions</h3>
                 <p>
-                  New architectures, system theses, and technical investigations.
+                  Architecture, portfolio, and execution calls made under real
+                  constraints.
                 </p>
               </div>
 
               <div className="about-flow-arrow">→</div>
 
               <div className="about-flow-node">
-                <h3>Research Systems</h3>
+                <h3>Engineering Execution</h3>
                 <p>
-                  Experimental platforms that test architecture, integration,
-                  and performance in practice.
+                  Programs, teams, and operating cadence translating those
+                  decisions into working systems.
                 </p>
               </div>
 
               <div className="about-flow-arrow">→</div>
 
               <div className="about-flow-node">
-                <h3>Operational Platforms</h3>
+                <h3>Deployed Systems</h3>
                 <p>
-                  Deployed software and real systems derived from validated
-                  research directions.
+                  Operational platforms and live surfaces validating the
+                  approach in real environments.
                 </p>
               </div>
             </div>
@@ -144,21 +147,23 @@ export default function About() {
 
         <section className="about-section">
           <div className="about-section-inner">
-            <div className="about-eyebrow">Current systems</div>
-            <h2>Working systems that illustrate the approach.</h2>
+            <div className="about-eyebrow">Active systems</div>
+            <h2>Working systems that show the leadership approach in execution.</h2>
 
             <div className="about-systems-grid">
               <SystemCard title="QRLPhoenix">
-                AI-assisted strategy discovery platform.
+                AI-assisted strategy discovery and evaluation platform —
+                architecture and execution led end-to-end.
               </SystemCard>
 
               <SystemCard title="GutSense">
-                Multi-agent dietary intelligence system.
+                Multi-agent dietary intelligence system; integrated execution
+                across Claude, Gemini, and Apple Foundation Models.
               </SystemCard>
 
               <SystemCard title="State Resolution Engine">
-                Research platform for strategy tracking using multi-state
-                resolution frameworks and vector retrieval.
+                Supporting research surface for strategy tracking using
+                multi-state resolution and vector retrieval.
               </SystemCard>
             </div>
           </div>
@@ -167,28 +172,29 @@ export default function About() {
         <section className="about-section">
           <div className="about-section-inner">
             <div className="about-eyebrow">Approach</div>
-            <h2>Integrated concept development, research prototypes, and operational systems.</h2>
+            <h2>Leadership first. Architecture next. Research as supporting layer.</h2>
 
             <div className="about-approach-grid">
               <div className="approach-block">
-                <h3>Concept development</h3>
-                <p>New architectures and system ideas.</p>
+                <h3>Leadership &amp; execution</h3>
+                <p>Programs, teams, portfolio decisions, delivery discipline.</p>
               </div>
 
               <div className="approach-block">
-                <h3>Research prototypes</h3>
-                <p>Working experimental platforms.</p>
+                <h3>System architecture</h3>
+                <p>Boundaries, correctness, observability, and accountability.</p>
               </div>
 
               <div className="approach-block">
-                <h3>Operational systems</h3>
-                <p>Real deployments and applications.</p>
+                <h3>Supporting research</h3>
+                <p>Signal processing, state resolution, associative retrieval.</p>
               </div>
             </div>
 
             <p className="about-approach-summary">
-              The goal is to explore how ideas move from technical concept to
-              research system to deployed technology.
+              The goal is to show how engineering leadership decisions —
+              backed by architecture and supported by research — translate
+              into deployed systems that hold under real-world constraints.
             </p>
           </div>
         </section>
@@ -197,9 +203,9 @@ export default function About() {
           <div className="about-closing-inner">
             <div className="about-eyebrow">Closing statement</div>
             <h2>
-              IndustriallyStrong is an independent technical platform focused on
-              systems architecture, research experimentation, and advanced
-              technology development.
+              IndustriallyStrong is the working surface of an engineering
+              leader: programs, architecture, and execution discipline made
+              visible through the systems they produce.
             </h2>
           </div>
         </section>

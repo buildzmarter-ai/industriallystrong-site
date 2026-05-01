@@ -135,7 +135,7 @@ export default function QRLPhoenix() {
           positioning, and blockchain-verified audit trails.
         </p>
         <a
-          href="https://qrl-phoenix-web.pages.dev"
+          href="https://phoenix.industriallystrong.com"
           target="_blank"
           rel="noopener noreferrer"
           style={{
