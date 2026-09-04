@@ -78,6 +78,7 @@
   @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 </style>
 <script>
+
 /**
  * @license React
  * react.production.min.js
@@ -88,9 +89,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 (function(){'use strict';(function(c,x){"object"===typeof exports&&"undefined"!==typeof module?x(exports):"function"===typeof define&&define.amd?define(["exports"],x):(c=c||self,x(c.React={}))})(this,function(c){function x(a){if(null===a||"object"!==typeof a)return null;a=V&&a[V]||a["@@iterator"];return"function"===typeof a?a:null}function w(a,b,e){this.props=a;this.context=b;this.refs=W;this.updater=e||X}function Y(){}function K(a,b,e){this.props=a;this.context=b;this.refs=W;this.updater=e||X}function Z(a,b,
-e){var m,d={},c=null,h=null;if(null!=b)for(m in void 0!==b.ref&&(h=b.ref),void 0!==b.key&&(c=""+b.key),b)aa.call(b,m)&&!ba.hasOwnProperty(m)&&(d[m]=b[m]);var l=arguments.length-2;if(1===l)d.children=e;else if(1<l){for(var f=Array(l),k=0;k<l;k++)f[k]=arguments[k+2];d.children=f}if(a&&a.defaultProps)for(m in l=a.defaultProps,l)void 0===d[m]&&(d[m]=l[m]);return{$$typeof:y,type:a,key:c,ref:h,props:d,_owner:L.current}}function na(a,b){return{$$typeof:y,type:a.type,key:b,ref:a.ref,props:a.props,_owner:a._owner}}
-function M(a){return"object"===typeof a&&null!==a&&a.$$typeof===y}function oa(a){var b={"=":"=0",":":"=2"};return"$"+a.replace(/[=:]/g,function(a){return b[a]})}function N(a,b){return"object"===typeof a&&null!==a&&null!=a.key?oa(""+a.key):b.toString(36)}function B(a,b,e,m,d){var c=typeof a;if("undefined"===c||"boolean"===c)a=null;var h=!1;if(null===a)h=!0;else switch(c){case "string":case "number":h=!0;break;case "object":switch(a.$$typeof){case y:case pa:h=!0}}if(h)return h=a,d=d(h),a=""===m?"."+
-N(h,0):m,ca(d)?(e="",null!=a&&(e=a.replace(da,"$&/")+"/"),B(d,b,e,"",function(a){return a})):null!=d&&(M(d)&&(d=na(d,e+(!d.key||h&&h.key===d.key?"":(""+d.key).replace(da,"$&/")+"/")+a)),b.push(d)),1;h=0;m=""===m?".":m+":";if(ca(a))for(var l=0;l<a.length;l++){c=a[l];var f=m+N(c,l);h+=B(c,b,e,f,d)}else if(f=x(a),"function"===typeof f)for(a=f.call(a),l=0;!(c=a.next()).done;)c=c.value,f=m+N(c,l++),h+=B(c,b,e,f,d);else if("object"===c)throw b=String(a),Error("Objects are not valid as a React child (found: "+
+e){var m,d={},c=null,h=null;if(null!=b)for(m in void 0!==b.ref&&(h=b.ref),void 0!==b.key&&(c=""+b.key),b)aa.call(b,m)&&!ba.hasOwnProperty(m)&&(d[m]=b[m]);var l=arguments.length-2;if(1===l)d.children=e;else if(1<l){for(var f=Array(l),k=0;k<l;k++)f[k]=arguments[k+2];d.children=f}if(a&&a.defaultProps)for(m in l=a.defaultProps,l)void 0===d[m]&&(d[m]=l[m]);return{$typeof:y,type:a,key:c,ref:h,props:d,_owner:L.current}}function na(a,b){return{$typeof:y,type:a.type,key:b,ref:a.ref,props:a.props,_owner:a._owner}}
+function M(a){return"object"===typeof a&&null!==a&&a.$typeof===y}function oa(a){var b={"=":"=0",":":"=2"};return"$"+a.replace(/[=:]/g,function(a){return b[a]})}function N(a,b){return"object"===typeof a&&null!==a&&null!=a.key?oa(""+a.key):b.toString(36)}function B(a,b,e,m,d){var c=typeof a;if("undefined"===c||"boolean"===c)a=null;var h=!1;if(null===a)h=!0;else switch(c){case "string":case "number":h=!0;break;case "object":switch(a.$typeof){case y:case pa:h=!0}}if(h)return h=a,d=d(h),a=""===m?"."+
+N(h,0):m,ca(d)?(e="",null!=a&&(e=a.replace(da,"<!--VENDOR-->/")+"/"),B(d,b,e,"",function(a){return a})):null!=d&&(M(d)&&(d=na(d,e+(!d.key||h&&h.key===d.key?"":(""+d.key).replace(da,"<!--VENDOR-->/")+"/")+a)),b.push(d)),1;h=0;m=""===m?".":m+":";if(ca(a))for(var l=0;l<a.length;l++){c=a[l];var f=m+N(c,l);h+=B(c,b,e,f,d)}else if(f=x(a),"function"===typeof f)for(a=f.call(a),l=0;!(c=a.next()).done;)c=c.value,f=m+N(c,l++),h+=B(c,b,e,f,d);else if("object"===c)throw b=String(a),Error("Objects are not valid as a React child (found: "+
 ("[object Object]"===b?"object with keys {"+Object.keys(a).join(", ")+"}":b)+"). If you meant to render a collection of children, use an array instead.");return h}function C(a,b,e){if(null==a)return a;var c=[],d=0;B(a,c,"","",function(a){return b.call(e,a,d++)});return c}function qa(a){if(-1===a._status){var b=a._result;b=b();b.then(function(b){if(0===a._status||-1===a._status)a._status=1,a._result=b},function(b){if(0===a._status||-1===a._status)a._status=2,a._result=b});-1===a._status&&(a._status=
 0,a._result=b)}if(1===a._status)return a._result.default;throw a._result;}function O(a,b){var e=a.length;a.push(b);a:for(;0<e;){var c=e-1>>>1,d=a[c];if(0<D(d,b))a[c]=b,a[e]=d,e=c;else break a}}function p(a){return 0===a.length?null:a[0]}function E(a){if(0===a.length)return null;var b=a[0],e=a.pop();if(e!==b){a[0]=e;a:for(var c=0,d=a.length,k=d>>>1;c<k;){var h=2*(c+1)-1,l=a[h],f=h+1,g=a[f];if(0>D(l,e))f<d&&0>D(g,l)?(a[c]=g,a[f]=e,c=f):(a[c]=l,a[h]=e,c=h);else if(f<d&&0>D(g,e))a[c]=g,a[f]=e,c=f;else break a}}return b}
 function D(a,b){var c=a.sortIndex-b.sortIndex;return 0!==c?c:a.id-b.id}function P(a){for(var b=p(r);null!==b;){if(null===b.callback)E(r);else if(b.startTime<=a)E(r),b.sortIndex=b.expirationTime,O(q,b);else break;b=p(r)}}function Q(a){z=!1;P(a);if(!u)if(null!==p(q))u=!0,R(S);else{var b=p(r);null!==b&&T(Q,b.startTime-a)}}function S(a,b){u=!1;z&&(z=!1,ea(A),A=-1);F=!0;var c=k;try{P(b);for(n=p(q);null!==n&&(!(n.expirationTime>b)||a&&!fa());){var m=n.callback;if("function"===typeof m){n.callback=null;
@@ -103,14 +104,16 @@ unstable_IdlePriority:5,unstable_LowPriority:4,unstable_runWithPriority:function
 1073741823;break;case 4:d=1E4;break;default:d=5E3}d=c+d;a={id:Ca++,callback:b,priorityLevel:a,startTime:c,expirationTime:d,sortIndex:-1};c>e?(a.sortIndex=c,O(r,a),null===p(q)&&a===p(r)&&(z?(ea(A),A=-1):z=!0,T(Q,c-e))):(a.sortIndex=d,O(q,a),u||F||(u=!0,R(S)));return a},unstable_cancelCallback:function(a){a.callback=null},unstable_wrapCallback:function(a){var b=k;return function(){var c=k;k=b;try{return a.apply(this,arguments)}finally{k=c}}},unstable_getCurrentPriorityLevel:function(){return k},unstable_shouldYield:fa,
 unstable_requestPaint:function(){},unstable_continueExecution:function(){u||F||(u=!0,R(S))},unstable_pauseExecution:function(){},unstable_getFirstCallbackNode:function(){return p(q)},get unstable_now(){return v},unstable_forceFrameRate:function(a){0>a||125<a?console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"):ia=0<a?Math.floor(1E3/a):5},unstable_Profiling:null}};c.Children={map:C,forEach:function(a,b,c){C(a,function(){b.apply(this,
 arguments)},c)},count:function(a){var b=0;C(a,function(){b++});return b},toArray:function(a){return C(a,function(a){return a})||[]},only:function(a){if(!M(a))throw Error("React.Children.only expected to receive a single React element child.");return a}};c.Component=w;c.Fragment=ra;c.Profiler=ta;c.PureComponent=K;c.StrictMode=sa;c.Suspense=xa;c.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED=t;c.cloneElement=function(a,b,c){if(null===a||void 0===a)throw Error("React.cloneElement(...): The argument must be a React element, but you passed "+
-a+".");var e=ka({},a.props),d=a.key,k=a.ref,h=a._owner;if(null!=b){void 0!==b.ref&&(k=b.ref,h=L.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var l=a.type.defaultProps;for(f in b)aa.call(b,f)&&!ba.hasOwnProperty(f)&&(e[f]=void 0===b[f]&&void 0!==l?l[f]:b[f])}var f=arguments.length-2;if(1===f)e.children=c;else if(1<f){l=Array(f);for(var g=0;g<f;g++)l[g]=arguments[g+2];e.children=l}return{$$typeof:y,type:a.type,key:d,ref:k,props:e,_owner:h}};c.createContext=function(a){a={$$typeof:va,
-_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null,_defaultValue:null,_globalName:null};a.Provider={$$typeof:ua,_context:a};return a.Consumer=a};c.createElement=Z;c.createFactory=function(a){var b=Z.bind(null,a);b.type=a;return b};c.createRef=function(){return{current:null}};c.forwardRef=function(a){return{$$typeof:wa,render:a}};c.isValidElement=M;c.lazy=function(a){return{$$typeof:za,_payload:{_status:-1,_result:a},_init:qa}};c.memo=function(a,b){return{$$typeof:ya,type:a,
+a+".");var e=ka({},a.props),d=a.key,k=a.ref,h=a._owner;if(null!=b){void 0!==b.ref&&(k=b.ref,h=L.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var l=a.type.defaultProps;for(f in b)aa.call(b,f)&&!ba.hasOwnProperty(f)&&(e[f]=void 0===b[f]&&void 0!==l?l[f]:b[f])}var f=arguments.length-2;if(1===f)e.children=c;else if(1<f){l=Array(f);for(var g=0;g<f;g++)l[g]=arguments[g+2];e.children=l}return{$typeof:y,type:a.type,key:d,ref:k,props:e,_owner:h}};c.createContext=function(a){a={$typeof:va,
+_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null,_defaultValue:null,_globalName:null};a.Provider={$typeof:ua,_context:a};return a.Consumer=a};c.createElement=Z;c.createFactory=function(a){var b=Z.bind(null,a);b.type=a;return b};c.createRef=function(){return{current:null}};c.forwardRef=function(a){return{$typeof:wa,render:a}};c.isValidElement=M;c.lazy=function(a){return{$typeof:za,_payload:{_status:-1,_result:a},_init:qa}};c.memo=function(a,b){return{$typeof:ya,type:a,
 compare:void 0===b?null:b}};c.startTransition=function(a,b){b=J.transition;J.transition={};try{a()}finally{J.transition=b}};c.unstable_act=function(a){throw Error("act(...) is not supported in production builds of React.");};c.useCallback=function(a,b){return g.current.useCallback(a,b)};c.useContext=function(a){return g.current.useContext(a)};c.useDebugValue=function(a,b){};c.useDeferredValue=function(a){return g.current.useDeferredValue(a)};c.useEffect=function(a,b){return g.current.useEffect(a,
 b)};c.useId=function(){return g.current.useId()};c.useImperativeHandle=function(a,b,c){return g.current.useImperativeHandle(a,b,c)};c.useInsertionEffect=function(a,b){return g.current.useInsertionEffect(a,b)};c.useLayoutEffect=function(a,b){return g.current.useLayoutEffect(a,b)};c.useMemo=function(a,b){return g.current.useMemo(a,b)};c.useReducer=function(a,b,c){return g.current.useReducer(a,b,c)};c.useRef=function(a){return g.current.useRef(a)};c.useState=function(a){return g.current.useState(a)};
 c.useSyncExternalStore=function(a,b,c){return g.current.useSyncExternalStore(a,b,c)};c.useTransition=function(){return g.current.useTransition()};c.version="18.2.0"});
 })();
+
 </script>
 <script>
+
 /**
  * @license React
  * react-dom.production.min.js
@@ -130,7 +133,7 @@ b[0]&&"O"!==b[0]||"n"!==b[1]&&"N"!==b[1])fj(b,c,e,d)&&(c=null),d||null===e?cj(b)
 c){if(void 0===ae)try{throw Error();}catch(d){ae=(b=d.stack.trim().match(/\n( *(at )?)/))&&b[1]||""}return"\n"+ae+a}function be(a,b){if(!a||ce)return"";ce=!0;var c=Error.prepareStackTrace;Error.prepareStackTrace=void 0;try{if(b)if(b=function(){throw Error();},Object.defineProperty(b.prototype,"props",{set:function(){throw Error();}}),"object"===typeof Reflect&&Reflect.construct){try{Reflect.construct(b,[])}catch(m){var d=m}Reflect.construct(a,[],b)}else{try{b.call()}catch(m){d=m}a.call(b.prototype)}else{try{throw Error();
 }catch(m){d=m}a()}}catch(m){if(m&&d&&"string"===typeof m.stack){for(var e=m.stack.split("\n"),f=d.stack.split("\n"),g=e.length-1,h=f.length-1;1<=g&&0<=h&&e[g]!==f[h];)h--;for(;1<=g&&0<=h;g--,h--)if(e[g]!==f[h]){if(1!==g||1!==h){do if(g--,h--,0>h||e[g]!==f[h]){var k="\n"+e[g].replace(" at new "," at ");a.displayName&&k.includes("<anonymous>")&&(k=k.replace("<anonymous>",a.displayName));return k}while(1<=g&&0<=h)}break}}}finally{ce=!1,Error.prepareStackTrace=c}return(a=a?a.displayName||a.name:"")?bc(a):
 ""}function gj(a){switch(a.tag){case 5:return bc(a.type);case 16:return bc("Lazy");case 13:return bc("Suspense");case 19:return bc("SuspenseList");case 0:case 2:case 15:return a=be(a.type,!1),a;case 11:return a=be(a.type.render,!1),a;case 1:return a=be(a.type,!0),a;default:return""}}function de(a){if(null==a)return null;if("function"===typeof a)return a.displayName||a.name||null;if("string"===typeof a)return a;switch(a){case Bb:return"Fragment";case Cb:return"Portal";case ee:return"Profiler";case fe:return"StrictMode";
-case ge:return"Suspense";case he:return"SuspenseList"}if("object"===typeof a)switch(a.$$typeof){case gg:return(a.displayName||"Context")+".Consumer";case hg:return(a._context.displayName||"Context")+".Provider";case ie:var b=a.render;a=a.displayName;a||(a=b.displayName||b.name||"",a=""!==a?"ForwardRef("+a+")":"ForwardRef");return a;case je:return b=a.displayName||null,null!==b?b:de(a.type)||"Memo";case Ta:b=a._payload;a=a._init;try{return de(a(b))}catch(c){}}return null}function hj(a){var b=a.type;
+case ge:return"Suspense";case he:return"SuspenseList"}if("object"===typeof a)switch(a.$typeof){case gg:return(a.displayName||"Context")+".Consumer";case hg:return(a._context.displayName||"Context")+".Provider";case ie:var b=a.render;a=a.displayName;a||(a=b.displayName||b.name||"",a=""!==a?"ForwardRef("+a+")":"ForwardRef");return a;case je:return b=a.displayName||null,null!==b?b:de(a.type)||"Memo";case Ta:b=a._payload;a=a._init;try{return de(a(b))}catch(c){}}return null}function hj(a){var b=a.type;
 switch(a.tag){case 24:return"Cache";case 9:return(b.displayName||"Context")+".Consumer";case 10:return(b._context.displayName||"Context")+".Provider";case 18:return"DehydratedFragment";case 11:return a=b.render,a=a.displayName||a.name||"",b.displayName||(""!==a?"ForwardRef("+a+")":"ForwardRef");case 7:return"Fragment";case 5:return b;case 4:return"Portal";case 3:return"Root";case 6:return"Text";case 16:return de(b);case 8:return b===fe?"StrictMode":"Mode";case 22:return"Offscreen";case 12:return"Profiler";
 case 21:return"Scope";case 13:return"Suspense";case 19:return"SuspenseList";case 25:return"TracingMarker";case 1:case 0:case 17:case 2:case 14:case 15:if("function"===typeof b)return b.displayName||b.name||null;if("string"===typeof b)return b}return null}function Ua(a){switch(typeof a){case "boolean":case "number":case "string":case "undefined":return a;case "object":return a;default:return""}}function ig(a){var b=a.type;return(a=a.nodeName)&&"input"===a.toLowerCase()&&("checkbox"===b||"radio"===
 b)}function ij(a){var b=ig(a)?"checked":"value",c=Object.getOwnPropertyDescriptor(a.constructor.prototype,b),d=""+a[b];if(!a.hasOwnProperty(b)&&"undefined"!==typeof c&&"function"===typeof c.get&&"function"===typeof c.set){var e=c.get,f=c.set;Object.defineProperty(a,b,{configurable:!0,get:function(){return e.call(this)},set:function(a){d=""+a;f.call(this,a)}});Object.defineProperty(a,b,{enumerable:c.enumerable});return{getValue:function(){return d},setValue:function(a){d=""+a},stopTracking:function(){a._valueTracker=
@@ -208,14 +211,14 @@ b.state,null)}function ff(a,b,c,d){var e=a.stateNode;e.props=c;e.state=a.memoize
 (b=e.state,"function"===typeof e.componentWillMount&&e.componentWillMount(),"function"===typeof e.UNSAFE_componentWillMount&&e.UNSAFE_componentWillMount(),b!==e.state&&ud.enqueueReplaceState(e,e.state,null),td(a,c,e,d),e.state=a.memoizedState);"function"===typeof e.componentDidMount&&(a.flags|=4194308)}function vc(a,b,c){a=c.ref;if(null!==a&&"function"!==typeof a&&"object"!==typeof a){if(c._owner){c=c._owner;if(c){if(1!==c.tag)throw Error(n(309));var d=c.stateNode}if(!d)throw Error(n(147,a));var e=
 d,f=""+a;if(null!==b&&null!==b.ref&&"function"===typeof b.ref&&b.ref._stringRef===f)return b.ref;b=function(a){var b=e.refs;b===Jh&&(b=e.refs={});null===a?delete b[f]:b[f]=a};b._stringRef=f;return b}if("string"!==typeof a)throw Error(n(284));if(!c._owner)throw Error(n(290,a));}return a}function vd(a,b){a=Object.prototype.toString.call(b);throw Error(n(31,"[object Object]"===a?"object with keys {"+Object.keys(b).join(", ")+"}":a));}function Kh(a){var b=a._init;return b(a._payload)}function Lh(a){function b(b,
 c){if(a){var d=b.deletions;null===d?(b.deletions=[c],b.flags|=16):d.push(c)}}function c(c,d){if(!a)return null;for(;null!==d;)b(c,d),d=d.sibling;return null}function d(a,b){for(a=new Map;null!==b;)null!==b.key?a.set(b.key,b):a.set(b.index,b),b=b.sibling;return a}function e(a,b){a=gb(a,b);a.index=0;a.sibling=null;return a}function f(b,c,d){b.index=d;if(!a)return b.flags|=1048576,c;d=b.alternate;if(null!==d)return d=d.index,d<c?(b.flags|=2,c):d;b.flags|=2;return c}function g(b){a&&null===b.alternate&&
-(b.flags|=2);return b}function h(a,b,c,d){if(null===b||6!==b.tag)return b=gf(c,a.mode,d),b.return=a,b;b=e(b,c);b.return=a;return b}function k(a,b,c,d){var f=c.type;if(f===Bb)return l(a,b,c.props.children,d,c.key);if(null!==b&&(b.elementType===f||"object"===typeof f&&null!==f&&f.$$typeof===Ta&&Kh(f)===b.type))return d=e(b,c.props),d.ref=vc(a,b,c),d.return=a,d;d=wd(c.type,c.key,c.props,null,a.mode,d);d.ref=vc(a,b,c);d.return=a;return d}function m(a,b,c,d){if(null===b||4!==b.tag||b.stateNode.containerInfo!==
-c.containerInfo||b.stateNode.implementation!==c.implementation)return b=hf(c,a.mode,d),b.return=a,b;b=e(b,c.children||[]);b.return=a;return b}function l(a,b,c,d,f){if(null===b||7!==b.tag)return b=ub(c,a.mode,d,f),b.return=a,b;b=e(b,c);b.return=a;return b}function u(a,b,c){if("string"===typeof b&&""!==b||"number"===typeof b)return b=gf(""+b,a.mode,c),b.return=a,b;if("object"===typeof b&&null!==b){switch(b.$$typeof){case xd:return c=wd(b.type,b.key,b.props,null,a.mode,c),c.ref=vc(a,null,b),c.return=
-a,c;case Cb:return b=hf(b,a.mode,c),b.return=a,b;case Ta:var d=b._init;return u(a,d(b._payload),c)}if(cc(b)||ac(b))return b=ub(b,a.mode,c,null),b.return=a,b;vd(a,b)}return null}function r(a,b,c,d){var e=null!==b?b.key:null;if("string"===typeof c&&""!==c||"number"===typeof c)return null!==e?null:h(a,b,""+c,d);if("object"===typeof c&&null!==c){switch(c.$$typeof){case xd:return c.key===e?k(a,b,c,d):null;case Cb:return c.key===e?m(a,b,c,d):null;case Ta:return e=c._init,r(a,b,e(c._payload),d)}if(cc(c)||
-ac(c))return null!==e?null:l(a,b,c,d,null);vd(a,c)}return null}function p(a,b,c,d,e){if("string"===typeof d&&""!==d||"number"===typeof d)return a=a.get(c)||null,h(b,a,""+d,e);if("object"===typeof d&&null!==d){switch(d.$$typeof){case xd:return a=a.get(null===d.key?c:d.key)||null,k(b,a,d,e);case Cb:return a=a.get(null===d.key?c:d.key)||null,m(b,a,d,e);case Ta:var f=d._init;return p(a,b,c,f(d._payload),e)}if(cc(d)||ac(d))return a=a.get(c)||null,l(b,a,d,e,null);vd(b,d)}return null}function x(e,g,h,k){for(var n=
+(b.flags|=2);return b}function h(a,b,c,d){if(null===b||6!==b.tag)return b=gf(c,a.mode,d),b.return=a,b;b=e(b,c);b.return=a;return b}function k(a,b,c,d){var f=c.type;if(f===Bb)return l(a,b,c.props.children,d,c.key);if(null!==b&&(b.elementType===f||"object"===typeof f&&null!==f&&f.$typeof===Ta&&Kh(f)===b.type))return d=e(b,c.props),d.ref=vc(a,b,c),d.return=a,d;d=wd(c.type,c.key,c.props,null,a.mode,d);d.ref=vc(a,b,c);d.return=a;return d}function m(a,b,c,d){if(null===b||4!==b.tag||b.stateNode.containerInfo!==
+c.containerInfo||b.stateNode.implementation!==c.implementation)return b=hf(c,a.mode,d),b.return=a,b;b=e(b,c.children||[]);b.return=a;return b}function l(a,b,c,d,f){if(null===b||7!==b.tag)return b=ub(c,a.mode,d,f),b.return=a,b;b=e(b,c);b.return=a;return b}function u(a,b,c){if("string"===typeof b&&""!==b||"number"===typeof b)return b=gf(""+b,a.mode,c),b.return=a,b;if("object"===typeof b&&null!==b){switch(b.$typeof){case xd:return c=wd(b.type,b.key,b.props,null,a.mode,c),c.ref=vc(a,null,b),c.return=
+a,c;case Cb:return b=hf(b,a.mode,c),b.return=a,b;case Ta:var d=b._init;return u(a,d(b._payload),c)}if(cc(b)||ac(b))return b=ub(b,a.mode,c,null),b.return=a,b;vd(a,b)}return null}function r(a,b,c,d){var e=null!==b?b.key:null;if("string"===typeof c&&""!==c||"number"===typeof c)return null!==e?null:h(a,b,""+c,d);if("object"===typeof c&&null!==c){switch(c.$typeof){case xd:return c.key===e?k(a,b,c,d):null;case Cb:return c.key===e?m(a,b,c,d):null;case Ta:return e=c._init,r(a,b,e(c._payload),d)}if(cc(c)||
+ac(c))return null!==e?null:l(a,b,c,d,null);vd(a,c)}return null}function p(a,b,c,d,e){if("string"===typeof d&&""!==d||"number"===typeof d)return a=a.get(c)||null,h(b,a,""+d,e);if("object"===typeof d&&null!==d){switch(d.$typeof){case xd:return a=a.get(null===d.key?c:d.key)||null,k(b,a,d,e);case Cb:return a=a.get(null===d.key?c:d.key)||null,m(b,a,d,e);case Ta:var f=d._init;return p(a,b,c,f(d._payload),e)}if(cc(d)||ac(d))return a=a.get(c)||null,l(b,a,d,e,null);vd(b,d)}return null}function x(e,g,h,k){for(var n=
 null,m=null,l=g,q=g=0,v=null;null!==l&&q<h.length;q++){l.index>q?(v=l,l=null):v=l.sibling;var A=r(e,l,h[q],k);if(null===A){null===l&&(l=v);break}a&&l&&null===A.alternate&&b(e,l);g=f(A,g,q);null===m?n=A:m.sibling=A;m=A;l=v}if(q===h.length)return c(e,l),D&&rb(e,q),n;if(null===l){for(;q<h.length;q++)l=u(e,h[q],k),null!==l&&(g=f(l,g,q),null===m?n=l:m.sibling=l,m=l);D&&rb(e,q);return n}for(l=d(e,l);q<h.length;q++)v=p(l,e,q,h[q],k),null!==v&&(a&&null!==v.alternate&&l.delete(null===v.key?q:v.key),g=f(v,
 g,q),null===m?n=v:m.sibling=v,m=v);a&&l.forEach(function(a){return b(e,a)});D&&rb(e,q);return n}function F(e,g,h,k){var m=ac(h);if("function"!==typeof m)throw Error(n(150));h=m.call(h);if(null==h)throw Error(n(151));for(var l=m=null,q=g,v=g=0,A=null,t=h.next();null!==q&&!t.done;v++,t=h.next()){q.index>v?(A=q,q=null):A=q.sibling;var x=r(e,q,t.value,k);if(null===x){null===q&&(q=A);break}a&&q&&null===x.alternate&&b(e,q);g=f(x,g,v);null===l?m=x:l.sibling=x;l=x;q=A}if(t.done)return c(e,q),D&&rb(e,v),m;
-if(null===q){for(;!t.done;v++,t=h.next())t=u(e,t.value,k),null!==t&&(g=f(t,g,v),null===l?m=t:l.sibling=t,l=t);D&&rb(e,v);return m}for(q=d(e,q);!t.done;v++,t=h.next())t=p(q,e,v,t.value,k),null!==t&&(a&&null!==t.alternate&&q.delete(null===t.key?v:t.key),g=f(t,g,v),null===l?m=t:l.sibling=t,l=t);a&&q.forEach(function(a){return b(e,a)});D&&rb(e,v);return m}function w(a,d,f,h){"object"===typeof f&&null!==f&&f.type===Bb&&null===f.key&&(f=f.props.children);if("object"===typeof f&&null!==f){switch(f.$$typeof){case xd:a:{for(var k=
-f.key,m=d;null!==m;){if(m.key===k){k=f.type;if(k===Bb){if(7===m.tag){c(a,m.sibling);d=e(m,f.props.children);d.return=a;a=d;break a}}else if(m.elementType===k||"object"===typeof k&&null!==k&&k.$$typeof===Ta&&Kh(k)===m.type){c(a,m.sibling);d=e(m,f.props);d.ref=vc(a,m,f);d.return=a;a=d;break a}c(a,m);break}else b(a,m);m=m.sibling}f.type===Bb?(d=ub(f.props.children,a.mode,h,f.key),d.return=a,a=d):(h=wd(f.type,f.key,f.props,null,a.mode,h),h.ref=vc(a,d,f),h.return=a,a=h)}return g(a);case Cb:a:{for(m=f.key;null!==
+if(null===q){for(;!t.done;v++,t=h.next())t=u(e,t.value,k),null!==t&&(g=f(t,g,v),null===l?m=t:l.sibling=t,l=t);D&&rb(e,v);return m}for(q=d(e,q);!t.done;v++,t=h.next())t=p(q,e,v,t.value,k),null!==t&&(a&&null!==t.alternate&&q.delete(null===t.key?v:t.key),g=f(t,g,v),null===l?m=t:l.sibling=t,l=t);a&&q.forEach(function(a){return b(e,a)});D&&rb(e,v);return m}function w(a,d,f,h){"object"===typeof f&&null!==f&&f.type===Bb&&null===f.key&&(f=f.props.children);if("object"===typeof f&&null!==f){switch(f.$typeof){case xd:a:{for(var k=
+f.key,m=d;null!==m;){if(m.key===k){k=f.type;if(k===Bb){if(7===m.tag){c(a,m.sibling);d=e(m,f.props.children);d.return=a;a=d;break a}}else if(m.elementType===k||"object"===typeof k&&null!==k&&k.$typeof===Ta&&Kh(k)===m.type){c(a,m.sibling);d=e(m,f.props);d.ref=vc(a,m,f);d.return=a;a=d;break a}c(a,m);break}else b(a,m);m=m.sibling}f.type===Bb?(d=ub(f.props.children,a.mode,h,f.key),d.return=a,a=d):(h=wd(f.type,f.key,f.props,null,a.mode,h),h.ref=vc(a,d,f),h.return=a,a=h)}return g(a);case Cb:a:{for(m=f.key;null!==
 d;){if(d.key===m)if(4===d.tag&&d.stateNode.containerInfo===f.containerInfo&&d.stateNode.implementation===f.implementation){c(a,d.sibling);d=e(d,f.children||[]);d.return=a;a=d;break a}else{c(a,d);break}else b(a,d);d=d.sibling}d=hf(f,a.mode,h);d.return=a;a=d}return g(a);case Ta:return m=f._init,w(a,d,m(f._payload),h)}if(cc(f))return x(a,d,f,h);if(ac(f))return F(a,d,f,h);vd(a,f)}return"string"===typeof f&&""!==f||"number"===typeof f?(f=""+f,null!==d&&6===d.tag?(c(a,d.sibling),d=e(d,f),d.return=a,a=d):
 (c(a,d),d=gf(f,a.mode,h),d.return=a,a=d),g(a)):c(a,d)}return w}function vb(a){if(a===wc)throw Error(n(174));return a}function jf(a,b){y(xc,b);y(yc,a);y(Ea,wc);a=b.nodeType;switch(a){case 9:case 11:b=(b=b.documentElement)?b.namespaceURI:oe(null,"");break;default:a=8===a?b.parentNode:b,b=a.namespaceURI||null,a=a.tagName,b=oe(b,a)}w(Ea);y(Ea,b)}function Tb(a){w(Ea);w(yc);w(xc)}function Mh(a){vb(xc.current);var b=vb(Ea.current);var c=oe(b,a.type);b!==c&&(y(yc,a),y(Ea,c))}function kf(a){yc.current===a&&
 (w(Ea),w(yc))}function yd(a){for(var b=a;null!==b;){if(13===b.tag){var c=b.memoizedState;if(null!==c&&(c=c.dehydrated,null===c||"$?"===c.data||"$!"===c.data))return b}else if(19===b.tag&&void 0!==b.memoizedProps.revealOrder){if(0!==(b.flags&128))return b}else if(null!==b.child){b.child.return=b;b=b.child;continue}if(b===a)break;for(;null===b.sibling;){if(null===b.return||b.return===a)return null;b=b.return}b.sibling.return=b.return;b=b.sibling}return null}function lf(){for(var a=0;a<mf.length;a++)mf[a]._workInProgressVersionPrimary=
@@ -314,12 +317,12 @@ f,f.return)}var A=f.sibling;if(null!==A){A.return=f.return;l=A;break b}l=f.retur
 a)}catch(ma){}d=!0}return d}finally{z=c,ca.transition=b}}return!1}function Ti(a,b,c){b=Ub(c,b);b=hi(a,b,1);a=eb(a,b,1);b=Z();null!==a&&(ic(a,1,b),ia(a,b))}function H(a,b,c){if(3===a.tag)Ti(a,a,c);else for(;null!==b;){if(3===b.tag){Ti(b,a,c);break}else if(1===b.tag){var d=b.stateNode;if("function"===typeof b.type.getDerivedStateFromError||"function"===typeof d.componentDidCatch&&(null===ib||!ib.has(d))){a=Ub(c,a);a=ii(b,a,1);b=eb(b,a,1);a=Z();null!==b&&(ic(b,1,a),ia(b,a));break}}b=b.return}}function tk(a,
 b,c){var d=a.pingCache;null!==d&&d.delete(b);b=Z();a.pingedLanes|=a.suspendedLanes&c;O===a&&(U&c)===c&&(4===L||3===L&&(U&130023424)===U&&500>P()-Of?xb(a,0):Sf|=c);ia(a,b)}function Ui(a,b){0===b&&(0===(a.mode&1)?b=1:(b=Rd,Rd<<=1,0===(Rd&130023424)&&(Rd=4194304)));var c=Z();a=Oa(a,b);null!==a&&(ic(a,b,c),ia(a,c))}function wk(a){var b=a.memoizedState,c=0;null!==b&&(c=b.retryLane);Ui(a,c)}function Hk(a,b){var c=0;switch(a.tag){case 13:var d=a.stateNode;var e=a.memoizedState;null!==e&&(c=e.retryLane);
 break;case 19:d=a.stateNode;break;default:throw Error(n(314));}null!==d&&d.delete(b);Ui(a,c)}function Ni(a,b){return xh(a,b)}function Uk(a,b,c,d){this.tag=a;this.key=c;this.sibling=this.child=this.return=this.stateNode=this.type=this.elementType=null;this.index=0;this.ref=null;this.pendingProps=b;this.dependencies=this.memoizedState=this.updateQueue=this.memoizedProps=null;this.mode=d;this.subtreeFlags=this.flags=0;this.deletions=null;this.childLanes=this.lanes=0;this.alternate=null}function yf(a){a=
-a.prototype;return!(!a||!a.isReactComponent)}function Vk(a){if("function"===typeof a)return yf(a)?1:0;if(void 0!==a&&null!==a){a=a.$$typeof;if(a===ie)return 11;if(a===je)return 14}return 2}function gb(a,b){var c=a.alternate;null===c?(c=pa(a.tag,b,a.key,a.mode),c.elementType=a.elementType,c.type=a.type,c.stateNode=a.stateNode,c.alternate=a,a.alternate=c):(c.pendingProps=b,c.type=a.type,c.flags=0,c.subtreeFlags=0,c.deletions=null);c.flags=a.flags&14680064;c.childLanes=a.childLanes;c.lanes=a.lanes;c.child=
+a.prototype;return!(!a||!a.isReactComponent)}function Vk(a){if("function"===typeof a)return yf(a)?1:0;if(void 0!==a&&null!==a){a=a.$typeof;if(a===ie)return 11;if(a===je)return 14}return 2}function gb(a,b){var c=a.alternate;null===c?(c=pa(a.tag,b,a.key,a.mode),c.elementType=a.elementType,c.type=a.type,c.stateNode=a.stateNode,c.alternate=a,a.alternate=c):(c.pendingProps=b,c.type=a.type,c.flags=0,c.subtreeFlags=0,c.deletions=null);c.flags=a.flags&14680064;c.childLanes=a.childLanes;c.lanes=a.lanes;c.child=
 a.child;c.memoizedProps=a.memoizedProps;c.memoizedState=a.memoizedState;c.updateQueue=a.updateQueue;b=a.dependencies;c.dependencies=null===b?null:{lanes:b.lanes,firstContext:b.firstContext};c.sibling=a.sibling;c.index=a.index;c.ref=a.ref;return c}function wd(a,b,c,d,e,f){var g=2;d=a;if("function"===typeof a)yf(a)&&(g=1);else if("string"===typeof a)g=5;else a:switch(a){case Bb:return ub(c.children,e,f,b);case fe:g=8;e|=8;break;case ee:return a=pa(12,c,b,e|2),a.elementType=ee,a.lanes=f,a;case ge:return a=
-pa(13,c,b,e),a.elementType=ge,a.lanes=f,a;case he:return a=pa(19,c,b,e),a.elementType=he,a.lanes=f,a;case Vi:return Gd(c,e,f,b);default:if("object"===typeof a&&null!==a)switch(a.$$typeof){case hg:g=10;break a;case gg:g=9;break a;case ie:g=11;break a;case je:g=14;break a;case Ta:g=16;d=null;break a}throw Error(n(130,null==a?a:typeof a,""));}b=pa(g,c,b,e);b.elementType=a;b.type=d;b.lanes=f;return b}function ub(a,b,c,d){a=pa(7,a,d,b);a.lanes=c;return a}function Gd(a,b,c,d){a=pa(22,a,d,b);a.elementType=
+pa(13,c,b,e),a.elementType=ge,a.lanes=f,a;case he:return a=pa(19,c,b,e),a.elementType=he,a.lanes=f,a;case Vi:return Gd(c,e,f,b);default:if("object"===typeof a&&null!==a)switch(a.$typeof){case hg:g=10;break a;case gg:g=9;break a;case ie:g=11;break a;case je:g=14;break a;case Ta:g=16;d=null;break a}throw Error(n(130,null==a?a:typeof a,""));}b=pa(g,c,b,e);b.elementType=a;b.type=d;b.lanes=f;return b}function ub(a,b,c,d){a=pa(7,a,d,b);a.lanes=c;return a}function Gd(a,b,c,d){a=pa(22,a,d,b);a.elementType=
 Vi;a.lanes=c;a.stateNode={isHidden:!1};return a}function gf(a,b,c){a=pa(6,a,null,b);a.lanes=c;return a}function hf(a,b,c){b=pa(4,null!==a.children?a.children:[],a.key,b);b.lanes=c;b.stateNode={containerInfo:a.containerInfo,pendingChildren:null,implementation:a.implementation};return b}function Wk(a,b,c,d,e){this.tag=b;this.containerInfo=a;this.finishedWork=this.pingCache=this.current=this.pendingChildren=null;this.timeoutHandle=-1;this.callbackNode=this.pendingContext=this.context=null;this.callbackPriority=
 0;this.eventTimes=we(0);this.expirationTimes=we(-1);this.entangledLanes=this.finishedLanes=this.mutableReadLanes=this.expiredLanes=this.pingedLanes=this.suspendedLanes=this.pendingLanes=0;this.entanglements=we(0);this.identifierPrefix=d;this.onRecoverableError=e;this.mutableSourceEagerHydrationData=null}function Vf(a,b,c,d,e,f,g,h,k,m){a=new Wk(a,b,c,h,k);1===b?(b=1,!0===f&&(b|=8)):b=0;f=pa(3,null,null,b);a.current=f;f.stateNode=a;f.memoizedState={element:d,isDehydrated:c,cache:null,transitions:null,
-pendingSuspenseBoundaries:null};df(f);return a}function Xk(a,b,c){var d=3<arguments.length&&void 0!==arguments[3]?arguments[3]:null;return{$$typeof:Cb,key:null==d?null:""+d,children:a,containerInfo:b,implementation:c}}function Wi(a){if(!a)return cb;a=a._reactInternals;a:{if(ob(a)!==a||1!==a.tag)throw Error(n(170));var b=a;do{switch(b.tag){case 3:b=b.stateNode.context;break a;case 1:if(ea(b.type)){b=b.stateNode.__reactInternalMemoizedMergedChildContext;break a}}b=b.return}while(null!==b);throw Error(n(171));
+pendingSuspenseBoundaries:null};df(f);return a}function Xk(a,b,c){var d=3<arguments.length&&void 0!==arguments[3]?arguments[3]:null;return{$typeof:Cb,key:null==d?null:""+d,children:a,containerInfo:b,implementation:c}}function Wi(a){if(!a)return cb;a=a._reactInternals;a:{if(ob(a)!==a||1!==a.tag)throw Error(n(170));var b=a;do{switch(b.tag){case 3:b=b.stateNode.context;break a;case 1:if(ea(b.type)){b=b.stateNode.__reactInternalMemoizedMergedChildContext;break a}}b=b.return}while(null!==b);throw Error(n(171));
 }if(1===a.tag){var c=a.type;if(ea(c))return uh(a,c,b)}return b}function Xi(a,b,c,d,e,f,g,h,k,m){a=Vf(c,d,!0,a,e,f,g,h,k);a.context=Wi(null);c=a.current;d=Z();e=hb(c);f=Pa(d,e);f.callback=void 0!==b&&null!==b?b:null;eb(c,f,e);a.current.lanes=e;ic(a,e,d);ia(a,d);return a}function Sd(a,b,c,d){var e=b.current,f=Z(),g=hb(e);c=Wi(c);null===b.context?b.context=c:b.pendingContext=c;b=Pa(f,g);b.payload={element:a};d=void 0===d?null:d;null!==d&&(b.callback=d);a=eb(e,b,g);null!==a&&(ya(a,e,g,f),sd(a,e,g));return g}
 function Td(a){a=a.current;if(!a.child)return null;switch(a.child.tag){case 5:return a.child.stateNode;default:return a.child.stateNode}}function Yi(a,b){a=a.memoizedState;if(null!==a&&null!==a.dehydrated){var c=a.retryLane;a.retryLane=0!==c&&c<b?c:b}}function Wf(a,b){Yi(a,b);(a=a.alternate)&&Yi(a,b)}function Yk(a){a=Bg(a);return null===a?null:a.stateNode}function Zk(a){return null}function Xf(a){this._internalRoot=a}function Ud(a){this._internalRoot=a}function Yf(a){return!(!a||1!==a.nodeType&&9!==
 a.nodeType&&11!==a.nodeType)}function Vd(a){return!(!a||1!==a.nodeType&&9!==a.nodeType&&11!==a.nodeType&&(8!==a.nodeType||" react-mount-point-unstable "!==a.nodeValue))}function Zi(){}function $k(a,b,c,d,e){if(e){if("function"===typeof d){var f=d;d=function(){var a=Td(g);f.call(a)}}var g=Xi(b,d,a,0,null,!1,!1,"",Zi);a._reactRootContainer=g;a[Ja]=g.current;sc(8===a.nodeType?a.parentNode:a);zb();return g}for(;e=a.lastChild;)a.removeChild(e);if("function"===typeof d){var h=d;d=function(){var a=Td(k);
@@ -360,7 +363,7 @@ c.return;c=c.sibling}};var yi=function(a,b){};var zk=function(a,b,c,d,e){var f=a
 m){var h=f[m];for(g in h)h.hasOwnProperty(g)&&(c||(c={}),c[g]="")}else"dangerouslySetInnerHTML"!==m&&"children"!==m&&"suppressContentEditableWarning"!==m&&"suppressHydrationWarning"!==m&&"autoFocus"!==m&&($b.hasOwnProperty(m)?e||(e=[]):(e=e||[]).push(m,null));for(m in d){var k=d[m];h=null!=f?f[m]:void 0;if(d.hasOwnProperty(m)&&k!==h&&(null!=k||null!=h))if("style"===m)if(h){for(g in h)!h.hasOwnProperty(g)||k&&k.hasOwnProperty(g)||(c||(c={}),c[g]="");for(g in k)k.hasOwnProperty(g)&&h[g]!==k[g]&&(c||
 (c={}),c[g]=k[g])}else c||(e||(e=[]),e.push(m,c)),c=k;else"dangerouslySetInnerHTML"===m?(k=k?k.__html:void 0,h=h?h.__html:void 0,null!=k&&h!==k&&(e=e||[]).push(m,k)):"children"===m?"string"!==typeof k&&"number"!==typeof k||(e=e||[]).push(m,""+k):"suppressContentEditableWarning"!==m&&"suppressHydrationWarning"!==m&&($b.hasOwnProperty(m)?(null!=k&&"onScroll"===m&&B("scroll",a),e||h===k||(e=[])):(e=e||[]).push(m,k))}c&&(e=e||[]).push("style",c);var m=e;if(b.updateQueue=m)b.flags|=4}};var Bk=function(a,
 b,c,d){c!==d&&(b.flags|=4)};var Jd=!1,X=!1,Gk="function"===typeof WeakSet?WeakSet:Set,l=null,Ai=!1,T=null,za=!1,Nk=Math.ceil,Od=Sa.ReactCurrentDispatcher,Uf=Sa.ReactCurrentOwner,ca=Sa.ReactCurrentBatchConfig,p=0,O=null,I=null,U=0,ba=0,Ga=bb(0),L=0,Jc=null,ra=0,Md=0,Sf=0,Kc=null,ja=null,Of=0,Hf=Infinity,Ra=null,Ed=!1,xf=null,ib=null,Pd=!1,lb=null,Qd=0,Ic=0,Pf=null,Kd=-1,Ld=0;var Rk=function(a,b,c){if(null!==a)if(a.memoizedProps!==b.pendingProps||S.current)ha=!0;else{if(0===(a.lanes&c)&&0===(b.flags&
-128))return ha=!1,xk(a,b,c);ha=0!==(a.flags&131072)?!0:!1}else ha=!1,D&&0!==(b.flags&1048576)&&yh(b,nd,b.index);b.lanes=0;switch(b.tag){case 2:var d=b.type;Fd(a,b);a=b.pendingProps;var e=Nb(b,J.current);Sb(b,c);e=of(null,b,d,a,e,c);var f=pf();b.flags|=1;"object"===typeof e&&null!==e&&"function"===typeof e.render&&void 0===e.$$typeof?(b.tag=1,b.memoizedState=null,b.updateQueue=null,ea(d)?(f=!0,ld(b)):f=!1,b.memoizedState=null!==e.state&&void 0!==e.state?e.state:null,df(b),e.updater=ud,b.stateNode=
+128))return ha=!1,xk(a,b,c);ha=0!==(a.flags&131072)?!0:!1}else ha=!1,D&&0!==(b.flags&1048576)&&yh(b,nd,b.index);b.lanes=0;switch(b.tag){case 2:var d=b.type;Fd(a,b);a=b.pendingProps;var e=Nb(b,J.current);Sb(b,c);e=of(null,b,d,a,e,c);var f=pf();b.flags|=1;"object"===typeof e&&null!==e&&"function"===typeof e.render&&void 0===e.$typeof?(b.tag=1,b.memoizedState=null,b.updateQueue=null,ea(d)?(f=!0,ld(b)):f=!1,b.memoizedState=null!==e.state&&void 0!==e.state?e.state:null,df(b),e.updater=ud,b.stateNode=
 e,e._reactInternals=b,ff(b,d,a,c),b=Af(null,b,d,!0,f,c)):(b.tag=0,D&&f&&Ue(b),aa(null,b,e,c),b=b.child);return b;case 16:d=b.elementType;a:{Fd(a,b);a=b.pendingProps;e=d._init;d=e(d._payload);b.type=d;e=b.tag=Vk(d);a=xa(d,a);switch(e){case 0:b=zf(null,b,d,a,c);break a;case 1:b=si(null,b,d,a,c);break a;case 11:b=ni(null,b,d,a,c);break a;case 14:b=oi(null,b,d,xa(d.type,a),c);break a}throw Error(n(306,d,""));}return b;case 0:return d=b.type,e=b.pendingProps,e=b.elementType===d?e:xa(d,e),zf(a,b,d,e,c);
 case 1:return d=b.type,e=b.pendingProps,e=b.elementType===d?e:xa(d,e),si(a,b,d,e,c);case 3:a:{ti(b);if(null===a)throw Error(n(387));d=b.pendingProps;f=b.memoizedState;e=f.element;Dh(a,b);td(b,d,null,c);var g=b.memoizedState;d=g.element;if(f.isDehydrated)if(f={element:d,isDehydrated:!1,cache:g.cache,pendingSuspenseBoundaries:g.pendingSuspenseBoundaries,transitions:g.transitions},b.updateQueue.baseState=f,b.memoizedState=f,b.flags&256){e=Ub(Error(n(423)),b);b=ui(a,b,d,c,e);break a}else if(d!==e){e=
 Ub(Error(n(424)),b);b=ui(a,b,d,c,e);break a}else for(fa=Ka(b.stateNode.containerInfo.firstChild),la=b,D=!0,wa=null,c=mi(b,null,d,c),b.child=c;c;)c.flags=c.flags&-3|4096,c=c.sibling;else{Qb();if(d===e){b=Qa(a,b,c);break a}aa(a,b,d,c)}b=b.child}return b;case 5:return Mh(b),null===a&&Xe(b),d=b.type,e=b.pendingProps,f=null!==a?a.memoizedProps:null,g=e.children,Qe(d,e)?g=null:null!==f&&Qe(d,f)&&(b.flags|=32),ri(a,b),aa(a,b,g,c),b.child;case 6:return null===a&&Xe(b),null;case 13:return vi(a,b,c);case 4:return jf(b,
@@ -378,6 +381,7 @@ c,!1,d,e);a[Ja]=b.current;sc(8===a.nodeType?a.parentNode:a);return new Xf(b)};Q.
 var d=null!=c&&c.hydratedSources||null,e=!1,f="",g=bj;null!==c&&void 0!==c&&(!0===c.unstable_strictMode&&(e=!0),void 0!==c.identifierPrefix&&(f=c.identifierPrefix),void 0!==c.onRecoverableError&&(g=c.onRecoverableError));b=Xi(b,null,a,1,null!=c?c:null,e,!1,f,g);a[Ja]=b.current;sc(a);if(d)for(a=0;a<d.length;a++)c=d[a],e=c._getVersion,e=e(c._source),null==b.mutableSourceEagerHydrationData?b.mutableSourceEagerHydrationData=[c,e]:b.mutableSourceEagerHydrationData.push(c,e);return new Ud(b)};Q.render=
 function(a,b,c){if(!Vd(b))throw Error(n(200));return Wd(null,a,b,!1,c)};Q.unmountComponentAtNode=function(a){if(!Vd(a))throw Error(n(40));return a._reactRootContainer?(zb(function(){Wd(null,null,a,!1,function(){a._reactRootContainer=null;a[Ja]=null})}),!0):!1};Q.unstable_batchedUpdates=Tf;Q.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!Vd(c))throw Error(n(200));if(null==a||void 0===a._reactInternals)throw Error(n(38));return Wd(a,b,c,!1,d)};Q.version="18.2.0-next-9e3b772b8-20220608"});
 })();
+
 </script>
 </head>
 <body>
@@ -390,10 +394,6 @@ const {
   useRef,
   useCallback
 } = React;
-
-// ============================================================
-// SIMULATION ENGINE
-// ============================================================
 const LEGS = {
   L1: {
     id: "L1",
@@ -565,7 +565,6 @@ function applyEvent(state, event) {
     case "PARTIAL_CANCEL":
       Object.entries(event.delta || {}).forEach(([lid, d]) => {
         if (n[lid]) {
-          // Critical: cancel multiplier applies to CURRENT qty, not base — this is where ordering matters
           n[lid].qty = Math.round(n[lid].qty * d.qtyMultiplier);
           n[lid].status = "PARTIAL_CANCEL";
           n[lid].lastEvent = event.id;
@@ -585,7 +584,6 @@ function applyEvent(state, event) {
     case "DESK_INTENT":
       n._intent = event.intent;
       n._intentEvent = event.id;
-      // Check if intent was evaluated on stale state (causal parent not yet applied)
       const parentApplied = event.causalParent ? Object.values(n).some(v => v.appliedEvents && v.appliedEvents.includes(event.causalParent)) : true;
       n._intentStale = !parentApplied;
       break;
@@ -595,12 +593,15 @@ function applyEvent(state, event) {
 function computeExposure(state) {
   let net = 0,
     hedgeTotal = 0,
-    primaryTotal = 0;
+    primaryTotal = 0,
+    filledPrimary = 0;
   Object.values(state).forEach(leg => {
-    if (typeof leg !== 'object' || !leg.id) return;
-    const eff = leg.qty * (leg.fillPct || (leg.status === "ACTIVE" || leg.status === "PARTIAL_CANCEL" ? 1 : 0));
+    if (typeof leg !== "object" || !leg.id) return;
+    const live = leg.status === "ACTIVE" || leg.status === "PARTIAL_CANCEL";
+    const eff = live ? leg.qty : 0;
     if (leg.type === "primary") {
       primaryTotal += eff;
+      filledPrimary += eff * (leg.fillPct || 0);
       net += leg.direction === "pay_floating" ? eff : -eff;
     } else {
       hedgeTotal += eff;
@@ -612,11 +613,16 @@ function computeExposure(state) {
     net: Math.round(net),
     hedgeTotal: Math.round(hedgeTotal),
     primaryTotal: Math.round(primaryTotal),
+    filledPrimary: Math.round(filledPrimary),
     hedgeRatio: Math.round(hedgeRatio * 1000) / 1000
   };
 }
+function semanticKey(state) {
+  const legs = Object.values(state).filter(v => typeof v === "object" && v && v.id).map(l => `${l.id}:${l.qty}:${l.status}:${l.fillPct || 0}`).sort();
+  return legs.join("|") + "#" + JSON.stringify(state._intent || null);
+}
 function isLocallyValid(state) {
-  const legs = Object.values(state).filter(v => typeof v === 'object' && v.id);
+  const legs = Object.values(state).filter(v => typeof v === "object" && v.id);
   return legs.length > 0 && legs.every(l => l.qty >= 0);
 }
 function causalCoherence(appliedOrder, events) {
@@ -640,10 +646,31 @@ function structuralConsistency(state) {
   if (ratio >= intent.hedgeRatioMin) return 1.0;
   return Math.max(0.1, ratio / intent.hedgeRatioMin);
 }
+const GAP_THRESHOLD = 0.15;
+function collapseDecision(scoreA, scoreB, expA, expB, intent, converged) {
+  const gap = Math.round(Math.abs(scoreA.overall - scoreB.overall) * 100) / 100;
+  if (converged) return {
+    gap,
+    gapOk: true,
+    hedgeConflict: false,
+    allowed: true,
+    converged: true
+  };
+  const threshold = intent ? intent.hedgeRatioMin : null;
+  const hedgeConflict = threshold !== null && expA.hedgeRatio >= threshold !== expB.hedgeRatio >= threshold;
+  const gapOk = gap >= GAP_THRESHOLD;
+  return {
+    gap,
+    gapOk,
+    hedgeConflict,
+    allowed: gapOk && !hedgeConflict,
+    converged: false
+  };
+}
 function eventCompleteness(state, allEvents) {
   const applied = new Set();
   Object.values(state).forEach(v => {
-    if (typeof v === 'object' && v.appliedEvents) v.appliedEvents.forEach(e => applied.add(e));
+    if (typeof v === "object" && v.appliedEvents) v.appliedEvents.forEach(e => applied.add(e));
   });
   if (state._intentEvent) applied.add(state._intentEvent);
   return applied.size / allEvents.length;
@@ -663,21 +690,16 @@ function scoreBranch(state, appliedOrder, allEvents) {
     overall: Math.round(overall * 100) / 100
   };
 }
-
-// ============================================================
-// UI COMPONENTS
-// ============================================================
-
 function Badge({
   color,
   children
 }) {
-  return /*#__PURE__*/React.createElement("span", {
+  return React.createElement("span", {
     className: "badge mono",
     style: {
-      background: color + '22',
+      background: color + "22",
       color,
-      border: '1px solid ' + color + '44'
+      border: "1px solid " + color + "44"
     }
   }, children);
 }
@@ -686,23 +708,23 @@ function ScoreBar({
   value,
   color
 }) {
-  return /*#__PURE__*/React.createElement("div", {
+  return React.createElement("div", {
     className: "score-bar"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "flex justify-between",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)',
-      fontFamily: 'monospace',
+      color: "var(--textMuted)",
+      fontFamily: "monospace",
       marginBottom: 2
     }
-  }, /*#__PURE__*/React.createElement("span", null, label), /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", null, label), React.createElement("span", {
     style: {
       color
     }
-  }, value.toFixed(2))), /*#__PURE__*/React.createElement("div", {
+  }, value.toFixed(2))), React.createElement("div", {
     className: "score-bar-track"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "score-bar-fill",
     style: {
       width: `${value * 100}%`,
@@ -716,60 +738,60 @@ function LegCard({
   compLeg
 }) {
   if (!leg) return null;
-  const sc = leg.status === "ACTIVE" ? 'var(--good)' : leg.status === "PARTIAL_CANCEL" ? 'var(--warn)' : 'var(--danger)';
+  const sc = leg.status === "ACTIVE" ? "var(--good)" : leg.status === "PARTIAL_CANCEL" ? "var(--warn)" : "var(--danger)";
   const qtyDiff = compLeg && compLeg.qty !== leg.qty;
   const statusDiff = compLeg && compLeg.status !== leg.status;
-  return /*#__PURE__*/React.createElement("div", {
-    className: `leg-card ${highlight ? 'highlight' : ''}`
-  }, /*#__PURE__*/React.createElement("div", {
+  return React.createElement("div", {
+    className: `leg-card ${highlight ? "highlight" : ""}`
+  }, React.createElement("div", {
     className: "flex justify-between items-center mb-4"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     className: "mono",
     style: {
       fontWeight: 700,
       fontSize: 14
     }
-  }, leg.id), /*#__PURE__*/React.createElement(Badge, {
+  }, leg.id), React.createElement(Badge, {
     color: sc
-  }, leg.status)), /*#__PURE__*/React.createElement("div", {
+  }, leg.status)), React.createElement("div", {
     style: {
       fontSize: 13,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       marginBottom: 4
     }
-  }, leg.label), /*#__PURE__*/React.createElement("div", {
+  }, leg.label), React.createElement("div", {
     className: "flex gap-12 mono",
     style: {
       fontSize: 14,
-      color: 'var(--textDim)'
+      color: "var(--textDim)"
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Qty: ", /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", null, "Qty: ", React.createElement("span", {
     style: {
-      color: qtyDiff ? 'var(--danger)' : 'var(--text)',
+      color: qtyDiff ? "var(--danger)" : "var(--text)",
       fontWeight: qtyDiff ? 700 : 400
     }
-  }, leg.qty), qtyDiff && /*#__PURE__*/React.createElement("span", {
+  }, leg.qty), qtyDiff && React.createElement("span", {
     style: {
-      color: 'var(--danger)',
+      color: "var(--danger)",
       fontSize: 14
     }
-  }, " (other: ", compLeg.qty, ")")), /*#__PURE__*/React.createElement("span", null, "Dir: ", /*#__PURE__*/React.createElement("span", {
+  }, " (other: ", compLeg.qty, ")")), React.createElement("span", null, "Dir: ", React.createElement("span", {
     style: {
-      color: 'var(--text)'
+      color: "var(--text)"
     }
-  }, leg.direction)), leg.fillPct > 0 && /*#__PURE__*/React.createElement("span", null, "Fill: ", /*#__PURE__*/React.createElement("span", {
+  }, leg.direction)), leg.fillPct > 0 && React.createElement("span", null, "Fill: ", React.createElement("span", {
     style: {
-      color: 'var(--accent)'
+      color: "var(--accent)"
     }
-  }, (leg.fillPct * 100).toFixed(0), "%"))), /*#__PURE__*/React.createElement("div", {
+  }, (leg.fillPct * 100).toFixed(0), "%"))), React.createElement("div", {
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)',
+      color: "var(--textMuted)",
       marginTop: 4
     }
-  }, "Last: ", leg.lastEvent, statusDiff && /*#__PURE__*/React.createElement("span", {
+  }, "Last: ", leg.lastEvent, statusDiff && React.createElement("span", {
     style: {
-      color: 'var(--danger)'
+      color: "var(--danger)"
     }
   }, " | Status differs from other replica")));
 }
@@ -780,57 +802,53 @@ function ExposureSummary({
   const exp = computeExposure(state);
   const intent = state._intent;
   const ok = intent ? exp.hedgeRatio >= intent.hedgeRatioMin : null;
-  return /*#__PURE__*/React.createElement("div", {
+  return React.createElement("div", {
     className: "card card-alt p-10"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label"
-  }, "NET EXPOSURE", label ? ' — ' + label : ''), /*#__PURE__*/React.createElement("div", {
+  }, "NET EXPOSURE", label ? " — " + label : ""), React.createElement("div", {
     className: "flex gap-16 mono",
     style: {
       fontSize: 14,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       marginTop: 4
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Net: ", /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", null, "Net: ", React.createElement("span", {
     style: {
-      color: exp.net > 50 ? 'var(--danger)' : 'var(--good)',
+      color: exp.net > 50 ? "var(--danger)" : "var(--good)",
       fontWeight: 700
     }
-  }, exp.net)), /*#__PURE__*/React.createElement("span", null, "Primary: ", /*#__PURE__*/React.createElement("span", {
+  }, exp.net)), React.createElement("span", null, "Primary: ", React.createElement("span", {
     style: {
-      color: 'var(--text)'
+      color: "var(--text)"
     }
-  }, exp.primaryTotal)), /*#__PURE__*/React.createElement("span", null, "Hedge: ", /*#__PURE__*/React.createElement("span", {
+  }, exp.primaryTotal)), React.createElement("span", null, "Hedge: ", React.createElement("span", {
     style: {
-      color: 'var(--text)'
+      color: "var(--text)"
     }
-  }, exp.hedgeTotal)), /*#__PURE__*/React.createElement("span", null, "H/P: ", /*#__PURE__*/React.createElement("span", {
+  }, exp.hedgeTotal)), React.createElement("span", null, "H/P: ", React.createElement("span", {
     style: {
-      color: ok === false ? 'var(--danger)' : 'var(--good)',
+      color: ok === false ? "var(--danger)" : "var(--good)",
       fontWeight: 700
     }
-  }, exp.hedgeRatio.toFixed(3)))), intent && /*#__PURE__*/React.createElement("div", {
+  }, exp.hedgeRatio.toFixed(3)))), intent && React.createElement("div", {
     style: {
       fontSize: 14,
-      color: ok ? 'var(--good)' : 'var(--danger)',
+      color: ok ? "var(--good)" : "var(--danger)",
       marginTop: 4
     }
-  }, "Intent: hedge \u2265 ", intent.hedgeRatioMin * 100, "% of primary \u2014 ", ok ? 'SATISFIED' : 'VIOLATED', state._intentStale && /*#__PURE__*/React.createElement("span", {
+  }, "Intent: hedge ≥ ", intent.hedgeRatioMin * 100, "% of primary — ", ok ? "SATISFIED" : "VIOLATED", state._intentStale && React.createElement("span", {
     style: {
-      color: 'var(--warn)'
+      color: "var(--warn)"
     }
   }, " (evaluated on stale state)")));
 }
-
-// ============================================================
-// MAIN APP
-// ============================================================
 function App() {
   const [scenario, setScenario] = useState("canonical");
   const [seed, setSeed] = useState(42);
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [naivePolicy, setNaivePolicy] = useState("first_processed");
+  const [naivePolicy, setNaivePolicy] = useState("last_write");
   const [replicaLag, setReplicaLag] = useState(50);
   const [jitter, setJitter] = useState(80);
   const [arbPolicy, setArbPolicy] = useState("defer");
@@ -857,9 +875,9 @@ function App() {
   const scoreB = useMemo(() => scoreBranch(stateB, orderB, events), [stateB, orderB, events]);
   const expA = useMemo(() => computeExposure(stateA), [stateA]);
   const expB = useMemo(() => computeExposure(stateB), [stateB]);
-  const statesDiffer = step >= 2 && JSON.stringify(stateA) !== JSON.stringify(stateB);
-  const legsA = Object.values(stateA).filter(v => typeof v === 'object' && v.id);
-  const legsB = Object.values(stateB).filter(v => typeof v === 'object' && v.id);
+  const statesDiffer = step >= 2 && semanticKey(stateA) !== semanticKey(stateB);
+  const legsA = Object.values(stateA).filter(v => typeof v === "object" && v.id);
+  const legsB = Object.values(stateB).filter(v => typeof v === "object" && v.id);
   const diffLegs = useMemo(() => {
     const s = new Set();
     legsA.forEach(la => {
@@ -868,8 +886,6 @@ function App() {
     });
     return s;
   }, [legsA, legsB]);
-
-  // Naive resolve
   const naiveResult = useMemo(() => {
     if (step < maxSteps) return null;
     const tsA = replicaAEvents[maxSteps - 1]?.arrivalTs || 0;
@@ -889,8 +905,6 @@ function App() {
       _src: "Replica B"
     };
   }, [step, maxSteps, stateA, stateB, naivePolicy, replicaAEvents, replicaBEvents]);
-
-  // Find which naive result is WRONG — compare against best-scored branch
   const bestBranch = scoreA.overall >= scoreB.overall ? "A" : "B";
   const bestState = bestBranch === "A" ? stateA : stateB;
   const bestExp = bestBranch === "A" ? expA : expB;
@@ -899,24 +913,24 @@ function App() {
   const naiveHedgeViolated = naiveExp && stateA._intent && naiveExp.hedgeRatio < stateA._intent.hedgeRatioMin;
   const metrics = useMemo(() => {
     const done = step >= maxSteps;
-    const arbNeeded = done && Math.abs(scoreA.overall - scoreB.overall) < 0.15 ? 1 : 0;
-    // Manual intervention likely if: wrong branch selected OR hedge violated OR arbitration needed
-    const manualIntervention = done && ((naiveWrong ? 1 : 0) + (naiveHedgeViolated ? 1 : 0) + arbNeeded > 0) ? 1 : 0;
+    const decision = collapseDecision(scoreA, scoreB, expA, expB, stateA._intent, done && !statesDiffer);
+    const arbNeeded = done && statesDiffer && !decision.allowed ? 1 : 0;
+    const manualIntervention = done && (naiveWrong ? 1 : 0) + (naiveHedgeViolated ? 1 : 0) + arbNeeded > 0 ? 1 : 0;
     return {
       prematureCollapse: done && statesDiffer ? 1 : 0,
       wrongHedge: naiveHedgeViolated ? 1 : 0,
       hiddenErrors: (done && statesDiffer ? 1 : 0) + (naiveHedgeViolated ? 1 : 0),
       arbNeeded,
-      confidenceGap: Math.round(Math.abs(scoreA.overall - scoreB.overall) * 100) / 100,
+      confidenceGap: decision.gap,
+      hedgeConflict: decision.hedgeConflict ? 1 : 0,
+      collapseAllowed: decision.allowed ? 1 : 0,
       bestScore: Math.round(Math.max(scoreA.overall, scoreB.overall) * 100) / 100,
       diverged: statesDiffer ? 1 : 0,
-      status: done ? Math.abs(scoreA.overall - scoreB.overall) < 0.15 ? "DEFERRED" : "RESOLVED" : "IN PROGRESS",
+      status: done ? statesDiffer && !decision.allowed ? "DEFERRED" : "RESOLVED" : "IN PROGRESS",
       naivePickedWrong: naiveWrong ? 1 : 0,
       manualIntervention
     };
-  }, [step, maxSteps, statesDiffer, scoreA, scoreB, naiveHedgeViolated, naiveWrong]);
-
-  // Playback
+  }, [step, maxSteps, statesDiffer, scoreA, scoreB, expA, expB, stateA, naiveHedgeViolated, naiveWrong]);
   useEffect(() => {
     if (playing && step < maxSteps) {
       timerRef.current = setTimeout(() => setStep(s => s + 1), 800);
@@ -950,12 +964,10 @@ function App() {
     const curr = events.findIndex(e => e.id === rEvents[idx]?.id);
     return curr < prev;
   };
-  const evtColor = t => t === "OPEN" ? 'var(--good)' : t === "AMEND_QTY" ? 'var(--accent)' : t === "PARTIAL_CANCEL" ? 'var(--warn)' : t === "DESK_INTENT" ? 'var(--purple)' : 'var(--textDim)';
-
-  // ===================== RENDER =====================
-  return /*#__PURE__*/React.createElement("div", {
+  const evtColor = t => t === "OPEN" ? "var(--good)" : t === "AMEND_QTY" ? "var(--accent)" : t === "PARTIAL_CANCEL" ? "var(--warn)" : t === "DESK_INTENT" ? "var(--purple)" : "var(--textDim)";
+  return React.createElement("div", {
     className: "container"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "page-header",
     style: {
       marginLeft: -24,
@@ -965,392 +977,433 @@ function App() {
       paddingLeft: 32,
       paddingRight: 32
     }
-  }, /*#__PURE__*/React.createElement("h1", null, "Replica Race Resolution Lab"), /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("h1", null, "Replica Race Resolution Lab"), React.createElement("div", {
     className: "subtitle"
-  }, "Same events. Different arrival order. Different resulting truth."), /*#__PURE__*/React.createElement("div", {
+  }, "Same events. Different arrival order. Different resulting truth."), React.createElement("div", {
     className: "frame"
-  }, "A technically representative synthetic simulation inspired by a practitioner-described class of issue in distributed trade-processing systems.")), /*#__PURE__*/React.createElement("div", {
+  }, "A technically representative synthetic simulation inspired by a practitioner-described class of issue in distributed trade-processing systems.")), React.createElement("div", {
     style: {
-      background: 'var(--bgAlt)',
-      border: '1px solid var(--border)',
+      background: "var(--bgAlt)",
+      border: "1px solid var(--border)",
       borderRadius: 8,
-      padding: '14px 20px',
+      padding: "14px 20px",
       marginBottom: 24,
       fontFamily: "'SF Mono', 'Cascadia Code', 'Consolas', monospace",
       fontSize: 13,
       lineHeight: 1.7,
-      color: 'var(--textDim)'
+      color: "var(--textDim)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontWeight: 600, fontSize: 12, color: 'var(--textMuted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }
-  }, "Example outcome (canonical scenario)"), /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
+    style: {
+      fontWeight: 600,
+      fontSize: 12,
+      color: "var(--textMuted)",
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      marginBottom: 6
+    }
+  }, "Example outcome (canonical scenario)"), React.createElement("div", {
     className: "grid-2",
-    style: { gap: 12 }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", { style: { color: 'var(--repA)', fontWeight: 600 } }, "Replica A result:"), /*#__PURE__*/React.createElement("br", null), "L2 = 120, L3 = 40 \u2192 ", /*#__PURE__*/React.createElement("span", { style: { color: 'var(--good)' } }, "hedge ratio satisfied")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", { style: { color: 'var(--repB)', fontWeight: 600 } }, "Replica B result:"), /*#__PURE__*/React.createElement("br", null), "L2 = 240, L3 = 40 \u2192 ", /*#__PURE__*/React.createElement("span", { style: { color: 'var(--danger)' } }, "hedge ratio violated"))), /*#__PURE__*/React.createElement("div", {
-    style: { borderTop: '1px solid var(--border)', marginTop: 8, paddingTop: 8 }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", { style: { color: 'var(--danger)', fontWeight: 600 } }, "Naive collapse:"), " Selects Replica A (arrived first) \u2192 hides alternative"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", { style: { color: 'var(--good)', fontWeight: 600 } }, "Parallel persistence:"), " Retains both \u2192 scores \u2192 defers collapse \u2192 surfaces arbitration"))), /*#__PURE__*/React.createElement("header", {
+    style: {
+      gap: 12
+    }
+  }, React.createElement("div", null, React.createElement("span", {
+    style: {
+      color: "var(--repA)",
+      fontWeight: 600
+    }
+  }, "Replica A result:"), React.createElement("br", null), "L2 = 120, L3 = 40 → ", React.createElement("span", {
+    style: {
+      color: "var(--good)"
+    }
+  }, "hedge ratio satisfied")), React.createElement("div", null, React.createElement("span", {
+    style: {
+      color: "var(--repB)",
+      fontWeight: 600
+    }
+  }, "Replica B result:"), React.createElement("br", null), "L2 = 240, L3 = 40 → ", React.createElement("span", {
+    style: {
+      color: "var(--danger)"
+    }
+  }, "hedge ratio violated"))), React.createElement("div", {
+    style: {
+      borderTop: "1px solid var(--border)",
+      marginTop: 8,
+      paddingTop: 8
+    }
+  }, React.createElement("div", null, React.createElement("span", {
+    style: {
+      color: "var(--danger)",
+      fontWeight: 600
+    }
+  }, "Naive collapse:"), step >= maxSteps && naiveResult ? ` Selects ${naiveResult._src} (${naivePolicy === "last_write" ? "last write wins" : "first processed wins"}) → ${!statesDiffer ? "branches converged — nothing hidden this run" : naiveWrong ? "wrong branch, alternative hidden" : "right branch by timing luck, alternative hidden"}` : " Selects whichever replica wins the commit race → hides alternative"), React.createElement("div", null, React.createElement("span", {
+    style: {
+      color: "var(--good)",
+      fontWeight: 600
+    }
+  }, "Parallel persistence:"), " Retains both → scores → defers collapse → surfaces arbitration"))), React.createElement("header", {
     style: {
       marginBottom: 32,
-      borderBottom: '1px solid var(--border)',
+      borderBottom: "1px solid var(--border)",
       paddingBottom: 24
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "grid-2",
     style: {
       marginTop: 20
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "card hero-card",
     style: {
-      borderColor: step >= maxSteps && metrics.hiddenErrors > 0 ? 'var(--danger)' : 'var(--border)'
+      borderColor: step >= maxSteps && metrics.hiddenErrors > 0 ? "var(--danger)" : "var(--border)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label",
     style: {
-      color: 'var(--danger)'
+      color: "var(--danger)"
     }
-  }, "EARLY COLLAPSE RESOLVER"), /*#__PURE__*/React.createElement("div", {
+  }, "EARLY COLLAPSE RESOLVER"), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       marginBottom: 8
     }
   }, "One truth selected. Alternative destroyed. Ambiguity hidden."), step >= maxSteps && naiveResult ? (() => {
     const winTs = naiveResult._src === "Replica A" ? replicaAEvents[maxSteps - 1]?.arrivalTs : replicaBEvents[maxSteps - 1]?.arrivalTs;
     const loseTs = naiveResult._src === "Replica A" ? replicaBEvents[maxSteps - 1]?.arrivalTs : replicaAEvents[maxSteps - 1]?.arrivalTs;
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    return React.createElement("div", null, React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14
       }
-    }, "Winner: ", /*#__PURE__*/React.createElement("span", {
+    }, "Winner: ", React.createElement("span", {
       style: {
-        color: 'var(--warn)',
+        color: "var(--warn)",
         fontWeight: 700
       }
-    }, naiveResult._src), " ", /*#__PURE__*/React.createElement("span", {
+    }, naiveResult._src), " ", React.createElement("span", {
       style: {
-        color: 'var(--textMuted)'
+        color: "var(--textMuted)"
       }
-    }, "(", naivePolicy.replace('_', ' '), " \u2014 committed at ", winTs, "ms vs ", loseTs, "ms)")), /*#__PURE__*/React.createElement("div", {
+    }, "(", naivePolicy.replace("_", " "), " — committed at ", winTs, "ms vs ", loseTs, "ms)")), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--textMuted)',
+        color: "var(--textMuted)",
         marginTop: 3,
-        fontStyle: 'italic'
+        fontStyle: "italic"
       }
-    }, "Selected state: ", naiveResult._src, " because its resolved state reached DB commit first (", winTs, "ms). Alternative discarded."), statesDiffer && /*#__PURE__*/React.createElement("div", {
+    }, "Selected state: ", naiveResult._src, naivePolicy === "last_write" ? " because its resolved state reached DB commit last (" : " because its resolved state reached DB commit first (", winTs, "ms). Alternative discarded."), statesDiffer && React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
-        color: 'var(--danger)',
+        color: "var(--danger)",
         marginTop: 4,
         fontWeight: 700
       }
-    }, "Primary exposure divergence: L2 = ", stateA.L2?.qty, " vs ", stateB.L2?.qty), /*#__PURE__*/React.createElement("div", {
+    }, "Primary exposure divergence: L2 = ", stateA.L2?.qty, " vs ", stateB.L2?.qty), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--warn)',
+        color: "var(--warn)",
         marginTop: 2
       }
-    }, "Both states pass validation. Only one matches intent."), naiveWrong && /*#__PURE__*/React.createElement("div", {
+    }, "Both states pass validation. Only one matches intent."), naiveWrong && React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
-        color: 'var(--danger)',
+        color: "var(--danger)",
         marginTop: 2,
         fontWeight: 700
       }
-    }, "\u2717 Picked the WRONG branch (confidence: ", (bestBranch === "A" ? scoreB : scoreA).overall.toFixed(2), " vs ", (bestBranch === "A" ? scoreA : scoreB).overall.toFixed(2), ")"), naiveHedgeViolated && /*#__PURE__*/React.createElement("div", {
+    }, "✗ Picked the WRONG branch (confidence: ", (bestBranch === "A" ? scoreB : scoreA).overall.toFixed(2), " vs ", (bestBranch === "A" ? scoreA : scoreB).overall.toFixed(2), ")"), naiveHedgeViolated && React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
-        color: 'var(--danger)',
+        color: "var(--danger)",
         marginTop: 2
       }
-    }, "\u2717 Hedge ratio violated: ", naiveExp.hedgeRatio.toFixed(3), " < ", stateA._intent.hedgeRatioMin), /*#__PURE__*/React.createElement("div", {
+    }, "✗ Hedge ratio violated: ", naiveExp.hedgeRatio.toFixed(3), " < ", stateA._intent.hedgeRatioMin), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--textMuted)',
+        color: "var(--textMuted)",
         marginTop: 4
       }
     }, "Hidden errors: ", metrics.hiddenErrors, " | Net exposure: ", naiveExp.net));
-  })() : /*#__PURE__*/React.createElement("div", {
+  })() : React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, step === 0 ? "Press Play to begin" : `Step ${step}/${maxSteps}...`)), /*#__PURE__*/React.createElement("div", {
+  }, step === 0 ? "Press Play to begin" : `Step ${step}/${maxSteps}...`)), React.createElement("div", {
     className: "card hero-card",
     style: {
-      borderColor: 'var(--good)'
+      borderColor: "var(--good)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label",
     style: {
-      color: 'var(--good)'
+      color: "var(--good)"
     }
-  }, "PARALLEL PERSISTENCE RESOLVER"), /*#__PURE__*/React.createElement("div", {
+  }, "PARALLEL PERSISTENCE RESOLVER"), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       marginBottom: 8
     }
-  }, "Both branches retained. Scored. Collapse only when justified."), step >= 2 ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Both branches retained. Scored. Collapse only when justified."), step >= 2 ? React.createElement("div", null, React.createElement("div", {
     className: "flex gap-16"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--repA)'
+      color: "var(--repA)"
     }
-  }, "Branch A: ", scoreA.overall.toFixed(2)), /*#__PURE__*/React.createElement("span", {
+  }, "Branch A: ", scoreA.overall.toFixed(2)), React.createElement("span", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--repB)'
+      color: "var(--repB)"
     }
-  }, "Branch B: ", scoreB.overall.toFixed(2))), /*#__PURE__*/React.createElement("div", {
+  }, "Branch B: ", scoreB.overall.toFixed(2))), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: statesDiffer ? 'var(--warn)' : 'var(--good)',
+      color: statesDiffer ? "var(--warn)" : "var(--good)",
       marginTop: 4
     }
-  }, statesDiffer ? `Divergent — ${diffLegs.size} leg(s) differ. Arbitration available.` : 'Convergent — branches agree.'), /*#__PURE__*/React.createElement("div", {
+  }, statesDiffer ? `Divergent — ${diffLegs.size} leg(s) differ. Arbitration available.` : "Convergent — branches agree."), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 13,
-      color: 'var(--textMuted)',
+      color: "var(--textMuted)",
       marginTop: 2
     }
-  }, "Gap: ", metrics.confidenceGap.toFixed(2), " / 0.15 threshold | ", metrics.confidenceGap < 0.15 ? 'Below threshold — collapse blocked' : 'Threshold met — auto-collapse possible')) : /*#__PURE__*/React.createElement("div", {
+  }, "Gap: ", metrics.confidenceGap.toFixed(2), ` / ${GAP_THRESHOLD} threshold | `, metrics.collapseAllowed ? statesDiffer ? "Auto-collapse permitted" : "Converged — auto-collapse safe" : metrics.hedgeConflict ? "Intent compliance conflict — collapse blocked" : "Below threshold — collapse blocked")) : React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, "Awaiting events..."))), /*#__PURE__*/React.createElement("div", {
+  }, "Awaiting events..."))), React.createElement("div", {
     className: "flex gap-8 items-center",
     style: {
       marginTop: 16
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "flex",
     style: {
       gap: 4,
       flex: 1
     }
-  }, events.map((e, i) => /*#__PURE__*/React.createElement("div", {
+  }, events.map((e, i) => React.createElement("div", {
     key: e.id,
     className: "step-dot",
     style: {
-      background: i < step ? isOOO(replicaBEvents, i) ? 'var(--warn)' : 'var(--accent)' : 'var(--border)'
+      background: i < step ? isOOO(replicaBEvents, i) ? "var(--warn)" : "var(--accent)" : "var(--border)"
     },
     title: `${e.id}: ${e.type}`
-  }))), /*#__PURE__*/React.createElement("span", {
+  }))), React.createElement("span", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, "Step ", step, "/", maxSteps))), /*#__PURE__*/React.createElement("div", {
+  }, "Step ", step, "/", maxSteps))), React.createElement("div", {
     className: "card flex flex-wrap gap-8 items-center p-12"
-  }, /*#__PURE__*/React.createElement("button", {
-    className: `ctrl-btn ${playing ? 'active' : ''}`,
+  }, React.createElement("button", {
+    className: `ctrl-btn ${playing ? "active" : ""}`,
     onClick: play
-  }, "\u25B6 Play"), /*#__PURE__*/React.createElement("button", {
+  }, "▶ Play"), React.createElement("button", {
     className: "ctrl-btn",
     onClick: pause
-  }, "\u23F8 Pause"), /*#__PURE__*/React.createElement("button", {
+  }, "⏸ Pause"), React.createElement("button", {
     className: "ctrl-btn",
     onClick: fwd
-  }, "\u23ED Step"), /*#__PURE__*/React.createElement("button", {
+  }, "⏭ Step"), React.createElement("button", {
     className: "ctrl-btn",
     onClick: reset
-  }, "\u21BA Reset"), /*#__PURE__*/React.createElement("div", {
+  }, "↺ Reset"), React.createElement("div", {
     className: "divider"
-  }), /*#__PURE__*/React.createElement("div", {
+  }), React.createElement("div", {
     style: {
       marginRight: 12
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label"
-  }, "Scenario"), /*#__PURE__*/React.createElement("select", {
+  }, "Scenario"), React.createElement("select", {
     value: scenario,
     onChange: e => {
       setScenario(e.target.value);
       setStep(0);
       setArbAction(null);
     }
-  }, Object.entries(SCENARIOS).map(([k, v]) => /*#__PURE__*/React.createElement("option", {
+  }, Object.entries(SCENARIOS).map(([k, v]) => React.createElement("option", {
     key: k,
     value: k
-  }, v.label)))), /*#__PURE__*/React.createElement("div", {
+  }, v.label)))), React.createElement("div", {
     style: {
       marginRight: 12
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label"
-  }, "Naive Policy"), /*#__PURE__*/React.createElement("select", {
+  }, "Naive Policy"), React.createElement("select", {
     value: naivePolicy,
     onChange: e => setNaivePolicy(e.target.value)
-  }, /*#__PURE__*/React.createElement("option", {
+  }, React.createElement("option", {
     value: "first_processed"
-  }, "First Processed Wins"), /*#__PURE__*/React.createElement("option", {
+  }, "First Processed Wins"), React.createElement("option", {
     value: "last_write"
-  }, "Last Write Wins"))), /*#__PURE__*/React.createElement("div", {
+  }, "Last Write Wins"))), React.createElement("div", {
     style: {
       marginRight: 12
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label"
-  }, "Replica Lag: ", replicaLag, "ms"), /*#__PURE__*/React.createElement("input", {
+  }, "Replica Lag: ", replicaLag, "ms"), React.createElement("input", {
     type: "range",
     min: 0,
     max: 200,
     value: replicaLag,
     onChange: e => setReplicaLag(+e.target.value)
-  })), /*#__PURE__*/React.createElement("div", {
+  })), React.createElement("div", {
     style: {
       marginRight: 12
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label"
-  }, "Jitter: ", jitter, "ms"), /*#__PURE__*/React.createElement("input", {
+  }, "Jitter: ", jitter, "ms"), React.createElement("input", {
     type: "range",
     min: 0,
     max: 200,
     value: jitter,
     onChange: e => setJitter(+e.target.value)
-  })), /*#__PURE__*/React.createElement("button", {
+  })), React.createElement("button", {
     className: "sm-btn",
     onClick: randomize
-  }, "Randomize Seed"), /*#__PURE__*/React.createElement("span", {
+  }, "Randomize Seed"), React.createElement("span", {
     className: "mono",
     style: {
       fontSize: 13,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, "Seed: ", seed)), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, "Event Stream"), /*#__PURE__*/React.createElement("p", {
+  }, "Seed: ", seed)), React.createElement("section", null, React.createElement("h2", null, "Event Stream"), React.createElement("p", {
     className: "section-desc"
-  }, "Logical events with per-replica arrival order. ", /*#__PURE__*/React.createElement("span", {
+  }, "Logical events with per-replica arrival order. ", React.createElement("span", {
     style: {
-      color: 'var(--warn)'
+      color: "var(--warn)"
     }
-  }, "\u26A0"), " = out-of-order relative to causal sequence. Highlighted row = last applied."), /*#__PURE__*/React.createElement("div", {
+  }, "⚠"), " = out-of-order relative to causal sequence. Highlighted row = last applied."), React.createElement("div", {
     className: "grid-2"
   }, [{
     label: "Replica A",
     evts: replicaAEvents,
-    color: 'var(--repA)'
+    color: "var(--repA)"
   }, {
     label: "Replica B",
     evts: replicaBEvents,
-    color: 'var(--repB)'
+    color: "var(--repB)"
   }].map(({
     label,
     evts,
     color
-  }) => /*#__PURE__*/React.createElement("div", {
+  }) => React.createElement("div", {
     key: label,
     className: "card p-10"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label",
     style: {
       color,
       marginBottom: 8
     }
-  }, label, " \u2014 ARRIVAL ORDER"), /*#__PURE__*/React.createElement("div", {
+  }, label, " — ARRIVAL ORDER"), React.createElement("div", {
     className: "event-row",
     style: {
       fontSize: 11,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, /*#__PURE__*/React.createElement("span", null, "ID"), /*#__PURE__*/React.createElement("span", null, "TYPE"), /*#__PURE__*/React.createElement("span", null, "LEGS"), /*#__PURE__*/React.createElement("span", null, "SOURCE"), /*#__PURE__*/React.createElement("span", null, "ARR."), /*#__PURE__*/React.createElement("span", null)), evts.map((e, i) => /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("span", null, "ID"), React.createElement("span", null, "TYPE"), React.createElement("span", null, "LEGS"), React.createElement("span", null, "SOURCE"), React.createElement("span", null, "ARR."), React.createElement("span", null)), evts.map((e, i) => React.createElement("div", {
     key: e.id,
-    className: `event-row ${i === step - 1 ? 'current' : ''} ${isOOO(evts, i) ? 'ooo' : ''}`,
+    className: `event-row ${i === step - 1 ? "current" : ""} ${isOOO(evts, i) ? "ooo" : ""}`,
     style: {
       opacity: i < step ? 1 : 0.35
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     style: {
-      color: 'var(--accent)',
+      color: "var(--accent)",
       fontWeight: 700
     }
-  }, e.id), /*#__PURE__*/React.createElement(Badge, {
+  }, e.id), React.createElement(Badge, {
     color: evtColor(e.type)
-  }, e.type), /*#__PURE__*/React.createElement("span", {
+  }, e.type), React.createElement("span", {
     style: {
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       fontSize: 13
     }
-  }, e.legs.join(", ")), /*#__PURE__*/React.createElement("span", {
+  }, e.legs.join(", ")), React.createElement("span", {
     style: {
-      color: 'var(--textMuted)',
+      color: "var(--textMuted)",
       fontSize: 14
     }
-  }, e.source), /*#__PURE__*/React.createElement("span", {
+  }, e.source), React.createElement("span", {
     style: {
-      color: 'var(--textMuted)',
+      color: "var(--textMuted)",
       fontSize: 14
     }
-  }, e.arrivalTs, "ms"), /*#__PURE__*/React.createElement("span", null, isOOO(evts, i) ? /*#__PURE__*/React.createElement("span", {
+  }, e.arrivalTs, "ms"), React.createElement("span", null, isOOO(evts, i) ? React.createElement("span", {
     style: {
-      color: 'var(--warn)'
+      color: "var(--warn)"
     }
-  }, "\u26A0") : '')))))), /*#__PURE__*/React.createElement("div", {
+  }, "⚠") : "")))))), React.createElement("div", {
     className: "card p-10 mt-8"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label"
-  }, "Causal Dependency Chain"), /*#__PURE__*/React.createElement("div", {
+  }, "Causal Dependency Chain"), React.createElement("div", {
     className: "flex gap-8 items-center mt-8",
     style: {
-      flexWrap: 'wrap'
+      flexWrap: "wrap"
     }
-  }, events.map((e, i) => /*#__PURE__*/React.createElement(React.Fragment, {
+  }, events.map((e, i) => React.createElement(React.Fragment, {
     key: e.id
-  }, /*#__PURE__*/React.createElement("div", {
-    className: `causal-node ${i < step ? 'active' : ''}`
-  }, e.id, " ", /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("div", {
+    className: `causal-node ${i < step ? "active" : ""}`
+  }, e.id, " ", React.createElement("span", {
     style: {
-      color: 'var(--textMuted)',
+      color: "var(--textMuted)",
       fontSize: 11
     }
-  }, e.causalTag), e.causalParent && /*#__PURE__*/React.createElement("span", {
+  }, e.causalTag), e.causalParent && React.createElement("span", {
     style: {
       fontSize: 10,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, " \u2190 ", e.causalParent)), i < events.length - 1 && /*#__PURE__*/React.createElement("span", {
+  }, " ← ", e.causalParent)), i < events.length - 1 && React.createElement("span", {
     style: {
-      color: 'var(--border)'
+      color: "var(--border)"
     }
-  }, "\u2192")))))), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, "Replica States"), /*#__PURE__*/React.createElement("p", {
+  }, "→")))))), React.createElement("section", null, React.createElement("h2", null, "Replica States"), React.createElement("p", {
     className: "section-desc"
-  }, "Side-by-side leg state. ", /*#__PURE__*/React.createElement("span", {
+  }, "Side-by-side leg state. ", React.createElement("span", {
     style: {
-      color: 'var(--warn)'
+      color: "var(--warn)"
     }
-  }, "Highlighted legs"), " indicate divergence between replicas. Both states may be locally valid."), /*#__PURE__*/React.createElement("div", {
+  }, "Highlighted legs"), " indicate divergence between replicas. Both states may be locally valid."), React.createElement("div", {
     className: "grid-2"
   }, [{
     label: "Replica A",
     state: stateA,
     legs: legsA,
-    color: 'var(--repA)',
+    color: "var(--repA)",
     other: legsB
   }, {
     label: "Replica B",
     state: stateB,
     legs: legsB,
-    color: 'var(--repB)',
+    color: "var(--repB)",
     other: legsA
   }].map(({
     label,
@@ -1358,292 +1411,296 @@ function App() {
     legs,
     color,
     other
-  }) => /*#__PURE__*/React.createElement("div", {
+  }) => React.createElement("div", {
     key: label,
     className: "card",
     style: {
-      borderColor: statesDiffer ? 'rgba(217,119,6,0.35)' : 'var(--border)'
+      borderColor: statesDiffer ? "rgba(217,119,6,0.35)" : "var(--border)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "flex justify-between items-center mb-8"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     className: "label",
     style: {
       color,
       margin: 0
     }
-  }, label), /*#__PURE__*/React.createElement("div", {
+  }, label), React.createElement("div", {
     className: "flex gap-8"
-  }, /*#__PURE__*/React.createElement(Badge, {
-    color: isLocallyValid(state) ? 'var(--good)' : 'var(--danger)'
-  }, isLocallyValid(state) ? 'LOCALLY VALID' : 'INVALID'), statesDiffer && /*#__PURE__*/React.createElement(Badge, {
+  }, React.createElement(Badge, {
+    color: isLocallyValid(state) ? "var(--good)" : "var(--danger)"
+  }, isLocallyValid(state) ? "LOCALLY VALID" : "INVALID"), statesDiffer && React.createElement(Badge, {
     color: "var(--warn)"
-  }, "DIVERGED"))), legs.length === 0 ? /*#__PURE__*/React.createElement("div", {
+  }, "DIVERGED"))), legs.length === 0 ? React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)',
+      color: "var(--textMuted)",
       padding: 8
     }
-  }, "No events applied yet") : /*#__PURE__*/React.createElement("div", null, legs.map(leg => /*#__PURE__*/React.createElement(LegCard, {
+  }, "No events applied yet") : React.createElement("div", null, legs.map(leg => React.createElement(LegCard, {
     key: leg.id,
     leg: leg,
     highlight: diffLegs.has(leg.id),
     compLeg: other.find(l => l.id === leg.id)
-  })), /*#__PURE__*/React.createElement(ExposureSummary, {
+  })), React.createElement(ExposureSummary, {
     state: state
-  }))))), statesDiffer && step >= 2 && /*#__PURE__*/React.createElement("div", {
+  }))))), statesDiffer && step >= 2 && React.createElement("div", {
     className: "warn-banner mt-8"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     style: {
-      color: 'var(--warn)',
+      color: "var(--warn)",
       fontSize: 16
     }
-  }, "\u26A0"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "⚠"), React.createElement("div", null, React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--warn)'
+      color: "var(--warn)"
     }
-  }, "Divergence: replicas disagree on ", diffLegs.size > 0 ? [...diffLegs].join(', ') : 'internal state', ". Both are locally valid. Naive collapse will silently pick one."), stateA.L2 && stateB.L2 && stateA.L2.qty !== stateB.L2.qty && /*#__PURE__*/React.createElement("div", {
+  }, "Divergence: replicas disagree on ", diffLegs.size > 0 ? [...diffLegs].join(", ") : "internal state", ". Both are locally valid. Naive collapse will silently pick one."), stateA.L2 && stateB.L2 && stateA.L2.qty !== stateB.L2.qty && React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--danger)',
+      color: "var(--danger)",
       fontWeight: 700,
       marginTop: 4
     }
-  }, "Primary exposure divergence: L2 = ", stateA.L2.qty, " (A) vs ", stateB.L2.qty, " (B) \u2014 ", Math.abs(stateA.L2.qty - stateB.L2.qty), " unit difference on primary leg"), /*#__PURE__*/React.createElement("div", {
+  }, "Primary exposure divergence: L2 = ", stateA.L2.qty, " (A) vs ", stateB.L2.qty, " (B) — ", Math.abs(stateA.L2.qty - stateB.L2.qty), " unit difference on primary leg"), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 13,
-      color: 'var(--textMuted)',
+      color: "var(--textMuted)",
       marginTop: 2
     }
-  }, "Both states pass validation. Only one matches intent.")))), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, "Early Collapse Result"), /*#__PURE__*/React.createElement("p", {
+  }, "Both states pass validation. Only one matches intent.")))), React.createElement("section", null, React.createElement("h2", null, "Early Collapse Result"), React.createElement("p", {
     className: "section-desc"
   }, "Naive resolution: one replica's processed state overwrites the other. No comparison. No scoring. No record of the discarded alternative."), step >= maxSteps && naiveResult ? (() => {
-    const nLegs = Object.values(naiveResult).filter(v => typeof v === 'object' && v.id);
-    const bestLegs = Object.values(bestState).filter(v => typeof v === 'object' && v.id);
+    const nLegs = Object.values(naiveResult).filter(v => typeof v === "object" && v.id);
+    const bestLegs = Object.values(bestState).filter(v => typeof v === "object" && v.id);
     const winTs = naiveResult._src === "Replica A" ? replicaAEvents[maxSteps - 1]?.arrivalTs : replicaBEvents[maxSteps - 1]?.arrivalTs;
     const loseTs = naiveResult._src === "Replica A" ? replicaBEvents[maxSteps - 1]?.arrivalTs : replicaAEvents[maxSteps - 1]?.arrivalTs;
     const loseSrc = naiveResult._src === "Replica A" ? "Replica B" : "Replica A";
-    return /*#__PURE__*/React.createElement("div", {
+    return React.createElement("div", {
       className: "card",
       style: {
-        borderColor: metrics.hiddenErrors > 0 ? 'var(--danger)' : 'var(--border)'
+        borderColor: metrics.hiddenErrors > 0 ? "var(--danger)" : "var(--border)"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "flex justify-between items-center mb-8"
-    }, /*#__PURE__*/React.createElement("span", {
+    }, React.createElement("span", {
       className: "label",
       style: {
-        color: 'var(--danger)',
+        color: "var(--danger)",
         margin: 0
       }
-    }, "POLICY: ", naivePolicy.replace('_', ' ').toUpperCase(), " \u2192 ", naiveResult._src), naiveWrong && /*#__PURE__*/React.createElement(Badge, {
+    }, "POLICY: ", naivePolicy.replace("_", " ").toUpperCase(), " → ", naiveResult._src), naiveWrong && React.createElement(Badge, {
       color: "var(--danger)"
-    }, "WRONG BRANCH SELECTED")), /*#__PURE__*/React.createElement("div", {
+    }, "WRONG BRANCH SELECTED")), React.createElement("div", {
       className: "card card-alt p-10 mb-12",
       style: {
-        borderColor: 'var(--borderHi)'
+        borderColor: "var(--borderHi)"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--textDim)'
+        color: "var(--textDim)"
       }
-    }, "DB commit race: ", /*#__PURE__*/React.createElement("span", {
+    }, "DB commit race: ", React.createElement("span", {
       style: {
-        color: 'var(--text)',
+        color: "var(--text)",
         fontWeight: 600
       }
-    }, naiveResult._src), " state arrived at DB at ", /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontWeight: 600
-      }
-    }, winTs, "ms"), ". ", loseSrc, " arrived at ", /*#__PURE__*/React.createElement("span", {
+    }, naiveResult._src), " state arrived at DB at ", React.createElement("span", {
       style: {
         fontWeight: 600
       }
-    }, loseTs, "ms"), ". Winner selected by ", naivePolicy === 'first_processed' ? 'earlier' : 'later', " commit timestamp."), statesDiffer && /*#__PURE__*/React.createElement("div", {
+    }, winTs, "ms"), ". ", loseSrc, " arrived at ", React.createElement("span", {
+      style: {
+        fontWeight: 600
+      }
+    }, loseTs, "ms"), ". Winner selected by ", naivePolicy === "first_processed" ? "earlier" : "later", " commit timestamp."), statesDiffer && React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--danger)',
+        color: "var(--danger)",
         marginTop: 4,
         fontWeight: 600
       }
-    }, "Primary exposure divergence: L2 = ", stateA.L2?.qty, " (A) vs ", stateB.L2?.qty, " (B). Selected L2 = ", naiveResult.L2?.qty, "."), /*#__PURE__*/React.createElement("div", {
+    }, "Primary exposure divergence: L2 = ", stateA.L2?.qty, " (A) vs ", stateB.L2?.qty, " (B). Selected L2 = ", naiveResult.L2?.qty, "."), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--warn)',
+        color: "var(--warn)",
         marginTop: 2
       }
-    }, "Both states pass validation. Only one matches desk intent.")), /*#__PURE__*/React.createElement("div", {
+    }, "Both states pass validation. Only one matches desk intent.")), React.createElement("div", {
       className: "grid-3 mb-12"
     }, nLegs.map(leg => {
       const best = bestLegs.find(l => l.id === leg.id);
       const wrong = best && (leg.qty !== best.qty || leg.status !== best.status);
-      return /*#__PURE__*/React.createElement("div", {
+      return React.createElement("div", {
         key: leg.id,
         className: "leg-card",
         style: {
-          borderColor: wrong ? 'var(--danger)' : 'var(--border)'
+          borderColor: wrong ? "var(--danger)" : "var(--border)"
         }
-      }, /*#__PURE__*/React.createElement("div", {
+      }, React.createElement("div", {
         className: "flex justify-between items-center mb-4"
-      }, /*#__PURE__*/React.createElement("span", {
+      }, React.createElement("span", {
         className: "mono",
         style: {
           fontWeight: 700,
           fontSize: 14
         }
-      }, leg.id), /*#__PURE__*/React.createElement(Badge, {
-        color: wrong ? 'var(--danger)' : 'var(--good)'
-      }, wrong ? 'WRONG STATE' : 'OK')), /*#__PURE__*/React.createElement("div", {
+      }, leg.id), React.createElement(Badge, {
+        color: wrong ? "var(--danger)" : "var(--good)"
+      }, wrong ? "WRONG STATE" : "OK")), React.createElement("div", {
         className: "mono",
         style: {
           fontSize: 14,
-          color: 'var(--textDim)'
+          color: "var(--textDim)"
         }
-      }, "Qty: ", /*#__PURE__*/React.createElement("span", {
+      }, "Qty: ", React.createElement("span", {
         style: {
-          color: wrong ? 'var(--danger)' : 'var(--text)',
+          color: wrong ? "var(--danger)" : "var(--text)",
           fontWeight: 700
         }
-      }, leg.qty), wrong && best && /*#__PURE__*/React.createElement("span", {
+      }, leg.qty), wrong && best && React.createElement("span", {
         style: {
-          color: 'var(--good)',
+          color: "var(--good)",
           fontSize: 14
         }
-      }, " (should be ", best.qty, ")")), /*#__PURE__*/React.createElement("div", {
+      }, " (should be ", best.qty, ")")), React.createElement("div", {
         className: "mono",
         style: {
           fontSize: 13,
-          color: 'var(--textDim)',
+          color: "var(--textDim)",
           marginTop: 2
         }
       }, "Status: ", leg.status));
-    })), /*#__PURE__*/React.createElement("div", {
+    })), React.createElement("div", {
       className: "grid-2"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "card card-alt p-10",
       style: {
-        borderColor: metrics.hiddenErrors > 0 ? 'var(--danger)' : 'var(--border)'
+        borderColor: metrics.hiddenErrors > 0 ? "var(--danger)" : "var(--border)"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "label"
-    }, "Consequences"), /*#__PURE__*/React.createElement("div", {
+    }, "Consequences"), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
         marginTop: 4
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       style: {
-        color: naiveWrong ? 'var(--danger)' : 'var(--good)',
+        color: naiveWrong ? "var(--danger)" : "var(--good)",
         marginBottom: 4
       }
-    }, naiveWrong ? '✗ Selected lower-confidence branch — semantic error' : '✓ Happened to pick higher-confidence branch'), /*#__PURE__*/React.createElement("div", {
+    }, naiveWrong ? "✗ Selected lower-confidence branch — semantic error" : "✓ Happened to pick higher-confidence branch"), React.createElement("div", {
       style: {
-        color: naiveHedgeViolated ? 'var(--danger)' : 'var(--good)',
+        color: naiveHedgeViolated ? "var(--danger)" : "var(--good)",
         marginBottom: 4
       }
-    }, naiveHedgeViolated ? `✗ Hedge ratio ${naiveExp.hedgeRatio.toFixed(3)} < ${stateA._intent.hedgeRatioMin} — violated` : '✓ Hedge ratio satisfied'), /*#__PURE__*/React.createElement("div", {
+    }, naiveHedgeViolated ? `✗ Hedge ratio ${naiveExp.hedgeRatio.toFixed(3)} < ${stateA._intent.hedgeRatioMin} — violated` : "✓ Hedge ratio satisfied"), React.createElement("div", {
       style: {
-        color: 'var(--warn)',
+        color: "var(--warn)",
         marginBottom: 4
       }
-    }, "\u2717 Alternative interpretation destroyed \u2014 no audit trail"), /*#__PURE__*/React.createElement("div", {
+    }, "✗ Alternative interpretation destroyed — no audit trail"), React.createElement("div", {
       style: {
-        color: metrics.hiddenErrors > 0 ? 'var(--danger)' : 'var(--textDim)',
+        color: metrics.hiddenErrors > 0 ? "var(--danger)" : "var(--textDim)",
         fontWeight: 700
       }
-    }, metrics.hiddenErrors > 0 ? '→ Manual intervention required (discovered later, not now)' : '→ Correct by coincidence, not by design'))), /*#__PURE__*/React.createElement("div", {
+    }, metrics.hiddenErrors > 0 ? "→ Manual intervention required (discovered later, not now)" : "→ Correct by coincidence, not by design"))), React.createElement("div", {
       className: "card card-alt p-10"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "label"
-    }, "Exposure Comparison"), /*#__PURE__*/React.createElement("div", {
+    }, "Exposure Comparison"), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
         marginTop: 4
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "mb-4"
-    }, "Collapsed: Net=", /*#__PURE__*/React.createElement("span", {
+    }, "Collapsed: Net=", React.createElement("span", {
       style: {
         fontWeight: 700
       }
-    }, naiveExp.net), " H/P=", /*#__PURE__*/React.createElement("span", {
+    }, naiveExp.net), " H/P=", React.createElement("span", {
       style: {
         fontWeight: 700
       }
-    }, naiveExp.hedgeRatio.toFixed(3))), /*#__PURE__*/React.createElement("div", {
+    }, naiveExp.hedgeRatio.toFixed(3))), React.createElement("div", {
       className: "mb-4"
-    }, "Best branch: Net=", /*#__PURE__*/React.createElement("span", {
+    }, "Best branch: Net=", React.createElement("span", {
       style: {
         fontWeight: 700
       }
-    }, bestExp.net), " H/P=", /*#__PURE__*/React.createElement("span", {
+    }, bestExp.net), " H/P=", React.createElement("span", {
       style: {
         fontWeight: 700
       }
-    }, bestExp.hedgeRatio.toFixed(3))), /*#__PURE__*/React.createElement("div", {
+    }, bestExp.hedgeRatio.toFixed(3))), React.createElement("div", {
       style: {
-        color: naiveExp.net !== bestExp.net ? 'var(--danger)' : 'var(--good)'
+        color: naiveExp.net !== bestExp.net ? "var(--danger)" : "var(--good)"
       }
-    }, naiveExp.net !== bestExp.net ? `Exposure error: ${Math.abs(naiveExp.net - bestExp.net)} units` : 'Exposure matches best branch')))));
-  })() : /*#__PURE__*/React.createElement("div", {
+    }, naiveExp.net !== bestExp.net ? `Exposure error: ${Math.abs(naiveExp.net - bestExp.net)} units` : "Exposure matches best branch")))));
+  })() : React.createElement("div", {
     className: "card text-center",
     style: {
       padding: 24
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, step === 0 ? 'Run simulation to completion' : 'Processing... step ' + step + '/' + maxSteps))), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, "Parallel Persistence Result"), /*#__PURE__*/React.createElement("p", {
+  }, step === 0 ? "Run simulation to completion" : "Processing... step " + step + "/" + maxSteps))), React.createElement("section", null, React.createElement("h2", null, "Parallel Persistence Result"), React.createElement("p", {
     className: "section-desc"
-  }, "Both candidate trajectories retained and scored. Collapse deferred until confidence gap justifies it. Scoring: causal coherence, structural consistency, event completeness, operator alignment."), step >= 2 && /*#__PURE__*/React.createElement("div", {
+  }, "Both candidate trajectories retained and scored. Collapse deferred until confidence gap justifies it. Scoring: causal coherence, structural consistency, event completeness, operator alignment."), step >= 2 && React.createElement("div", {
     className: "card card-alt p-10 mb-12",
     style: {
-      borderColor: 'var(--accent)',
-      borderStyle: 'dashed'
+      borderColor: "var(--accent)",
+      borderStyle: "dashed"
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between items-center"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 4
+    }
+  }, React.createElement("span", {
     className: "mono",
     style: {
       fontSize: 13,
-      color: 'var(--accent)'
+      color: "var(--accent)"
     }
-  }, "COLLAPSE RULE: auto-collapse only when confidence gap \u2265 0.15"), /*#__PURE__*/React.createElement("span", {
+  }, `COLLAPSE RULE: auto-collapse only when gap ≥ ${GAP_THRESHOLD} AND branches agree on intent compliance`), React.createElement("span", {
     className: "mono",
     style: {
       fontSize: 13,
-      color: metrics.confidenceGap >= 0.15 ? 'var(--good)' : 'var(--warn)',
+      color: metrics.collapseAllowed ? "var(--good)" : "var(--warn)",
       fontWeight: 700
     }
-  }, "Current gap: ", metrics.confidenceGap.toFixed(2), " ", metrics.confidenceGap >= 0.15 ? '— threshold met' : '— below threshold, collapse blocked'))), step >= 2 ? /*#__PURE__*/React.createElement("div", {
+  }, "Current gap: ", metrics.confidenceGap.toFixed(2), " ", metrics.collapseAllowed ? step >= maxSteps && !statesDiffer ? "— branches converged, collapse trivially safe" : "— threshold met, compliance agrees" : metrics.hedgeConflict ? `— ${metrics.confidenceGap >= GAP_THRESHOLD ? "threshold met but" : "below threshold and"} branches disagree on intent compliance, collapse blocked` : "— below threshold, collapse blocked"))), step >= 2 ? React.createElement("div", {
     className: "grid-2"
   }, [{
     label: "Branch A",
     state: stateA,
     score: scoreA,
-    color: 'var(--repA)',
+    color: "var(--repA)",
     winner: bestBranch === "A" && statesDiffer
   }, {
     label: "Branch B",
     state: stateB,
     score: scoreB,
-    color: 'var(--repB)',
+    color: "var(--repB)",
     winner: bestBranch === "B" && statesDiffer
   }].map(({
     label,
@@ -1653,69 +1710,69 @@ function App() {
     winner
   }) => {
     const exp = computeExposure(state);
-    const legs = Object.values(state).filter(v => typeof v === 'object' && v.id);
-    return /*#__PURE__*/React.createElement("div", {
+    const legs = Object.values(state).filter(v => typeof v === "object" && v.id);
+    return React.createElement("div", {
       key: label,
       className: "card",
       style: {
-        borderColor: winner ? 'rgba(22,163,74,0.35)' : 'var(--border)'
+        borderColor: winner ? "rgba(22,163,74,0.35)" : "var(--border)"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "flex justify-between items-center mb-8"
-    }, /*#__PURE__*/React.createElement("span", {
+    }, React.createElement("span", {
       className: "label",
       style: {
         color,
         margin: 0
       }
-    }, label, " (Replica ", label.slice(-1), " order)"), winner && /*#__PURE__*/React.createElement(Badge, {
+    }, label, " (Replica ", label.slice(-1), " order)"), winner && React.createElement(Badge, {
       color: "var(--good)"
-    }, "HIGHER CONFIDENCE")), /*#__PURE__*/React.createElement("div", {
+    }, "HIGHER CONFIDENCE")), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--textDim)',
+        color: "var(--textDim)",
         marginBottom: 4
       }
-    }, "Legs: ", legs.map(l => `${l.id}(${l.qty}/${l.status})`).join(' · ')), /*#__PURE__*/React.createElement("div", {
+    }, "Legs: ", legs.map(l => `${l.id}(${l.qty}/${l.status})`).join(" · ")), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--textDim)',
+        color: "var(--textDim)",
         marginBottom: 12
       }
-    }, "Net=", exp.net, " Primary=", exp.primaryTotal, " Hedge=", exp.hedgeTotal, " H/P=", exp.hedgeRatio.toFixed(3)), /*#__PURE__*/React.createElement(ScoreBar, {
+    }, "Net=", exp.net, " Primary=", exp.primaryTotal, " Hedge=", exp.hedgeTotal, " H/P=", exp.hedgeRatio.toFixed(3)), React.createElement(ScoreBar, {
       label: "Causal Coherence",
       value: score.causalCoherence,
       color: "var(--accent)"
-    }), /*#__PURE__*/React.createElement(ScoreBar, {
+    }), React.createElement(ScoreBar, {
       label: "Structural Consistency",
       value: score.structuralConsistency,
       color: "var(--purple)"
-    }), /*#__PURE__*/React.createElement(ScoreBar, {
+    }), React.createElement(ScoreBar, {
       label: "Event Completeness",
       value: score.eventCompleteness,
       color: "var(--good)"
-    }), /*#__PURE__*/React.createElement(ScoreBar, {
+    }), React.createElement(ScoreBar, {
       label: "Operator Alignment",
       value: score.operatorAlignment,
       color: "var(--warn)"
-    }), /*#__PURE__*/React.createElement("div", {
+    }), React.createElement("div", {
       className: "mt-8",
       style: {
-        padding: '6px 10px',
-        background: 'var(--bgAlt)',
+        padding: "6px 10px",
+        background: "var(--bgAlt)",
         borderRadius: 4
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "flex justify-between"
-    }, /*#__PURE__*/React.createElement("span", {
+    }, React.createElement("span", {
       className: "mono",
       style: {
         fontWeight: 700,
         fontSize: 14
       }
-    }, "Overall Confidence"), /*#__PURE__*/React.createElement("span", {
+    }, "Overall Confidence"), React.createElement("span", {
       className: "mono",
       style: {
         fontWeight: 700,
@@ -1723,131 +1780,131 @@ function App() {
         color
       }
     }, score.overall.toFixed(2)))));
-  })) : /*#__PURE__*/React.createElement("div", {
+  })) : React.createElement("div", {
     className: "card text-center",
     style: {
       padding: 24
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, "Awaiting \u22652 events to begin scoring..."))), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, "Arbitration Layer"), /*#__PURE__*/React.createElement("p", {
+  }, "Awaiting ≥2 events to begin scoring..."))), React.createElement("section", null, React.createElement("h2", null, "Arbitration Layer"), React.createElement("p", {
     className: "section-desc"
   }, "When confidence gap is small or semantic ambiguity exists, structured arbitration replaces silent collapse. This is operator review, not a decorative panel."), step >= maxSteps && statesDiffer ? (() => {
     const gap = metrics.confidenceGap;
-    const needsArb = gap < 0.15;
+    const needsArb = !metrics.collapseAllowed;
     const intentThreshold = stateA._intent?.hedgeRatioMin || 1.0;
-    const hedgeConflict = expA.hedgeRatio >= intentThreshold !== expB.hedgeRatio >= intentThreshold;
+    const hedgeConflict = !!metrics.hedgeConflict;
     const reasons = [];
-    if (gap < 0.15) reasons.push(`Confidence gap too narrow for safe auto-collapse (${gap.toFixed(2)})`);
+    if (gap < GAP_THRESHOLD) reasons.push(`Confidence gap too narrow for safe auto-collapse (${gap.toFixed(2)})`);
     if (hedgeConflict) reasons.push(`Hedge compliance disagrees: A=${expA.hedgeRatio.toFixed(3)} B=${expB.hedgeRatio.toFixed(3)} (threshold: ${intentThreshold})`);
-    if (diffLegs.size > 0) reasons.push(`Leg state divergence on: ${[...diffLegs].join(', ')} — qty and/or status differ`);
+    if (diffLegs.size > 0) reasons.push(`Leg state divergence on: ${[...diffLegs].join(", ")} — qty and/or status differ`);
     if (scoreA.causalCoherence !== scoreB.causalCoherence) reasons.push(`Causal ordering violations differ between branches (A=${scoreA.causalCoherence} B=${scoreB.causalCoherence})`);
-    if (stateA._intentStale || stateB._intentStale) reasons.push('Desk intent was evaluated on stale state in at least one branch');
+    if (stateA._intentStale || stateB._intentStale) reasons.push("Desk intent was evaluated on stale state in at least one branch");
     const missing = [];
-    if (scoreA.eventCompleteness < 1 || scoreB.eventCompleteness < 1) missing.push('Not all events fully propagated to both replicas');
-    missing.push('No operator confirmation of intended final leg structure');
-    missing.push('No explicit desk decision on L2 primary exposure: cancel applied to pre-amend (200) or post-amend (240) qty');
-    if (hedgeConflict) missing.push('Hedge ratio intent may depend on post-amend or pre-amend L2 qty — ambiguous');
+    if (scoreA.eventCompleteness < 1 || scoreB.eventCompleteness < 1) missing.push("Not all events fully propagated to both replicas");
+    missing.push("No operator confirmation of intended final leg structure");
+    missing.push("No explicit desk decision on L2 primary exposure: cancel applied to pre-amend (200) or post-amend (240) qty");
+    if (hedgeConflict) missing.push("Hedge ratio intent may depend on post-amend or pre-amend L2 qty — ambiguous");
     const actions = [{
-      id: 'retain_l2_amend',
-      label: 'Retain L2 amended qty (240)',
-      desc: 'Accept AMEND as authoritative for L2. Final qty=240. Hedge ratio calculated against amended exposure.',
-      type: 'leg_decision'
+      id: "retain_l2_amend",
+      label: "Retain L2 amended qty (240)",
+      desc: "Accept AMEND as authoritative for L2. Final qty=240. Hedge ratio calculated against amended exposure.",
+      type: "leg_decision"
     }, {
-      id: 'retain_l3_pre',
-      label: 'Retain L3 pre-cancel (80 → restore from 40)',
-      desc: 'Undo partial cancel, restore L3 to full 80 qty. Restores hedge coverage above threshold.',
-      type: 'leg_decision'
+      id: "retain_l3_pre",
+      label: "Retain L3 pre-cancel (80 → restore from 40)",
+      desc: "Undo partial cancel, restore L3 to full 80 qty. Restores hedge coverage above threshold.",
+      type: "leg_decision"
     }, {
-      id: 'preserve_hedge',
-      label: 'Preserve hedge structure',
+      id: "preserve_hedge",
+      label: "Preserve hedge structure",
       desc: `Accept whichever branch maintains hedge ratio ≥ ${intentThreshold * 100}% of primary. Currently: A=${expA.hedgeRatio.toFixed(3)}, B=${expB.hedgeRatio.toFixed(3)}.`,
-      type: 'structural'
+      type: "structural"
     }, {
-      id: 'prefer_causal',
-      label: 'Prioritize causal chain',
+      id: "prefer_causal",
+      label: "Prioritize causal chain",
       desc: `Select branch with higher causal coherence. A=${scoreA.causalCoherence}, B=${scoreB.causalCoherence}.`,
-      type: 'causal'
+      type: "causal"
     }, {
-      id: 'require_evidence',
-      label: 'Require more evidence',
-      desc: 'Do not collapse. Wait for additional events, corrections, or desk confirmation before committing.',
-      type: 'defer'
+      id: "require_evidence",
+      label: "Require more evidence",
+      desc: "Do not collapse. Wait for additional events, corrections, or desk confirmation before committing.",
+      type: "defer"
     }, {
-      id: 'defer_commit',
-      label: 'Defer final commit',
-      desc: 'Hold both branches live. Flag for senior trader review during next reconciliation window.',
-      type: 'defer'
+      id: "defer_commit",
+      label: "Defer final commit",
+      desc: "Hold both branches live. Flag for senior trader review during next reconciliation window.",
+      type: "defer"
     }];
     const arbResult = arbAction ? (() => {
-      if (arbAction === 'prefer_causal') return scoreA.causalCoherence >= scoreB.causalCoherence ? 'Branch A' : 'Branch B';
-      if (arbAction === 'preserve_hedge') return expA.hedgeRatio >= expB.hedgeRatio ? 'Branch A' : 'Branch B';
-      if (arbAction === 'retain_l2_amend') return 'Branch A (amended L2)';
-      if (arbAction === 'retain_l3_pre') return 'Requires manual override — not resolvable from current state alone';
-      return 'Deferred — awaiting additional input';
+      if (arbAction === "prefer_causal") return scoreA.causalCoherence >= scoreB.causalCoherence ? "Branch A" : "Branch B";
+      if (arbAction === "preserve_hedge") return expA.hedgeRatio >= expB.hedgeRatio ? "Branch A" : "Branch B";
+      if (arbAction === "retain_l2_amend") return "Branch A (amended L2)";
+      if (arbAction === "retain_l3_pre") return "Requires manual override — not resolvable from current state alone";
+      return "Deferred — awaiting additional input";
     })() : null;
-    return /*#__PURE__*/React.createElement("div", {
+    return React.createElement("div", {
       className: "card",
       style: {
-        borderColor: needsArb ? 'var(--warn)' : 'var(--good)'
+        borderColor: needsArb ? "var(--warn)" : "var(--good)"
       }
-    }, needsArb && /*#__PURE__*/React.createElement("div", {
+    }, needsArb && React.createElement("div", {
       style: {
-        padding: '8px 12px',
-        background: 'rgba(217,119,6,0.06)',
-        borderRadius: '6px 6px 0 0',
+        padding: "8px 12px",
+        background: "rgba(217,119,6,0.06)",
+        borderRadius: "6px 6px 0 0",
         marginBottom: 12,
-        borderBottom: '1px solid var(--warn)'
+        borderBottom: "1px solid var(--warn)"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--warn)',
+        color: "var(--warn)",
         fontWeight: 700,
         letterSpacing: 0.5
       }
-    }, "SYSTEM LIMIT REACHED \u2014 REQUIRES EXTERNAL SEMANTIC INPUT")), /*#__PURE__*/React.createElement("div", {
+    }, "SYSTEM LIMIT REACHED — REQUIRES EXTERNAL SEMANTIC INPUT")), React.createElement("div", {
       className: "flex justify-between items-center mb-8"
-    }, /*#__PURE__*/React.createElement("span", {
+    }, React.createElement("span", {
       className: "label",
       style: {
-        color: needsArb ? 'var(--warn)' : 'var(--good)',
+        color: needsArb ? "var(--warn)" : "var(--good)",
         margin: 0
       }
-    }, needsArb ? 'ARBITRATION REQUIRED — COLLAPSE UNSAFE' : 'AUTO-COLLAPSE POSSIBLE (with caution)'), /*#__PURE__*/React.createElement("div", {
+    }, needsArb ? "ARBITRATION REQUIRED — COLLAPSE UNSAFE" : "AUTO-COLLAPSE POSSIBLE (with caution)"), React.createElement("div", {
       className: "flex gap-8 items-center"
-    }, /*#__PURE__*/React.createElement(Badge, {
-      color: needsArb ? 'var(--warn)' : 'var(--good)'
-    }, "Gap: ", gap.toFixed(2), " / 0.15 threshold"))), /*#__PURE__*/React.createElement("div", {
+    }, React.createElement(Badge, {
+      color: needsArb ? "var(--warn)" : "var(--good)"
+    }, "Gap: ", gap.toFixed(2), ` / ${GAP_THRESHOLD} threshold`))), React.createElement("div", {
       className: "label mb-8"
-    }, "Candidate Interpretations"), /*#__PURE__*/React.createElement("div", {
+    }, "Candidate Interpretations"), React.createElement("div", {
       className: "grid-2 mb-16"
     }, [{
-      l: 'Interpretation A',
+      l: "Interpretation A",
       s: scoreA,
       e: expA,
-      c: 'var(--repA)',
-      order: sc.replicaA.join(' → ')
+      c: "var(--repA)",
+      order: sc.replicaA.join(" → ")
     }, {
-      l: 'Interpretation B',
+      l: "Interpretation B",
       s: scoreB,
       e: expB,
-      c: 'var(--repB)',
-      order: sc.replicaB.join(' → ')
-    }].map(x => /*#__PURE__*/React.createElement("div", {
+      c: "var(--repB)",
+      order: sc.replicaB.join(" → ")
+    }].map(x => React.createElement("div", {
       key: x.l,
       style: {
         padding: 10,
-        background: 'var(--bgAlt)',
+        background: "var(--bgAlt)",
         borderRadius: 6,
-        border: '1px solid var(--border)'
+        border: "1px solid var(--border)"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "mono",
       style: {
         color: x.c,
@@ -1855,239 +1912,239 @@ function App() {
         fontSize: 14,
         marginBottom: 4
       }
-    }, x.l), /*#__PURE__*/React.createElement("div", {
+    }, x.l), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
-        color: 'var(--textDim)',
+        color: "var(--textDim)",
         marginBottom: 2
       }
-    }, "Order: ", x.order), /*#__PURE__*/React.createElement("div", {
+    }, "Order: ", x.order), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
-        color: 'var(--textDim)'
+        color: "var(--textDim)"
       }
-    }, "Confidence: ", x.s.overall.toFixed(2), " | Net: ", x.e.net, " | H/P: ", x.e.hedgeRatio.toFixed(3), " | Causal: ", x.s.causalCoherence)))), /*#__PURE__*/React.createElement("div", {
+    }, "Confidence: ", x.s.overall.toFixed(2), " | Net: ", x.e.net, " | H/P: ", x.e.hedgeRatio.toFixed(3), " | Causal: ", x.s.causalCoherence)))), React.createElement("div", {
       className: "mb-12"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "label mb-8"
-    }, "Why safe collapse is not yet possible"), reasons.map((r, i) => /*#__PURE__*/React.createElement("div", {
+    }, "Why safe collapse is not yet possible"), reasons.map((r, i) => React.createElement("div", {
       key: i,
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--warn)',
-        padding: '3px 0'
+        color: "var(--warn)",
+        padding: "3px 0"
       }
-    }, "\u2022 ", r))), /*#__PURE__*/React.createElement("div", {
+    }, "• ", r))), React.createElement("div", {
       className: "mb-12"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "label mb-8"
-    }, "Missing / conflicting evidence"), missing.map((r, i) => /*#__PURE__*/React.createElement("div", {
+    }, "Missing / conflicting evidence"), missing.map((r, i) => React.createElement("div", {
       key: i,
       className: "mono",
       style: {
         fontSize: 13,
-        color: 'var(--textDim)',
-        padding: '3px 0'
+        color: "var(--textDim)",
+        padding: "3px 0"
       }
-    }, "\u2022 ", r))), /*#__PURE__*/React.createElement("div", {
+    }, "• ", r))), React.createElement("div", {
       className: "mb-12"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "label mb-8"
-    }, "Operator Actions \u2014 Select to resolve"), /*#__PURE__*/React.createElement("div", {
+    }, "Operator Actions — Select to resolve"), React.createElement("div", {
       className: "grid-3"
-    }, actions.map(a => /*#__PURE__*/React.createElement("button", {
+    }, actions.map(a => React.createElement("button", {
       key: a.id,
-      className: `arb-btn ${arbAction === a.id ? 'selected' : ''}`,
+      className: `arb-btn ${arbAction === a.id ? "selected" : ""}`,
       onClick: () => setArbAction(a.id)
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 13,
         fontWeight: 600,
-        color: arbAction === a.id ? 'var(--accent)' : 'var(--text)',
+        color: arbAction === a.id ? "var(--accent)" : "var(--text)",
         marginBottom: 2
       }
-    }, a.label), /*#__PURE__*/React.createElement("div", {
+    }, a.label), React.createElement("div", {
       style: {
         fontSize: 14,
-        color: 'var(--textMuted)',
+        color: "var(--textMuted)",
         lineHeight: 1.4
       }
-    }, a.desc), /*#__PURE__*/React.createElement("div", {
+    }, a.desc), React.createElement("div", {
       style: {
         fontSize: 11,
-        color: 'var(--textMuted)',
+        color: "var(--textMuted)",
         marginTop: 4,
-        fontStyle: 'italic'
+        fontStyle: "italic"
       }
-    }, "Type: ", a.type))))), arbAction && /*#__PURE__*/React.createElement("div", {
+    }, "Type: ", a.type))))), arbAction && React.createElement("div", {
       className: "card card-alt p-10",
       style: {
-        borderColor: 'var(--accent)'
+        borderColor: "var(--accent)"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       className: "label",
       style: {
-        color: 'var(--accent)'
+        color: "var(--accent)"
       }
-    }, "ARBITRATION RESULT"), /*#__PURE__*/React.createElement("div", {
+    }, "ARBITRATION RESULT"), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
         marginTop: 4,
-        color: 'var(--text)'
+        color: "var(--text)"
       }
-    }, "Action: ", /*#__PURE__*/React.createElement("span", {
+    }, "Action: ", React.createElement("span", {
       style: {
         fontWeight: 700
       }
-    }, actions.find(a => a.id === arbAction)?.label)), /*#__PURE__*/React.createElement("div", {
+    }, actions.find(a => a.id === arbAction)?.label)), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
         marginTop: 2,
-        color: 'var(--textDim)'
+        color: "var(--textDim)"
       }
-    }, "Resolution: ", /*#__PURE__*/React.createElement("span", {
+    }, "Resolution: ", React.createElement("span", {
       style: {
-        color: 'var(--accent)',
+        color: "var(--accent)",
         fontWeight: 600
       }
-    }, arbResult)), /*#__PURE__*/React.createElement("div", {
+    }, arbResult)), React.createElement("div", {
       className: "mono",
       style: {
         fontSize: 14,
         marginTop: 4,
-        color: 'var(--textMuted)'
+        color: "var(--textMuted)"
       }
-    }, "This decision is recorded, traceable, and auditable \u2014 unlike silent early collapse.")));
-  })() : /*#__PURE__*/React.createElement("div", {
+    }, "This decision is recorded, traceable, and auditable — unlike silent early collapse.")));
+  })() : React.createElement("div", {
     className: "card text-center",
     style: {
       padding: 24
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
-  }, step < maxSteps ? 'Arbitration available after simulation completes with divergent state' : 'Branches converged — arbitration not triggered'))), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, "Metrics / Outcomes"), /*#__PURE__*/React.createElement("p", {
+  }, step < maxSteps ? "Arbitration available after simulation completes with divergent state" : "Branches converged — arbitration not triggered"))), React.createElement("section", null, React.createElement("h2", null, "Metrics / Outcomes"), React.createElement("p", {
     className: "section-desc"
-  }, "All values computed from the active simulation run. No synthetic or decorative numbers."), /*#__PURE__*/React.createElement("div", {
+  }, "All values computed from the active simulation run. No synthetic or decorative numbers."), React.createElement("div", {
     className: "grid-2"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "card",
     style: {
-      borderColor: 'rgba(220,38,38,0.2)'
+      borderColor: "rgba(220,38,38,0.2)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label",
     style: {
-      color: 'var(--danger)',
+      color: "var(--danger)",
       marginBottom: 10
     }
   }, "EARLY COLLAPSE"), [{
-    l: 'Premature Collapse Events',
+    l: "Premature Collapse Events",
     v: metrics.prematureCollapse,
     bad: metrics.prematureCollapse > 0
   }, {
-    l: 'Picked Wrong Branch',
+    l: "Picked Wrong Branch",
     v: metrics.naivePickedWrong,
     bad: metrics.naivePickedWrong > 0
   }, {
-    l: 'Hedge Ratio Violated',
+    l: "Hedge Ratio Violated",
     v: metrics.wrongHedge,
     bad: metrics.wrongHedge > 0
   }, {
-    l: 'Hidden Semantic Errors',
+    l: "Hidden Semantic Errors",
     v: metrics.hiddenErrors,
     bad: metrics.hiddenErrors > 0
   }, {
-    l: 'Manual Intervention Likely',
+    l: "Manual Intervention Likely",
     v: metrics.manualIntervention,
     bad: metrics.manualIntervention > 0
   }, {
-    l: 'Alternatives Preserved',
+    l: "Alternatives Preserved",
     v: 0,
     bad: true
   }, {
-    l: 'Arbitration Deferrals',
+    l: "Arbitration Deferrals",
     v: 0,
     bad: true
-  }].map(m => /*#__PURE__*/React.createElement("div", {
+  }].map(m => React.createElement("div", {
     key: m.l,
     className: "metric-row"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     style: {
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       fontSize: 13
     }
-  }, m.l), /*#__PURE__*/React.createElement("span", {
+  }, m.l), React.createElement("span", {
     style: {
-      color: m.bad ? 'var(--danger)' : 'var(--good)',
+      color: m.bad ? "var(--danger)" : "var(--good)",
       fontWeight: 600
     }
-  }, m.v)))), /*#__PURE__*/React.createElement("div", {
+  }, m.v)))), React.createElement("div", {
     className: "card",
     style: {
-      borderColor: 'rgba(22,163,74,0.2)'
+      borderColor: "rgba(22,163,74,0.2)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label",
     style: {
-      color: 'var(--good)',
+      color: "var(--good)",
       marginBottom: 10
     }
   }, "PARALLEL PERSISTENCE"), [{
-    l: 'Premature Collapse Events',
+    l: "Premature Collapse Events",
     v: 0,
     bad: false
   }, {
-    l: 'Hidden Semantic Errors',
+    l: "Hidden Semantic Errors",
     v: 0,
     bad: false
   }, {
-    l: 'Branches Maintained',
+    l: "Branches Maintained",
     v: statesDiffer ? 2 : 1,
     bad: false
   }, {
-    l: 'Confidence Gap',
+    l: "Confidence Gap",
     v: metrics.confidenceGap.toFixed(2),
     bad: false
   }, {
-    l: 'Best Branch Score',
+    l: "Best Branch Score",
     v: metrics.bestScore.toFixed(2),
     bad: false
   }, {
-    l: 'Arbitration Deferrals',
+    l: "Arbitration Deferrals",
     v: metrics.arbNeeded,
     bad: false
   }, {
-    l: 'Consensus Status',
+    l: "Consensus Status",
     v: metrics.status,
     bad: false
-  }].map(m => /*#__PURE__*/React.createElement("div", {
+  }].map(m => React.createElement("div", {
     key: m.l,
     className: "metric-row"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     style: {
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       fontSize: 13
     }
-  }, m.l), /*#__PURE__*/React.createElement("span", {
+  }, m.l), React.createElement("span", {
     style: {
-      color: 'var(--good)',
+      color: "var(--good)",
       fontWeight: 600
     }
-  }, m.v))))), /*#__PURE__*/React.createElement("div", {
+  }, m.v))))), React.createElement("div", {
     className: "card p-10 mt-12"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label"
-  }, "Divergence Timeline \u2014 per-step branch agreement"), /*#__PURE__*/React.createElement("div", {
+  }, "Divergence Timeline — per-step branch agreement"), React.createElement("div", {
     className: "flex items-center mt-8",
     style: {
       gap: 3,
@@ -2100,160 +2157,161 @@ function App() {
       sA = applyEvent(sA, replicaAEvents[j]);
       sB = applyEvent(sB, replicaBEvents[j]);
     }
-    const div = JSON.stringify(sA) !== JSON.stringify(sB);
+    const div = semanticKey(sA) !== semanticKey(sB);
     const active = i < step;
-    return /*#__PURE__*/React.createElement("div", {
+    return React.createElement("div", {
       key: e.id,
       style: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
         flex: 1
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, React.createElement("div", {
       style: {
-        width: '100%',
+        width: "100%",
         height: active ? div ? 36 : 10 : 4,
-        background: active ? div ? 'var(--warn)' : 'var(--good)' : 'var(--border)',
+        background: active ? div ? "var(--warn)" : "var(--good)" : "var(--border)",
         borderRadius: 2,
-        transition: 'all 0.3s'
+        transition: "all 0.3s"
       }
-    }), /*#__PURE__*/React.createElement("span", {
+    }), React.createElement("span", {
       style: {
         fontSize: 11,
-        color: 'var(--textMuted)',
+        color: "var(--textMuted)",
         marginTop: 3
       }
     }, e.id));
-  })), /*#__PURE__*/React.createElement("div", {
+  })), React.createElement("div", {
     className: "flex justify-between",
     style: {
       marginTop: 4
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, React.createElement("span", {
     style: {
       fontSize: 11,
-      color: 'var(--good)'
+      color: "var(--good)"
     }
-  }, "\u25A0 Converged"), /*#__PURE__*/React.createElement("span", {
+  }, "■ Converged"), React.createElement("span", {
     style: {
       fontSize: 11,
-      color: 'var(--warn)'
+      color: "var(--warn)"
     }
-  }, "\u25A0 Diverged")))), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, "Technical Summary"), /*#__PURE__*/React.createElement("div", {
+  }, "■ Diverged")))), React.createElement("section", null, React.createElement("h2", null, "Technical Summary"), React.createElement("div", {
     className: "card",
     style: {
       padding: 16
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       lineHeight: 1.7
     }
-  }, /*#__PURE__*/React.createElement("p", {
+  }, React.createElement("p", {
     style: {
       marginBottom: 8
     }
-  }, "Early collapse creates silent semantic errors. When two replicas process the same event set in different orders, naive resolution discards a potentially correct interpretation without comparison. The error is locally valid \u2014 it passes all syntactic checks \u2014 but semantically wrong: wrong leg retained, wrong hedge ratio, wrong exposure."), /*#__PURE__*/React.createElement("p", {
+  }, "Early collapse creates silent semantic errors. When two replicas process the same event set in different orders, naive resolution discards a potentially correct interpretation without comparison. The error is locally valid — it passes all syntactic checks — but semantically wrong: wrong leg retained, wrong hedge ratio, wrong exposure."), React.createElement("p", {
     style: {
       marginBottom: 8
     }
-  }, "Preserving competing interpretations makes ambiguity explicit. By scoring branches on causal coherence, structural consistency, event completeness, and operator alignment, the system identifies when safe auto-collapse is possible and when it is not \u2014 before committing."), /*#__PURE__*/React.createElement("p", null, "Manual review becomes structured arbitration instead of post-hoc repair. Rather than discovering hedge violations during end-of-day reconciliation, the system surfaces the decision point with context, scores, and operator actions while competing states are still live."))), /*#__PURE__*/React.createElement("div", {
+  }, "Preserving competing interpretations makes ambiguity explicit. By scoring branches on causal coherence, structural consistency, event completeness, and operator alignment, the system identifies when safe auto-collapse is possible and when it is not — before committing."), React.createElement("p", null, "Manual review becomes structured arbitration instead of post-hoc repair. Rather than discovering hedge violations during end-of-day reconciliation, the system surfaces the decision point with context, scores, and operator actions while competing states are still live."))), React.createElement("div", {
     className: "card mt-12",
     style: {
       padding: 16,
-      borderColor: 'rgba(0,46,92,0.2)'
+      borderColor: "rgba(0,46,92,0.2)"
     }
-  }, /*#__PURE__*/React.createElement("h3", {
+  }, React.createElement("h3", {
     style: {
       fontSize: 14,
       fontWeight: 600,
       marginBottom: 10
     }
-  }, "What this demonstrates"), /*#__PURE__*/React.createElement("div", {
+  }, "What this demonstrates"), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       lineHeight: 1.7
     }
-  }, /*#__PURE__*/React.createElement("p", {
+  }, React.createElement("p", {
     style: {
       marginBottom: 8,
       paddingLeft: 12,
-      borderLeft: '2px solid var(--accent)'
+      borderLeft: "2px solid var(--accent)"
     }
-  }, "The same event set can yield different convergence depending on replica arrival order."), /*#__PURE__*/React.createElement("p", {
+  }, "The same event set can yield different convergence depending on replica arrival order."), React.createElement("p", {
     style: {
       marginBottom: 8,
       paddingLeft: 12,
-      borderLeft: '2px solid var(--warn)'
+      borderLeft: "2px solid var(--warn)"
     }
-  }, "Naive collapse can produce locally valid but semantically wrong outcomes."), /*#__PURE__*/React.createElement("p", {
+  }, "Naive collapse can produce locally valid but semantically wrong outcomes."), React.createElement("p", {
     style: {
       paddingLeft: 12,
-      borderLeft: '2px solid var(--good)'
+      borderLeft: "2px solid var(--good)"
     }
-  }, "Preserving candidate branches makes ambiguity visible and reduces destructive early collapse."))), /*#__PURE__*/React.createElement("div", {
+  }, "Preserving candidate branches makes ambiguity visible and reduces destructive early collapse."))), React.createElement("div", {
     className: "grid-2 mt-12"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "card p-12"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label",
     style: {
-      color: 'var(--accent)'
+      color: "var(--accent)"
     }
-  }, "FAILURE CLASS 1"), /*#__PURE__*/React.createElement("div", {
+  }, "FAILURE CLASS 1"), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
       fontWeight: 600,
       marginBottom: 4
     }
-  }, "Replication-Order Non-Determinism"), /*#__PURE__*/React.createElement("div", {
+  }, "Replication-Order Non-Determinism"), React.createElement("div", {
     style: {
       fontSize: 13,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       lineHeight: 1.5
     }
-  }, "Identical events arrive in different orders at different replicas due to network jitter, service partitioning, or message queue reordering. Each replica builds a locally valid but globally inconsistent state.")), /*#__PURE__*/React.createElement("div", {
+  }, "Identical events arrive in different orders at different replicas due to network jitter, service partitioning, or message queue reordering. Each replica builds a locally valid but globally inconsistent state.")), React.createElement("div", {
     className: "card p-12"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "label",
     style: {
-      color: 'var(--purple)'
+      color: "var(--purple)"
     }
-  }, "FAILURE CLASS 2"), /*#__PURE__*/React.createElement("div", {
+  }, "FAILURE CLASS 2"), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
       fontWeight: 600,
       marginBottom: 4
     }
-  }, "Semantic Ambiguity in Leg Structure"), /*#__PURE__*/React.createElement("div", {
+  }, "Semantic Ambiguity in Leg Structure"), React.createElement("div", {
     style: {
       fontSize: 13,
-      color: 'var(--textDim)',
+      color: "var(--textDim)",
       lineHeight: 1.5
     }
-  }, "Even with the same event order, the intended leg structure may be ambiguous without trader/operator context. Should L2's partial cancel apply to pre-amend qty (200) or post-amend qty (240)? The answer determines primary exposure. This requires semantic arbitration, not just ordering."))), /*#__PURE__*/React.createElement("div", {
+  }, "Even with the same event order, the intended leg structure may be ambiguous without trader/operator context. Should L2's partial cancel apply to pre-amend qty (200) or post-amend qty (240)? The answer determines primary exposure. This requires semantic arbitration, not just ordering."))), React.createElement("div", {
     className: "mt-16",
     style: {
-      padding: '12px 16px',
-      background: 'var(--bgAlt)',
+      padding: "12px 16px",
+      background: "var(--bgAlt)",
       borderRadius: 6,
-      border: '1px solid var(--border)'
+      border: "1px solid var(--border)"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 14,
-      color: 'var(--textMuted)'
+      color: "var(--textMuted)"
     }
   }, "Seed: ", seed, " | Scenario: ", sc.label, " | Policy: ", naivePolicy, " | Lag: ", replicaLag, "ms | Jitter: ", jitter, "ms | Arb: ", arbPolicy))));
 }
-ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));</script>
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App, null));
+</script>
 </body>
 </html>
