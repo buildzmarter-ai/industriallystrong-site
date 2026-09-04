@@ -1,6 +1,10 @@
 # Phoenix Web redirect
 /phoenix  https://phoenix.industriallystrong.com  301
 
+# Replica Race Resolution Lab moved to its own Pages project (2026-09-04)
+/lab/replica-race.html  https://replica-race-lab.industriallystrong.com/  301
+/lab/replica-race       https://replica-race-lab.industriallystrong.com/  301
+
 # Serve lab subtree directly
 /lab/*  /lab/:splat  200
 
