@@ -1,142 +1,190 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PageShell from "../components/PageShell";
-import CardLink from "../components/CardLink";
-import PrimaryButton from "../components/PrimaryButton";
-import LiveMetricsCard from "../components/LiveMetricsCard";
 import { trackEvent } from "../utils/analytics";
-import { sendTelemetry } from "../utils/telemetry";
 
-// Map nav-IA paths to in-page section anchors so /leadership, /operating-model
-// and /evidence scroll to the matching section on Home.
+// Older nav paths still land here and scroll to the matching section.
 const PATH_TO_SECTION = {
-  "/leadership": "leadership-evidence",
-  "/operating-model": "operating-model",
-  "/evidence": "evidence",
-};
-
-// Style helpers reused across this page
-const proofStripStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
-  gap: "20px",
-  marginTop: "40px",
-  marginBottom: "32px",
-  padding: "24px 28px",
-  border: "1px solid #1e293b",
-  borderRadius: "14px",
-  background: "rgba(15, 23, 42, 0.55)",
-};
-
-const proofNumberStyle = {
-  fontSize: "30px",
-  fontWeight: 800,
-  letterSpacing: "-0.01em",
-  lineHeight: 1.05,
-  color: "#f5f7fa",
-};
-
-const proofLabelStyle = {
-  marginTop: "6px",
-  fontSize: "12px",
-  letterSpacing: "0.12em",
-  textTransform: "uppercase",
-  opacity: 0.7,
-};
-
-const evidenceCardStyle = {
-  background: "#161a22",
-  padding: "30px",
-  borderRadius: "12px",
-  border: "1px solid #1e293b",
-  transition: "transform 0.2s ease, border-color 0.2s ease",
-  textDecoration: "none",
-  color: "inherit",
-  display: "block",
-};
-
-const evidenceLabelStyle = {
-  fontSize: "12px",
-  letterSpacing: "0.14em",
-  textTransform: "uppercase",
-  color: "#7dd3fc",
-  fontWeight: 600,
-  marginBottom: "10px",
-};
-
-const evidenceTitleStyle = {
-  fontSize: "1.15rem",
-  margin: "0 0 12px 0",
-  lineHeight: 1.3,
-};
-
-const operatingCardStyle = {
-  background: "#0f172a",
-  border: "1px solid #1e293b",
-  borderLeft: "3px solid #38bdf8",
-  borderRadius: "10px",
-  padding: "22px 24px",
-};
-
-const operatingLabelStyle = {
-  fontSize: "12px",
-  letterSpacing: "0.14em",
-  textTransform: "uppercase",
-  color: "#94a3b8",
-  fontWeight: 600,
-  marginBottom: "8px",
-};
-
-const operatingBodyStyle = {
-  margin: 0,
-  fontSize: "15px",
-  lineHeight: 1.55,
-  opacity: 0.92,
-};
-
-const sectionWrap = (extra = {}) => ({
-  marginTop: "72px",
-  paddingTop: "8px",
-  ...extra,
-});
-
-const sectionEyebrowStyle = {
-  fontSize: "12px",
-  letterSpacing: "0.18em",
-  textTransform: "uppercase",
-  color: "#7dd3fc",
-  marginBottom: "10px",
-  fontWeight: 600,
-};
-
-const sectionHeadingStyle = {
-  fontSize: "32px",
-  margin: "0 0 12px 0",
-  lineHeight: 1.2,
-};
-
-const sectionLeadStyle = {
-  fontSize: "17px",
-  lineHeight: 1.65,
-  opacity: 0.85,
-  maxWidth: "880px",
-  marginBottom: "32px",
+  "/leadership": "track-record",
+  "/operating-model": "how-i-work",
+  "/evidence": "work",
+  "/advisory": "advisory",
 };
 
 const Z_BASE = "https://z.industriallystrong.com";
+const LINKEDIN = "https://www.linkedin.com/in/zahirudeen-premji-5a7a553b1/";
+
+// Light reading surface: dark ink on warm paper, full contrast.
+const INK = "#1a1a19";
+const INK2 = "#45453f";
+const RULE = "#dcdad3";
+const ACCENT = "#1d4ed8";
+
+const page = {
+  background: "#fbfaf7",
+  color: INK,
+  borderRadius: "24px",
+  padding: "56px clamp(20px, 5vw, 64px) 40px",
+};
+
+const eyebrow = {
+  fontSize: "13px",
+  letterSpacing: "0.16em",
+  textTransform: "uppercase",
+  color: INK2,
+  fontWeight: 600,
+  marginBottom: "12px",
+};
+
+const h2 = {
+  fontSize: "clamp(26px, 3.4vw, 34px)",
+  lineHeight: 1.2,
+  margin: "0 0 14px 0",
+  letterSpacing: "-0.01em",
+};
+
+const lead = {
+  fontSize: "18px",
+  lineHeight: 1.7,
+  maxWidth: "820px",
+  margin: "0 0 28px 0",
+};
+
+const section = { marginTop: "80px" };
+
+const DOMAINS = [
+  {
+    id: "governance",
+    label: "Governance AI",
+    title: "Agents that draft, and a record that never forgets",
+    body: [
+      "Small institutions such as HOA boards run on volunteers, a managing agent and a memory that walks out the door at the end of every term. TriveraAgent is the governance agent I am building for them. It runs on the real working record of the board I serve as President: it reads, reconciles and drafts, and it never writes to canonical state. A person holds that boundary, and an append-only ledger keeps the history.",
+      "Underneath it is CLAW, a cross-model arbitration workflow in which no single model is load-bearing, because models change without notice.",
+    ],
+    links: [
+      { label: "Correctness arbitration", to: "/correctness" },
+      { label: "Read the Trivera series on LinkedIn", href: LINKEDIN },
+    ],
+  },
+  {
+    id: "lithography",
+    label: "Lithography & EUV",
+    title: "Back to the physics I started in",
+    body: [
+      "My lithography roots are at Nikon. The current work asks whether exposure systems could scale the way chips do, through many replicated writers rather than one ever-larger optical machine, and what compact EUV sources that would need.",
+      "Alongside the architecture I write short process notes, most recently on how High-NA depth of focus, quadrupole illumination and underlayer electrons interact in the resist.",
+    ],
+    links: [
+      { label: "Modular lithography", to: "/lithography" },
+      { label: "Field note: underlayer electrons", to: "/lithography/notes/underlayer-electrons" },
+      { label: "EUV lab simulations", to: "/lab" },
+    ],
+  },
+  {
+    id: "finance",
+    label: "Finance state resolution",
+    title: "When replicas disagree about what happened",
+    body: [
+      "Distributed financial systems can converge on a state that is internally consistent and still wrong, because updates arrived in a different order on different replicas. The Replica Race Resolution Lab shows where early collapse to one answer fails and where keeping competing hypotheses alive, then arbitrating, holds.",
+      "It grows out of my storage work at StorageTek and StorAge.",
+    ],
+    links: [
+      { label: "Replica Race Resolution Lab", href: "https://replica-race-lab.industriallystrong.com/" },
+      { label: "Correctness comparator", href: "https://compare.industriallystrong.com/" },
+    ],
+  },
+  {
+    id: "apps",
+    label: "Apps",
+    title: "Building the products myself",
+    body: [
+      "I still write the code. GutSense compares dietary analysis from Claude, Gemini and Apple's on-device models side by side, for people managing food sensitivities. QRLPhoenix is an iOS platform for discovering and evaluating trading strategies.",
+      "Both are in development. They keep my judgment honest at the level where systems actually break.",
+    ],
+    links: [
+      { label: "GutSense", to: "/systems/gutsense" },
+      { label: "QRLPhoenix", to: "/systems/qrlphoenix" },
+    ],
+  },
+];
+
+const ADVISORY = [
+  {
+    title: "Operating structure",
+    body: "Leadership roles, decision rights, operating cadence and compensation design, so the company runs on structure rather than on the founder's memory.",
+  },
+  {
+    title: "Engineering and program execution",
+    body: "Turning ambiguity into executable programs, and making the hard portfolio calls: invest, pause, redirect or kill.",
+  },
+  {
+    title: "Architecture where correctness matters",
+    body: "AI agent systems and their governance, semiconductor and lithography technology, and distributed state that has to stay right.",
+  },
+];
+
+const PRINCIPLES = [
+  {
+    title: "Build the artifact, not the argument",
+    body: "A proposal is a simulation. People engage with something they can use, break and correct, so I build the working version first.",
+  },
+  {
+    title: "Check the work where errors get expensive",
+    body: "Not everywhere, which is exhausting, but at every boundary where a mistake becomes costly or irreversible. That applies to people, agents and machines alike.",
+  },
+  {
+    title: "The record outlives whoever wrote it",
+    body: "Agents drift, volunteers rotate and teams change. An append-only record is the permanent part, and I design around that.",
+  },
+];
+
+const PROOF = [
+  { n: "30+", l: "Years in semiconductor R&D" },
+  { n: "$150M+", l: "R&D managed" },
+  { n: "65+", l: "Global team led" },
+  { n: "7", l: "US patents" },
+];
+
+const STORIES = [
+  { label: "PMP culture transformation: 26 reports, 40 concurrent projects", path: "pmp-story.html" },
+  { label: "Killed a failing acquired program in seven days", path: "kill-story.html" },
+  { label: "Integrated 30+ engineers across two partners in India", path: "india-story.html" },
+  { label: "StorAge acquisition and integration", path: "storeage-story.html" },
+  { label: "Multi-year advisory to Ozo Coffee", path: "ozo-story.html" },
+];
+
+function TextLink({ link, context }) {
+  const style = {
+    color: ACCENT,
+    textDecoration: "none",
+    fontWeight: 600,
+    borderBottom: `1px solid ${ACCENT}55`,
+    paddingBottom: "1px",
+  };
+  const onClick = () => trackEvent("home_v2", `${context}:${link.label}`);
+  if (link.to) {
+    return (
+      <Link to={link.to} style={style} onClick={onClick}>
+        {link.label} →
+      </Link>
+    );
+  }
+  return (
+    <a href={link.href} target="_blank" rel="noreferrer" style={style} onClick={onClick}>
+      {link.label} ↗
+    </a>
+  );
+}
 
 export default function Home() {
   const location = useLocation();
 
-  // When entering Home via /leadership, /operating-model, or /evidence,
-  // scroll to the corresponding section. Plain "/" leaves scroll at top.
   useEffect(() => {
     const sectionId = PATH_TO_SECTION[location.pathname];
     if (!sectionId) {
       window.scrollTo({ top: 0, behavior: "auto" });
       return;
     }
-    // Allow the page to render before scrolling.
     const t = window.setTimeout(() => {
       const el = document.getElementById(sectionId);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -146,569 +194,246 @@ export default function Home() {
 
   return (
     <PageShell>
-      {/* 1. HERO — engineering executive / systems architect / builder */}
-      <section
-        style={{
-          padding: "96px 0 72px 0",
-          borderBottom: "1px solid #1e293b",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "13px",
-            letterSpacing: "0.16em",
-            textTransform: "uppercase",
-            opacity: 0.85,
-            marginBottom: "20px",
-            color: "#7dd3fc",
-            fontWeight: 600,
-          }}
-        >
-          Engineering Executive · Global R&D · Program Leadership · Systems Architecture
-        </div>
-
-        <h1
-          style={{
-            fontSize: "clamp(40px, 6vw, 64px)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.02em",
-            margin: "0 0 22px 0",
-            maxWidth: "1000px",
-          }}
-        >
-          Leading Complex Engineering Systems
-        </h1>
-
-        <p
-          style={{
-            fontSize: "21px",
-            lineHeight: 1.6,
-            maxWidth: "920px",
-            opacity: 0.92,
-            marginBottom: "10px",
-          }}
-        >
-          I lead engineering organizations where architecture, execution
-          discipline, and real-world constraints have to converge — global
-          teams, acquisition integration, AI systems, infrastructure, AI
-          decision systems, and physical-domain platforms.
-        </p>
-
-        <p
-          style={{
-            fontSize: "15px",
-            letterSpacing: "0.06em",
-            textTransform: "uppercase",
-            opacity: 0.7,
-            marginTop: "26px",
-            marginBottom: "0",
-          }}
-        >
-          Look what I led — and I still build.
-        </p>
-
-        {/* Proof strip — five quantitative anchors */}
-        <div style={proofStripStyle}>
-          <div>
-            <div style={proofNumberStyle}>$150M+</div>
-            <div style={proofLabelStyle}>R&D Managed</div>
-          </div>
-          <div>
-            <div style={proofNumberStyle}>65+</div>
-            <div style={proofLabelStyle}>Global Team</div>
-          </div>
-          <div>
-            <div style={proofNumberStyle}>40+</div>
-            <div style={proofLabelStyle}>Concurrent Projects</div>
-          </div>
-          <div>
-            <div style={proofNumberStyle}>30+</div>
-            <div style={proofLabelStyle}>Engineers Integrated</div>
-          </div>
-          <div>
-            <div style={proofNumberStyle}>7+ US Patents</div>
-            <div style={proofLabelStyle}>Granted</div>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginTop: "10px" }}>
-          <a
-            href="#leadership-evidence"
-            onClick={() =>
-              trackEvent("navigation", "view_leadership_evidence_hero")
-            }
+      <div style={page}>
+        {/* HERO */}
+        <section>
+          <div style={eyebrow}>Zahirudeen Premji · Colorado</div>
+          <h1
             style={{
-              display: "inline-block",
-              padding: "12px 22px",
-              borderRadius: "8px",
-              background: "#38bdf8",
-              color: "#08131f",
-              fontWeight: 700,
-              letterSpacing: "0.04em",
-              textDecoration: "none",
+              fontSize: "clamp(34px, 5.4vw, 58px)",
+              lineHeight: 1.08,
+              letterSpacing: "-0.02em",
+              margin: "0 0 22px 0",
+              maxWidth: "900px",
             }}
           >
-            View Leadership Evidence →
-          </a>
+            Systems that have to be right: in silicon, in ledgers, and in the
+            institutions people run.
+          </h1>
+          <p style={{ ...lead, fontSize: "20px" }}>
+            Thirty years of semiconductor R&amp;D and engineering leadership at
+            StorageTek, Nikon, IBM, LSI and Microsoft. Now I build
+            independently across four domains, and the thread through all of
+            them is the same: keep the record correct when the parts underneath
+            it change. I bring that to a small number of founders as a
+            hands-on advisor.
+          </p>
+          <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+            <a
+              href="#advisory"
+              onClick={() => trackEvent("home_v2", "hero_advisory")}
+              style={{
+                background: INK,
+                color: "#fbfaf7",
+                padding: "13px 22px",
+                borderRadius: "10px",
+                textDecoration: "none",
+                fontWeight: 600,
+              }}
+            >
+              Advisory
+            </a>
+            <a
+              href="#work"
+              onClick={() => trackEvent("home_v2", "hero_see_work")}
+              style={{
+                border: `1px solid ${INK}`,
+                color: INK,
+                padding: "12px 22px",
+                borderRadius: "10px",
+                textDecoration: "none",
+                fontWeight: 600,
+              }}
+            >
+              See the work
+            </a>
+          </div>
+        </section>
 
-          <a
-            href="#builder-layer"
-            onClick={() => trackEvent("navigation", "view_builder_layer_hero")}
+
+        {/* ADVISORY */}
+        <section id="advisory" style={section}>
+          <div style={eyebrow}>Advisory</div>
+          <h2 style={h2}>A hands-on advisor for founders</h2>
+          <p style={lead}>
+            I take on a small number of founder-level engagements where I am in
+            the work, not on a slide, and where the work produces results you
+            can point to. The bar is high on both sides, so most conversations
+            start with whether it is a fit.
+          </p>
+          <div
             style={{
-              display: "inline-block",
-              padding: "12px 22px",
-              borderRadius: "8px",
-              background: "transparent",
-              color: "#f5f7fa",
-              fontWeight: 600,
-              letterSpacing: "0.04em",
-              textDecoration: "none",
-              border: "1px solid #334155",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "20px",
             }}
           >
-            View Builder Layer
-          </a>
-
-          <PrimaryButton to="/contact" secondary eventLabel="hero_open_contact">
-            Contact
-          </PrimaryButton>
-        </div>
-      </section>
-
-      {/* 2. LEADERSHIP EVIDENCE */}
-      <section id="leadership-evidence" style={sectionWrap()}>
-        <div style={sectionEyebrowStyle}>01 — Leadership Evidence</div>
-        <h2 style={sectionHeadingStyle}>What I have led</h2>
-        <p style={sectionLeadStyle}>
-          The first-order signal is not only that I build systems. It is that I
-          have led teams, programs, integrations, and portfolio decisions where
-          execution discipline mattered.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "22px",
-          }}
-        >
-          <a
-            href={`${Z_BASE}/pmp-story.html`}
-            target="_blank"
-            rel="noreferrer"
-            style={evidenceCardStyle}
-            onClick={() =>
-              trackEvent("leadership_evidence", "open_pmp_story")
-            }
-          >
-            <div style={evidenceLabelStyle}>Scale Program Execution</div>
-            <h3 style={evidenceTitleStyle}>
-              26 direct reports, 40 concurrent projects, PMP culture transformation
-            </h3>
-            <p style={{ margin: 0, opacity: 0.82, lineHeight: 1.6 }}>
-              Drove a delivery-culture transformation from 0% PMP certification
-              to near-universal adoption over 18 months across a multi-site
-              engineering organization.
-            </p>
-          </a>
-
-          <a
-            href={`${Z_BASE}/kill-story.html`}
-            target="_blank"
-            rel="noreferrer"
-            style={evidenceCardStyle}
-            onClick={() =>
-              trackEvent("leadership_evidence", "open_kill_story")
-            }
-          >
-            <div style={evidenceLabelStyle}>Make Hard Portfolio Decisions</div>
-            <h3 style={evidenceTitleStyle}>
-              Killed a failing acquired program, redeployed resources
-            </h3>
-            <p style={{ margin: 0, opacity: 0.82, lineHeight: 1.6 }}>
-              Assessed a stalled acquired program, presented the case to senior
-              executives, terminated it within seven days, and redeployed 100%
-              of resources to higher-conviction work.
-            </p>
-          </a>
-
-          <a
-            href={`${Z_BASE}/india-story.html`}
-            target="_blank"
-            rel="noreferrer"
-            style={evidenceCardStyle}
-            onClick={() =>
-              trackEvent("leadership_evidence", "open_india_story")
-            }
-          >
-            <div style={evidenceLabelStyle}>Build Global Engineering Capacity</div>
-            <h3 style={evidenceTitleStyle}>
-              Selected partners, integrated 30+ engineers in India
-            </h3>
-            <p style={{ margin: 0, opacity: 0.82, lineHeight: 1.6 }}>
-              Evaluated five Indian engineering firms, selected two partners,
-              integrated 30+ engineers, and built a distributed delivery
-              operating model across the US and India.
-            </p>
-          </a>
-
-          <a
-            href={`${Z_BASE}/storeage-story.html`}
-            target="_blank"
-            rel="noreferrer"
-            style={evidenceCardStyle}
-            onClick={() =>
-              trackEvent("leadership_evidence", "open_storeage_story")
-            }
-          >
-            <div style={evidenceLabelStyle}>Lead Acquisition Integration</div>
-            <h3 style={evidenceTitleStyle}>
-              StoreAge integration across departments and product execution
-            </h3>
-            <p style={{ margin: 0, opacity: 0.82, lineHeight: 1.6 }}>
-              Appointed integration manager reporting to the CEO; aligned
-              departments and later led joint product development across
-              design, architecture, engineering, and test.
-            </p>
-          </a>
-
-          <a
-            href={`${Z_BASE}/ozo-story.html`}
-            target="_blank"
-            rel="noreferrer"
-            style={evidenceCardStyle}
-            onClick={() =>
-              trackEvent("leadership_evidence", "open_ozo_story")
-            }
-          >
-            <div style={evidenceLabelStyle}>Build Operating Systems for People</div>
-            <h3 style={evidenceTitleStyle}>
-              Ozo advisory: leadership structure, compensation, operating cadence
-            </h3>
-            <p style={{ margin: 0, opacity: 0.82, lineHeight: 1.6 }}>
-              Provided multi-year strategic advisory support, helping stabilize
-              leadership structure, operating cadence, compensation design, and
-              execution practices.
-            </p>
-          </a>
-        </div>
-      </section>
-
-      {/* 3. HOW I LEAD ENGINEERING — operating model */}
-      <section id="operating-model" style={sectionWrap()}>
-        <div style={sectionEyebrowStyle}>02 — Operating Model</div>
-        <h2 style={sectionHeadingStyle}>How I Lead Engineering</h2>
-        <p style={sectionLeadStyle}>
-          My leadership model is architecture-grounded and execution-oriented:
-          clarify the system, align the organization, then drive accountable
-          delivery.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "16px",
-          }}
-        >
-          <div style={operatingCardStyle}>
-            <div style={operatingLabelStyle}>Translate</div>
-            <p style={operatingBodyStyle}>
-              Translate ambiguity into executable programs.
-            </p>
-          </div>
-          <div style={operatingCardStyle}>
-            <div style={operatingLabelStyle}>Align</div>
-            <p style={operatingBodyStyle}>
-              Align engineering, product, research, business, and executives.
-            </p>
-          </div>
-          <div style={operatingCardStyle}>
-            <div style={operatingLabelStyle}>Cadence</div>
-            <p style={operatingBodyStyle}>
-              Build cadence across roadmaps, risks, dependencies, and
-              decisions.
-            </p>
-          </div>
-          <div style={operatingCardStyle}>
-            <div style={operatingLabelStyle}>Scale</div>
-            <p style={operatingBodyStyle}>
-              Scale teams through structure, standards, delegation, and talent
-              development.
-            </p>
-          </div>
-          <div style={operatingCardStyle}>
-            <div style={operatingLabelStyle}>Decide</div>
-            <p style={operatingBodyStyle}>
-              Make portfolio decisions: invest, pause, redirect, or kill.
-            </p>
-          </div>
-          <div style={operatingCardStyle}>
-            <div style={operatingLabelStyle}>Stay Current</div>
-            <p style={operatingBodyStyle}>
-              Stay technically current enough to challenge architecture and
-              build when needed.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. BUILDER LAYER / ACTIVE SYSTEMS */}
-      <section id="builder-layer" style={sectionWrap()}>
-        <div style={sectionEyebrowStyle}>03 — Builder Layer</div>
-        <h2 style={sectionHeadingStyle}>Active Systems</h2>
-        <p style={sectionLeadStyle}>
-          These active systems show continuing technical depth. They are not a
-          substitute for leadership evidence; they prove that my engineering
-          judgment remains current at the implementation level.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "22px",
-          }}
-        >
-          <a
-            href="https://compare.industriallystrong.com"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => {
-              trackEvent("navigation", "launch_correctness_comparator");
-              sendTelemetry({
-                app: "industriallystrong",
-                lane: "general",
-                eventType: "outbound_click",
-                metadata: {
-                  label: "s02_correctness_comparator",
-                  href: "https://compare.industriallystrong.com",
-                  section: "builder_layer",
-                },
-              });
-            }}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="structure-card">
-              <h3>S02 Correctness Comparator</h3>
-              <p style={{ margin: 0 }}>
-                Interactive proof surface demonstrating where deterministic
-                reconstruction succeeds and heuristic reconciliation fails
-                across storage, tape, and semiconductor scenarios.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="/decks/mht"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => {
-              trackEvent("navigation", "open_mht_deck");
-              sendTelemetry({
-                app: "industriallystrong",
-                lane: "general",
-                eventType: "outbound_click",
-                metadata: {
-                  label: "open_mht_deck",
-                  href: "/decks/mht",
-                  section: "builder_layer",
-                },
-              });
-            }}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="structure-card">
-              <h3>MHT Capability Deck</h3>
-              <p style={{ margin: 0 }}>
-                Asynchronous signal tracking, ANN filtering, and the
-                architecture behind the system — explained end to end.
-              </p>
-            </div>
-          </a>
-
-          <CardLink to="/systems/qrlphoenix" title="QRLPhoenix">
-            <p style={{ margin: 0 }}>
-              AI-assisted iOS strategy discovery and evaluation platform
-              connected to the research engine.
-            </p>
-          </CardLink>
-
-          <CardLink to="/systems/gutsense" title="GutSense">
-            <p style={{ margin: 0 }}>
-              Multi-agent dietary intelligence using Claude, Gemini, and Apple
-              Foundation Models.
-            </p>
-          </CardLink>
-
-          <CardLink to="/research" title="State Resolution Engine">
-            <p style={{ margin: 0 }}>
-              Research infrastructure for exploring large candidate strategy
-              populations.
-            </p>
-          </CardLink>
-        </div>
-      </section>
-
-      {/* 5. EVIDENCE / EXPERIMENTAL SYSTEMS */}
-      <section id="evidence" style={sectionWrap()}>
-        <div style={sectionEyebrowStyle}>04 — Evidence / Experimental Systems</div>
-        <h2 style={sectionHeadingStyle}>Architecture evidence — not production systems</h2>
-        <p style={sectionLeadStyle}>
-          These are synthetic-data demonstrations and architecture artifacts
-          that show how the underlying decision structures behave. They are
-          evidence of the architectural approach, not production systems.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "22px",
-          }}
-        >
-          <a
-            href="https://demomhtfaiss.industriallystrong.com"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => {
-              trackEvent("navigation", "open_mht_faiss_decision_architecture_demo");
-              sendTelemetry({
-                app: "industriallystrong",
-                lane: "general",
-                eventType: "outbound_click",
-                metadata: {
-                  label: "mht_faiss_decision_architecture_demo",
-                  href: "https://demomhtfaiss.industriallystrong.com",
-                  section: "evidence_experimental",
-                  maturity: "synthetic_demo_architecture_evidence",
-                },
-              });
-            }}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <div className="structure-card">
+            {ADVISORY.map((a) => (
               <div
+                key={a.title}
                 style={{
-                  display: "inline-block",
-                  padding: "4px 10px",
-                  borderRadius: "999px",
-                  fontSize: "11px",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  background: "rgba(251, 191, 36, 0.12)",
-                  color: "#fbbf24",
-                  border: "1px solid rgba(251, 191, 36, 0.35)",
-                  marginBottom: "12px",
-                  fontWeight: 600,
+                  background: "#ffffff",
+                  border: `1px solid ${RULE}`,
+                  borderRadius: "18px",
+                  padding: "24px",
                 }}
               >
-                Synthetic Demo — Architecture Evidence, Not Production System
+                <h3 style={{ fontSize: "19px", lineHeight: 1.35, margin: "0 0 10px 0" }}>{a.title}</h3>
+                <p style={{ fontSize: "16px", lineHeight: 1.65, margin: 0 }}>{a.body}</p>
               </div>
-              <h3 style={{ marginTop: 0 }}>MHT/FAISS Decision Architecture Demo</h3>
-              <p style={{ margin: 0 }}>
-                Synthetic-data demonstration comparing LLM-only single-answer
-                inference against hypothesis-preserving decision architecture
-                using latent state encoding, similarity retrieval, and
-                competing hypothesis tracking.
-              </p>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      {/* 6. LABS / TECHNICAL ARTIFACTS */}
-      <section id="labs" style={sectionWrap()}>
-        <div style={sectionEyebrowStyle}>05 — Labs &amp; Technical Artifacts</div>
-        <h2 style={sectionHeadingStyle}>Where the engineering judgment shows up</h2>
-        <p style={sectionLeadStyle}>
-          Architecture write-ups, research notes, and decks behind the active
-          systems above.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: "22px",
-          }}
-        >
-          <CardLink to="/architecture" title="Architecture">
-            <p style={{ margin: 0 }}>
-              System architecture and the reasoning behind structural choices.
-            </p>
-          </CardLink>
-
-          <CardLink to="/research" title="Research">
-            <p style={{ margin: 0 }}>
-              Foundational work on signal processing, candidate state tracking,
-              and associative retrieval.
-            </p>
-          </CardLink>
-
-          <CardLink to="/decks" title="Decks">
-            <p style={{ margin: 0 }}>
-              Capability decks summarizing systems, programs, and outcomes.
-            </p>
-          </CardLink>
-
-          <CardLink to="/lab" title="Lab">
-            <p style={{ margin: 0 }}>
-              Working notebooks, experiments, and engineering scratch surfaces.
-            </p>
-          </CardLink>
-
-          <CardLink to="/correctness" title="Correctness Arbitration">
-            <p style={{ margin: 0 }}>
-              Where deterministic decision structures replace convincing-but-wrong AI reasoning.
-            </p>
-          </CardLink>
-
-          <CardLink to="/programs" title="Programs">
-            <p style={{ margin: 0 }}>
-              Program-level rollups and portfolio context.
-            </p>
-          </CardLink>
-        </div>
-      </section>
-
-      {/* 6. CONTACT / LINKEDIN */}
-      <section id="contact" style={sectionWrap({ marginBottom: "48px" })}>
-        <div style={sectionEyebrowStyle}>06 — Contact</div>
-        <h2 style={sectionHeadingStyle}>Get in touch</h2>
-        <p style={sectionLeadStyle}>
-          For executive engineering leadership conversations, partnership
-          discussions, or deeper review of the leadership evidence above.
-        </p>
-
-        <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
-          <PrimaryButton to="/contact" eventLabel="contact_section_open_contact">
-            Contact
-          </PrimaryButton>
-
-          <a
-            href="https://www.linkedin.com/in/zahirudeen-premji-5a7a553b1/"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => trackEvent("external", "linkedin_profile_home")}
+            ))}
+          </div>
+          <div
             style={{
-              display: "inline-block",
-              padding: "12px 22px",
-              borderRadius: "8px",
-              background: "transparent",
-              color: "#f5f7fa",
-              fontWeight: 600,
-              letterSpacing: "0.04em",
-              textDecoration: "none",
-              border: "1px solid #334155",
+              marginTop: "22px",
+              padding: "20px 24px",
+              borderLeft: `4px solid ${ACCENT}`,
+              background: "#ffffff",
+              borderRadius: "0 14px 14px 0",
+              fontSize: "17px",
+              lineHeight: 1.65,
             }}
           >
-            LinkedIn →
-          </a>
-        </div>
-      </section>
+            <strong>In practice:</strong> a multi-year advisory with Ozo Coffee
+            in Boulder, working with the founders on leadership structure,
+            operating cadence, compensation design and execution practices.{" "}
+            <TextLink link={{ label: "Read the Ozo story", href: `${Z_BASE}/ozo-story.html` }} context="advisory" />
+          </div>
+          <div style={{ marginTop: "24px" }}>
+            <Link
+              to="/contact"
+              onClick={() => trackEvent("home_v2", "advisory_contact")}
+              style={{
+                background: INK,
+                color: "#fbfaf7",
+                padding: "13px 22px",
+                borderRadius: "10px",
+                textDecoration: "none",
+                fontWeight: 600,
+                display: "inline-block",
+              }}
+            >
+              Start a conversation
+            </Link>
+          </div>
+        </section>
 
-      <LiveMetricsCard />
+        {/* CURRENT WORK */}
+        <section id="work" style={section}>
+          <div style={eyebrow}>Current work</div>
+          <h2 style={h2}>Four domains, one discipline</h2>
+          <p style={lead}>
+            What I bring to an engagement is current, because I am still doing
+            the work. Each domain links to something you can open: a working
+            lab, a demo or a write-up.
+          </p>
+
+          <div style={{ display: "grid", gap: "20px" }}>
+            {DOMAINS.map((d) => (
+              <article
+                key={d.id}
+                id={d.id}
+                style={{
+                  background: "#ffffff",
+                  border: `1px solid ${RULE}`,
+                  borderRadius: "18px",
+                  padding: "28px clamp(18px, 3vw, 32px)",
+                }}
+              >
+                <div style={{ ...eyebrow, color: ACCENT, marginBottom: "8px" }}>
+                  {d.label}
+                </div>
+                <h3 style={{ fontSize: "23px", lineHeight: 1.3, margin: "0 0 12px 0" }}>
+                  {d.title}
+                </h3>
+                {d.body.map((p) => (
+                  <p key={p.slice(0, 24)} style={{ fontSize: "17px", lineHeight: 1.7, margin: "0 0 12px 0", maxWidth: "860px" }}>
+                    {p}
+                  </p>
+                ))}
+                <div style={{ display: "flex", gap: "22px", flexWrap: "wrap", marginTop: "16px" }}>
+                  {d.links.map((l) => (
+                    <TextLink key={l.label} link={l} context={d.id} />
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* HOW I WORK */}
+        <section id="how-i-work" style={section}>
+          <div style={eyebrow}>How I work</div>
+          <h2 style={h2}>The same three rules in every domain</h2>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "20px",
+              marginTop: "8px",
+            }}
+          >
+            {PRINCIPLES.map((p) => (
+              <div key={p.title} style={{ borderTop: `3px solid ${INK}`, paddingTop: "16px" }}>
+                <h3 style={{ fontSize: "19px", margin: "0 0 8px 0" }}>{p.title}</h3>
+                <p style={{ fontSize: "16px", lineHeight: 1.65, margin: 0 }}>{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* TRACK RECORD */}
+        <section id="track-record" style={section}>
+          <div style={eyebrow}>Foundation</div>
+          <h2 style={h2}>Where the judgment comes from</h2>
+          <p style={lead}>
+            Before working independently I led engineering organizations,
+            programs and acquisitions. The stories behind these numbers are
+            written up in full.
+          </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              gap: "16px",
+              padding: "22px 0",
+              borderTop: `1px solid ${RULE}`,
+              borderBottom: `1px solid ${RULE}`,
+            }}
+          >
+            {PROOF.map((p) => (
+              <div key={p.l}>
+                <div style={{ fontSize: "30px", fontWeight: 800, letterSpacing: "-0.01em" }}>{p.n}</div>
+                <div style={{ fontSize: "13px", letterSpacing: "0.1em", textTransform: "uppercase", color: INK2, marginTop: "4px" }}>
+                  {p.l}
+                </div>
+              </div>
+            ))}
+          </div>
+          <ul style={{ listStyle: "none", padding: 0, margin: "18px 0 0 0", display: "grid", gap: "10px" }}>
+            {STORIES.map((s) => (
+              <li key={s.path} style={{ fontSize: "17px" }}>
+                <TextLink link={{ label: s.label, href: `${Z_BASE}/${s.path}` }} context="story" />
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* CONTACT */}
+        <section id="contact" style={{ ...section, marginBottom: "8px" }}>
+          <div style={eyebrow}>Next step</div>
+          <h2 style={h2}>If you are a founder who wants a hands-on partner</h2>
+          <p style={lead}>
+            Tell me what you are building and where it is stuck. If it is a
+            fit, we will both know quickly. Collaborators and readers working
+            in any of these domains are welcome too.
+          </p>
+          <div style={{ display: "flex", gap: "22px", flexWrap: "wrap" }}>
+            <TextLink link={{ label: "Start a conversation", to: "/contact" }} context="contact" />
+            <TextLink link={{ label: "LinkedIn", href: LINKEDIN }} context="contact" />
+          </div>
+        </section>
+      </div>
     </PageShell>
   );
 }

@@ -43,6 +43,7 @@ export default function App() {
         <Route path="/leadership" element={<Home />} />
         <Route path="/operating-model" element={<Home />} />
         <Route path="/evidence" element={<Home />} />
+        <Route path="/advisory" element={<Home />} />
         <Route path="/concepts" element={<Concepts />} />
         <Route path="/systems" element={<Systems />} />
         <Route path="/research" element={<Research />} />

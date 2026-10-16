@@ -1,0 +1,27 @@
+# is-contact-mailer — emails contact-form submissions to Z.
+# Called only by the Pages Function /api/contact via a service binding.
+#
+# The destination address is a Worker secret (TO), never committed here.
+# With no destination_address on the binding, it may send only to addresses
+# verified in this account's Email Routing.
+#
+# One-time setup (see README.md in this folder):
+#   1. Cloudflare dashboard → industriallystrong.com → Email → Email Routing:
+#      enable it, and add + verify the destination address.
+#   2. npx wrangler secret put TO      (paste the destination address)
+#   3. npx wrangler deploy
+#   4. Pages project → Settings → Bindings → add Service binding
+#      CONTACT_MAILER → is-contact-mailer, then redeploy the site.
+
+name = "is-contact-mailer"
+main = "src/worker.js"
+compatibility_date = "2024-12-01"
+
+# No public URL: reachable only through the Pages service binding.
+workers_dev = false
+
+[[send_email]]
+name = "CONTACT_EMAIL"
+
+[vars]
+FROM = "contact@industriallystrong.com"

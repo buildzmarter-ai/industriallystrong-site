@@ -64,20 +64,20 @@ export default function SiteHeader() {
             Home
           </Link>
 
-          <Link to="/leadership" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-            Leadership
-          </Link>
-
-          <Link to="/operating-model" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-            Operating Model
-          </Link>
-
-          <Link to="/systems" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-            Systems
+          <Link to="/advisory" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+            Advisory
           </Link>
 
           <Link to="/evidence" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-            Evidence
+            Work
+          </Link>
+
+          <Link to="/lithography" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+            Lithography
+          </Link>
+
+          <Link to="/leadership" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+            Track Record
           </Link>
 
           <Link to="/contact" style={linkStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>

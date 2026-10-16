@@ -21,14 +21,12 @@ export default function SiteFooter() {
           IndustriallyStrong
         </div>
         <div>
-          Engineering leadership, systems architecture, and execution discipline
-          made visible through deployed systems and evidence-backed technical
-          artifacts.
+          Zahirudeen Premji. Governance AI, lithography and EUV, finance state
+          resolution, and the apps I build myself.
         </div>
         <div style={{ marginTop: "8px" }}>
-          The goal is to show how leadership decisions, architecture, and
-          execution discipline translate into systems that hold under
-          real-world constraints.
+          One discipline across all of them: keep the record correct when the
+          parts underneath it change.
         </div>
         <div
           style={{
