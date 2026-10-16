@@ -16,6 +16,7 @@ import Programs from "./pages/Programs";
 
 import { useEffect } from "react";
 import Lithography from "./pages/Lithography";
+import LithographyUnderlayerNote from "./pages/LithographyUnderlayerNote";
 import Lab from "./pages/Lab";
 import CorrectnessArbitration from "./pages/CorrectnessArbitration";
 // PM47.10.1 — Cognition showcase page (public, auth-free; hosts the
@@ -53,6 +54,7 @@ export default function App() {
         <Route path="/decks" element={<Decks />} />
         <Route path="/programs" element={<Programs />} />
         <Route path="/lithography" element={<Lithography />} />
+        <Route path="/lithography/notes/underlayer-electrons" element={<LithographyUnderlayerNote />} />
         <Route path="/lab" element={<Lab />} />
         <Route path="/correctness" element={<CorrectnessArbitration />} />
         <Route path="/cognition" element={<Cognition />} />

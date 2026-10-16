@@ -285,6 +285,52 @@ export default function Lithography() {
       </section>
 
 
+      {/* FIELD NOTES */}
+      <section className="story-section">
+
+        <div className="story-eyebrow">
+          Field notes
+        </div>
+
+        <h2>
+          Process Physics Notes
+        </h2>
+
+        <p>
+          Shorter notes on the process side of EUV: where resist, illumination
+          and the layers under the resist interact.
+        </p>
+
+        <Link
+          to="/lithography/notes/underlayer-electrons"
+          style={{
+            display: "block",
+            border: "1px solid rgba(120,180,255,0.35)",
+            borderRadius: "18px",
+            padding: "22px",
+            background: "rgba(120,180,255,0.05)",
+            color: "inherit",
+            textDecoration: "none",
+            marginTop: "18px",
+          }}
+        >
+          <div style={{ fontSize: "13px", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.65, marginBottom: "8px" }}>
+            16 October 2026
+          </div>
+          <div style={{ fontSize: "20px", fontWeight: 600, marginBottom: "8px" }}>
+            Depth of focus, quadrupole illumination and underlayer electrons:
+            working together, or against each other?
+          </div>
+          <div style={{ fontSize: "16px", opacity: 0.8 }}>
+            Why High-NA's thinner resist hands more of the exposure to the
+            underlayer, and why both NAs land on a similar stochastic floor.
+            Read the note →
+          </div>
+        </Link>
+
+      </section>
+
+
       {/* OPEN QUESTIONS */}
       <section className="story-section">
 
