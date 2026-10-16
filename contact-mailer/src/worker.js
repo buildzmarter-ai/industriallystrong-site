@@ -1,11 +1,25 @@
 // is-contact-mailer
 //
 // Emails contact-form submissions from industriallystrong.com to the
-// verified Email Routing destination address. Called only by the Pages
-// Function /api/contact through a service binding; workers_dev is off and
-// there is no route, so it has no public URL.
+// verified Email Routing destination address.
+//
+// The site's Pages project lives in a different Cloudflare account, so it
+// cannot use a service binding. It calls this Worker's workers.dev URL with
+// the shared secret MAILER_KEY in the Authorization header; any request
+// without the right key is refused.
 
 import { EmailMessage } from "cloudflare:email";
+
+// Constant-time comparison so the key cannot be guessed byte by byte.
+function sameKey(given, expected) {
+  if (typeof given !== "string" || typeof expected !== "string") return false;
+  const a = new TextEncoder().encode(given);
+  const b = new TextEncoder().encode(expected);
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
+}
 
 // Strip anything that could break out of a header line.
 const headerSafe = (v, max = 200) =>
@@ -36,8 +50,14 @@ export default {
       return new Response("method not allowed", { status: 405 });
     }
 
-    if (!env.TO || !env.FROM) {
-      return new Response("mailer not configured: set the TO secret", { status: 500 });
+    if (!env.TO || !env.FROM || !env.MAILER_KEY) {
+      return new Response("mailer not configured: set the TO and MAILER_KEY secrets", { status: 500 });
+    }
+
+    const auth = request.headers.get("Authorization") || "";
+    const given = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+    if (!sameKey(given, env.MAILER_KEY)) {
+      return new Response("unauthorized", { status: 401 });
     }
 
     let p;

@@ -1,24 +1,30 @@
 # is-contact-mailer — emails contact-form submissions to Z.
-# Called only by the Pages Function /api/contact via a service binding.
+# Called by the Pages Function /api/contact over HTTPS. The Pages project is
+# in a different Cloudflare account, so a service binding is not possible;
+# requests must carry the shared secret MAILER_KEY.
 #
-# The destination address is a Worker secret (TO), never committed here.
+# This Worker must stay in the account that owns the industriallystrong.com
+# zone, because that is where Email Routing is enabled.
+#
+# Secrets (never committed): TO (destination address), MAILER_KEY.
 # With no destination_address on the binding, it may send only to addresses
 # verified in this account's Email Routing.
 #
 # One-time setup (see README.md in this folder):
 #   1. Cloudflare dashboard → industriallystrong.com → Email → Email Routing:
 #      enable it, and add + verify the destination address.
-#   2. npx wrangler secret put TO      (paste the destination address)
-#   3. npx wrangler deploy
-#   4. Pages project → Settings → Bindings → add Service binding
-#      CONTACT_MAILER → is-contact-mailer, then redeploy the site.
+#   2. npx wrangler deploy
+#   3. npx wrangler secret put TO          (the destination address)
+#   4. npx wrangler secret put MAILER_KEY  (a long random key)
+#   5. On the Pages project: secrets CONTACT_MAILER_URL (this Worker's
+#      workers.dev URL) and CONTACT_MAILER_KEY (the same key). See README.
 
 name = "is-contact-mailer"
 main = "src/worker.js"
 compatibility_date = "2024-12-01"
 
-# No public URL: reachable only through the Pages service binding.
-workers_dev = false
+# Reachable at its workers.dev URL, but every request needs MAILER_KEY.
+workers_dev = true
 
 [[send_email]]
 name = "CONTACT_EMAIL"

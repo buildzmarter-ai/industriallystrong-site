@@ -7,13 +7,17 @@
  *    too-fast submission, per-IP hourly limit).
  * 2. Stores every accepted message in D1 first, so nothing is lost even if
  *    email delivery is not set up or fails.
- * 3. If the CONTACT_MAILER service binding is present, asks the
- *    is-contact-mailer Worker (contact-mailer/) to email it. Pages Functions
- *    cannot send email themselves; the Worker holds the send_email binding.
+ * 3. Asks the is-contact-mailer Worker (contact-mailer/) to email it.
+ *    Pages Functions cannot send email themselves; the Worker holds the
+ *    send_email binding. The Worker lives in the account that owns the
+ *    domain, which differs from this Pages project's account, so it is
+ *    called over HTTPS with a shared key. A same-account service binding
+ *    (CONTACT_MAILER) is used instead if one is ever present.
  *
- * Bindings (Cloudflare Pages → Settings → Bindings):
- *   DB              D1 database "is-telemetry" (already bound for telemetry)
- *   CONTACT_MAILER  Service binding → Worker "is-contact-mailer" (optional)
+ * Bindings and secrets (Cloudflare Pages → Settings):
+ *   DB                  D1 database "is-telemetry" (already bound)
+ *   CONTACT_MAILER_URL  the mailer Worker's workers.dev URL (secret)
+ *   CONTACT_MAILER_KEY  shared key, same value as the Worker's MAILER_KEY
  *
  * Read stored messages:
  *   npx wrangler d1 execute is-telemetry --remote --command \
@@ -173,17 +177,25 @@ export async function onRequestPost({ request, env }) {
       .run();
     const id = inserted?.meta?.last_row_id;
 
-    // Email it, if the mailer Worker is bound. Storage already succeeded,
-    // so a mail failure is recorded but does not fail the visitor's submit.
-    if (env.CONTACT_MAILER) {
+    // Email it, if the mailer is configured. Storage already succeeded, so
+    // a mail failure is recorded but does not fail the visitor's submit.
+    const viaBinding = Boolean(env.CONTACT_MAILER);
+    const viaUrl = Boolean(env.CONTACT_MAILER_URL && env.CONTACT_MAILER_KEY);
+    if (viaBinding || viaUrl) {
       let emailed = 0;
       let emailError = "";
       try {
-        const res = await env.CONTACT_MAILER.fetch("https://contact-mailer/send", {
+        const init = {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(viaUrl ? { Authorization: `Bearer ${env.CONTACT_MAILER_KEY}` } : {}),
+          },
           body: JSON.stringify({ id, name, email, company, message, submitted_at: now.toISOString() }),
-        });
+        };
+        const res = viaBinding
+          ? await env.CONTACT_MAILER.fetch("https://contact-mailer/send", init)
+          : await fetch(env.CONTACT_MAILER_URL, init);
         if (res.ok) emailed = 1;
         else emailError = `mailer ${res.status}: ${(await res.text()).slice(0, 300)}`;
       } catch (err) {
